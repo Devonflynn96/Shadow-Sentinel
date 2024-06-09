@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
     public playerController playerController;
+    public playerController playerScript;
 
     //menu variables
     [SerializeField] GameObject menuActive;

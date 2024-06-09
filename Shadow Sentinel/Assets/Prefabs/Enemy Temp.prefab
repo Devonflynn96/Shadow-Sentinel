@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5373096159879617563}
   - component: {fileID: 7089387203229092389}
+  - component: {fileID: 5668601669693362754}
   - component: {fileID: 7055846317744406005}
   - component: {fileID: 6409627672870568433}
   - component: {fileID: 2130719422297295060}
-  - component: {fileID: 5668601669693362754}
   m_Layer: 0
   m_Name: Enemy Temp
   m_TagString: Untagged
@@ -50,9 +50,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f1e2e7fec5c3b4da9b583629ca9ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 6409627672870568433}
   agent: {fileID: 5668601669693362754}
   enemyFOV: {fileID: 5544105182834468840}
   enemyFOVScript: {fileID: 0}
+  HP: 3
+--- !u!195 &5668601669693362754
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473078739517275902}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!33 &7055846317744406005
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -126,28 +150,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &5668601669693362754
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2473078739517275902}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 5
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &5168077686341288278
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 5544105182834468840}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.02}
+  m_LocalPosition: {x: 0, y: -1.22, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
