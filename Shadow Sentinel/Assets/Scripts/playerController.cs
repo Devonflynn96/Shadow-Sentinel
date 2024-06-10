@@ -6,13 +6,19 @@ public class playerController : MonoBehaviour
 {
     [SerializeField] CharacterController controller;
 
-   
     [SerializeField] int speed;
     [SerializeField] int sprintMod;
     [SerializeField] int jumpMax;
     [SerializeField] int jumpSpeed;
     [SerializeField] int gravity;
 
+    [SerializeField] int shootDamage;
+    [SerializeField] float shootRate;
+    [SerializeField] int shootDist;
+
+    bool isShooting;
+
+    
     int jumpCount;
 
     Vector3 moveDir;
@@ -27,15 +33,17 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
+
         movement();
         sprint();
-        
+        if (Input.GetButton("Fire1") && !isShooting)
+            StartCoroutine(shoot());
+
     }
 
     void movement()
     {
-        //moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        //transform.position += moveDir * speed * Time.deltaTime;
 
         if (controller.isGrounded)
         {
@@ -65,4 +73,27 @@ public class playerController : MonoBehaviour
             speed /= sprintMod;
         }
     }
+
+    IEnumerator shoot()
+    {
+        isShooting = true;
+
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
+        {
+            Debug.Log(hit.transform.name);
+
+            IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+            if (hit.transform != transform && dmg != null)
+            {
+                dmg.takeDamage(shootDamage);
+            }
+
+        }
+
+        yield return new WaitForSeconds(shootRate);
+        isShooting = false;
+    }
+
 }
