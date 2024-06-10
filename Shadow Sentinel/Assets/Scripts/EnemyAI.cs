@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.instance.gameGoalUpdate(1);
         enemyFOVScript = enemyFOV.GetComponent<EnemyFOVCheck>();
     }
 
@@ -39,6 +40,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
+            GameManager.instance.gameGoalUpdate(-1);
             Destroy(gameObject);
         }
     }
