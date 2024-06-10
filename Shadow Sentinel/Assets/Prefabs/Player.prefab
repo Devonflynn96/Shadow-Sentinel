@@ -172,6 +172,7 @@ MonoBehaviour:
   jumpMax: 1
   jumpSpeed: 8
   gravity: 22
+  crouchSpeed: 2
   shootDamage: 1
   shootRate: 0.5
   shootDist: 15

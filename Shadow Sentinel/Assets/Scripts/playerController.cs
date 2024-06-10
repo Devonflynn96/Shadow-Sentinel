@@ -11,14 +11,15 @@ public class playerController : MonoBehaviour
     [SerializeField] int jumpMax;
     [SerializeField] int jumpSpeed;
     [SerializeField] int gravity;
+    [SerializeField] int crouchSpeed;
 
     [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
     [SerializeField] int shootDist;
 
     bool isShooting;
+    bool isCrouching;
 
-    
     int jumpCount;
 
     Vector3 moveDir;
@@ -37,6 +38,7 @@ public class playerController : MonoBehaviour
 
         movement();
         sprint();
+        crouch();
         if (Input.GetButton("Fire1") && !isShooting)
             StartCoroutine(shoot());
 
@@ -52,7 +54,15 @@ public class playerController : MonoBehaviour
         }
 
         moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
-        controller.Move(moveDir * speed * Time.deltaTime);
+
+        if (isCrouching)
+        {
+            controller.Move(moveDir * crouchSpeed * Time.deltaTime);
+        }
+        else
+        {
+            controller.Move(moveDir * speed * Time.deltaTime);
+        }
 
         if (Input.GetButtonDown("Jump") && jumpCount < jumpMax)
         {
@@ -71,6 +81,20 @@ public class playerController : MonoBehaviour
         else if (Input.GetButtonUp("Sprint"))
         {
             speed /= sprintMod;
+        }
+    }
+
+    void crouch()
+    {
+        if (Input.GetButtonDown("Crouch"))
+        {
+            isCrouching = true;
+            controller.height /= 2;
+        }
+        else if (Input.GetButtonUp("Crouch"))
+        {
+            isCrouching = false;
+            controller.height *= 2;
         }
     }
 
