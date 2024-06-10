@@ -75,10 +75,10 @@ public class GameManager : MonoBehaviour
     // ***** Game Goal reporting, to be completed once game goal is finalized *****
     public void gameGoalUpdate(int amount)
     {
-
         //win condition: once enemy count is zero player should be able to escape
         enemyCount += amount;
         enemyCountTxt.text = enemyCount.ToString("F0");
+
 
         if(enemyCount <= 0)
         {
