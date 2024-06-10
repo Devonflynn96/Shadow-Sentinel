@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     //menu variables
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
+    [SerializeField] GameObject menuWin;
+    [SerializeField] GameObject menuLose;
 
     bool isPaused;
     // Start is called before the first frame update
@@ -61,5 +63,28 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         menuActive.SetActive(isPaused);
         menuActive = null;
+    }
+
+    // ***** Game Goal reporting, to be completed once game goal is finalized *****
+    public void gameGoalUpdate()
+    {
+
+
+
+        if(menuActive == null)
+        {
+            statePause();
+            menuActive = menuWin;
+            menuActive.SetActive(isPaused);
+        }
+
+    }    
+
+    //Loss menu functionality
+    public void youLose()
+    {
+        statePause();
+        menuActive = menuLose;
+        menuActive.SetActive(isPaused);
     }
 }
