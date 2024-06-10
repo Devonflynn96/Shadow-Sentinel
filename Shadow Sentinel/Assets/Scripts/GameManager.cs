@@ -9,16 +9,20 @@ public class GameManager : MonoBehaviour
     
     public static GameManager instance;
 
+    public Image playerHPBar;
     public GameObject player;
     public playerController playerController;
     public playerController playerScript;
 
+    //variable for enemycount display
+    [SerializeField] TMP_Text enemyCountTxt;
     //menu variables
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
+    int enemyCount;
     bool isPaused;
     // Start is called before the first frame update
     void Awake()
@@ -66,12 +70,13 @@ public class GameManager : MonoBehaviour
     }
 
     // ***** Game Goal reporting, to be completed once game goal is finalized *****
-    public void gameGoalUpdate()
+    public void gameGoalUpdate(int amount)
     {
+        //win condition: once enemy count is zero player should be able to escape
+        enemyCount += amount;
+        enemyCountTxt.text = enemyCount.ToString("F0");
 
-
-
-        if(menuActive == null)
+        if(enemyCount <= 0)
         {
             statePause();
             menuActive = menuWin;
