@@ -146,7 +146,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: Shoot
     m_StateMachine: {fileID: -2079324872675659462}
-    m_Mask: {fileID: 31900000, guid: d7539a1d4b7e71a4ea2ed33656106856, type: 2}
+    m_Mask: {fileID: 31900000, guid: 6ce5bbd80e07621489e877bfd26aff0d, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 1
