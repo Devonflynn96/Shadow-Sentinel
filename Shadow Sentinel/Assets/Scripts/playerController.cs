@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerController : MonoBehaviour
+public class playerController : MonoBehaviour, IDamage
 {
     [SerializeField] CharacterController controller;
 
+    [SerializeField] int Hp;
     [SerializeField] int speed;
     [SerializeField] int sprintMod;
     [SerializeField] int jumpMax;
@@ -20,6 +21,7 @@ public class playerController : MonoBehaviour
     bool isShooting;
     bool isCrouching;
 
+    int HPOrig;
     int jumpCount;
 
     Vector3 moveDir;
@@ -28,6 +30,8 @@ public class playerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HPOrig = Hp;
+        updatePlayerUI();
 
     }
 
@@ -118,6 +122,22 @@ public class playerController : MonoBehaviour
 
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+
+    public void takeDamage(int amount)
+    {
+        Hp -= amount;
+        updatePlayerUI();
+        if (Hp <= 0)
+        {
+            GameManager.instance.youLose();
+        }
+
+    }
+
+    void updatePlayerUI()
+    {
+        GameManager.instance.playerHPBar.fillAmount = (float)Hp / HPOrig;
     }
 
     public bool GetCrouch()

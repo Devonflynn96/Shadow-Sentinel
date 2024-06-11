@@ -22,6 +22,9 @@ public class bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger)
+            return;
+
         IDamage dmg = other.GetComponent<IDamage>();
 
         if (dmg != null)

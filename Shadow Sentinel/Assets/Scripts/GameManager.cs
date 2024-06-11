@@ -9,30 +9,30 @@ public class GameManager : MonoBehaviour
     
     public static GameManager instance;
 
-    public Image playerHPBar;
-    public GameObject player;
-    public playerController playerController;
-    public playerController playerScript;
-
-    //variable for enemycount display
-    [SerializeField] TMP_Text enemyCountTxt;
+    
     //menu variables
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
-    
 
+    [SerializeField] TMP_Text enemyCountTxt;
+    public Image playerHPBar;
+
+    public GameObject player;
+    public playerController playerScript;
+
+
+    public bool isPaused;
     int enemyCount;
-    bool isPaused;
     
 
-    // Start is called before the first frame update
+   
     void Awake()
     {
         instance = this;
         player = GameObject.FindWithTag("Player");
-        playerController = player.GetComponent<playerController>();
+        playerScript = player.GetComponent<playerController>();
     }
 
     // Update is called once per frame
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
     {
         //win condition: once enemy count is zero player should be able to escape
         enemyCount += amount;
-        enemyCountTxt.text = enemyCount.ToString("F0");
+        enemyCountTxt.text = enemyCount.ToString();
 
 
         if(enemyCount <= 0)

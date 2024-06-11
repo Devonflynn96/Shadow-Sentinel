@@ -7,35 +7,93 @@ public class EnemyAI : MonoBehaviour, IDamage
 {
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] GameObject enemyFOV;
-
-    [SerializeField] EnemyFOVCheck enemyFOVScript;
-
+    [SerializeField] Animator anim;
+    [SerializeField] Transform shootPos;
 
     [SerializeField] int HP;
+    [SerializeField] int animTranSpeed;
+    [SerializeField] int faceTargetSpeed;
+
+    [SerializeField] float shootRate;
+
+    [SerializeField] GameObject bullet;
 
     bool isShooting;
+    bool playerInRange;
+
+    Vector3 playerDir;
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager.instance.gameGoalUpdate(1);
-        enemyFOVScript = enemyFOV.GetComponent<EnemyFOVCheck>();
+      
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemyFOVScript.playerSeen == true)
-        { 
-            agent.SetDestination(GameManager.instance.player.transform.position);
-        }
 
+        playerDir = GameManager.instance.player.transform.position - transform.position;
+
+        float agentSpeed = agent.velocity.normalized.magnitude;
+
+        anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), agentSpeed, Time.deltaTime * animTranSpeed));
+
+        if (playerInRange)
+        {
+            agent.SetDestination(GameManager.instance.player.transform.position);
+
+            if (agent.remainingDistance < agent.stoppingDistance)
+            {
+                faceTarget();
+            }
+
+
+
+            if (!isShooting)
+            {
+                StartCoroutine(shoot());
+            }
+        }
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
+    }
+
+    void faceTarget()
+    {
+        Quaternion rot = Quaternion.LookRotation(playerDir);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
+    }
+    IEnumerator shoot()
+    {
+        isShooting = true;
+
+        anim.SetTrigger("Shoot");
+
+        Instantiate(bullet, shootPos.position, transform.rotation);
+
+        yield return new WaitForSeconds(shootRate);
+        isShooting = false;
     }
 
     public void takeDamage(int amount)
     {
         HP -= amount;
+        agent.SetDestination(GameManager.instance.player.transform.position);
         StartCoroutine(flashDamage());
 
         if (HP <= 0)
