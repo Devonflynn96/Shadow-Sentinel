@@ -5,10 +5,13 @@ using UnityEngine;
 public class EnemyFOVCheck : MonoBehaviour
 {
     [SerializeField] GameObject rayStartPoint;
+    [SerializeField] BoxCollider fieldOfView;
 
     [SerializeField] int visDistance;
 
     [SerializeField] Vector3 offset;
+
+    private bool isCrouched;
 
     private bool playerCheck;
     public bool playerSeen;
@@ -16,16 +19,29 @@ public class EnemyFOVCheck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        isCrouched = GameManager.instance.playerController.GetCrouch();
     }
 
     // Update is called once per frame
     void Update()
     {
+        isCrouched = GameManager.instance.playerController.GetCrouch();
+
         if (playerCheck) 
         {
             CheckRay();
         }
+
+        if (isCrouched)
+        {
+            fieldOfView.size = new Vector3(16, 1, 16);
+        }
+
+        if (!isCrouched)
+        {
+            fieldOfView.size = new Vector3(32, 1, 32);
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
