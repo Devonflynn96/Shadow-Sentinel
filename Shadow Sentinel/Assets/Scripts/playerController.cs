@@ -38,6 +38,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         HPOrig = Hp;
         updatePlayerUI();
+        // Added calls to the MagCap and currentMagCount methods to update UI.
         GameManager.instance.currentMagCount(magCurrent);
         GameManager.instance.MagCap(magCap);
     }
@@ -112,6 +113,7 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
+    //Updated shoot method to do a reload needed check
     IEnumerator shoot()
     {
         isShooting = true;
@@ -164,12 +166,13 @@ public class playerController : MonoBehaviour, IDamage
         return isCrouching;
     }
 
+    // Added reload method for when mag is empty.
     IEnumerator reload()
     {
         yield return new WaitForSeconds(reloadSpeed);
         magCurrent = magCap;
         GameManager.instance.currentMagCount(magCurrent);
         magEmpty = false;
-
     }
+   
 }
