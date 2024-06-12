@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
 
     [SerializeField] TMP_Text enemyCountTxt;
+    [SerializeField] TMP_Text currentMagTxt;
+    [SerializeField] TMP_Text magCapTxt;
     public Image playerHPBar;
 
     public GameObject player;
@@ -88,6 +90,18 @@ public class GameManager : MonoBehaviour
         }
 
     }    
+
+    //Readout for current num bullets in mag
+    public void currentMagCount(int amount)
+    {
+        currentMagTxt.text = amount.ToString("F0");
+    }
+
+    //UI Mag capacity update
+    public void MagCap(int amount)
+    {
+        magCapTxt.text = amount.ToString("F0");
+    }
 
     //Loss menu functionality
     public void youLose()

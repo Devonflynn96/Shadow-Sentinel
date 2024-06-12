@@ -17,9 +17,15 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
     [SerializeField] int shootDist;
+    [SerializeField] int magCurrent;
+    [SerializeField] int magCap;
+
+
+    [SerializeField] float reloadSpeed;
 
     bool isShooting;
     bool isCrouching;
+    bool magEmpty;
 
     int HPOrig;
     int jumpCount;
@@ -32,7 +38,8 @@ public class playerController : MonoBehaviour, IDamage
     {
         HPOrig = Hp;
         updatePlayerUI();
-
+        GameManager.instance.currentMagCount(magCurrent);
+        GameManager.instance.MagCap(magCap);
     }
 
     // Update is called once per frame
@@ -45,7 +52,10 @@ public class playerController : MonoBehaviour, IDamage
         crouch();
         if (Input.GetButton("Fire1") && !isShooting)
             StartCoroutine(shoot());
-
+        if(Input.GetButton("Reload"))
+        {
+            StartCoroutine(reload());
+        }
     }
 
     void movement()
@@ -107,19 +117,28 @@ public class playerController : MonoBehaviour, IDamage
         isShooting = true;
 
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
+        if(magCurrent >0 && !magEmpty)
         {
-            Debug.Log(hit.transform.name);
-
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
-
-            if (hit.transform != transform && dmg != null)
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
             {
-                dmg.takeDamage(shootDamage);
+                Debug.Log(hit.transform.name);
+
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+                if (hit.transform != transform && dmg != null)
+                {
+                    dmg.takeDamage(shootDamage);
+                }
+
+            magCurrent -= 1;
+            if(magCurrent <= 0)
+                magEmpty = true;
             }
-
+        } else
+        {
+            StartCoroutine(reload());
         }
-
+        GameManager.instance.currentMagCount(magCurrent);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }
@@ -145,4 +164,12 @@ public class playerController : MonoBehaviour, IDamage
         return isCrouching;
     }
 
+    IEnumerator reload()
+    {
+        yield return new WaitForSeconds(reloadSpeed);
+        magCurrent = magCap;
+        GameManager.instance.currentMagCount(magCurrent);
+        magEmpty = false;
+
+    }
 }

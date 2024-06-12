@@ -177,6 +177,9 @@ MonoBehaviour:
   shootDamage: 1
   shootRate: 0.5
   shootDist: 15
+  magCurrent: 8
+  magCap: 15
+  reloadSpeed: 0.75
 --- !u!143 &2214295527965831611
 CharacterController:
   m_ObjectHideFlags: 0
