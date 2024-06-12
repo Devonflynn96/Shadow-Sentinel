@@ -790,7 +790,7 @@ MonoBehaviour:
   HP: 5
   animTranSpeed: 8
   faceTargetSpeed: 5
-  shootRate: 0.5
+  shootRate: 0.4
   bullet: {fileID: 2074843083737065071, guid: 5a7299d2a5664934f8ed35517bd44821, type: 3}
 --- !u!95 &4190034229961956208
 Animator:
