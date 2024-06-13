@@ -1232,6 +1232,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3577248891700757456, guid: e69f12573c03c3b428ce3bafb47baca5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8694241988781215939, guid: e69f12573c03c3b428ce3bafb47baca5, type: 3}
       propertyPath: m_Name
       value: Maze
