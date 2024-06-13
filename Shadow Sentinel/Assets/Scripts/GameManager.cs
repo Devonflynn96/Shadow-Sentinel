@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateStealthBar()
     {
-        GameManager.instance.playerStealthBar.fillAmount += numberSeenBy * stealthMod;
+        GameManager.instance.playerStealthBar.fillAmount += (numberSeenBy * stealthMod) * Time.deltaTime;
 
         if (numberSeenBy == 0)
         {
