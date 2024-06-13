@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator anim;
     [SerializeField] Transform shootPos;
+    [SerializeField] EnemyFOVCheck enemyFOVScript;
 
     [SerializeField] int HP;
     [SerializeField] int animTranSpeed;
@@ -19,7 +20,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
 
     bool isShooting;
-    bool playerInRange;
+    [SerializeField] bool hasBeenSeen;
 
     Vector3 playerDir;
 
@@ -33,15 +34,22 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-
         playerDir = GameManager.instance.player.transform.position - transform.position;
 
         float agentSpeed = agent.velocity.normalized.magnitude;
 
         anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), agentSpeed, Time.deltaTime * animTranSpeed));
 
-        if (playerInRange)
+        //Checks to see if the player is seen. If player is seen, enemy will move towards player and start shooting. -Devon
+
+        if (enemyFOVScript.playerSeen)
         {
+            if (!hasBeenSeen)
+            {
+                GameManager.instance.AddSeen();
+                hasBeenSeen = true;
+            }
+
             agent.SetDestination(GameManager.instance.player.transform.position);
 
             if (agent.remainingDistance < agent.stoppingDistance)
@@ -56,23 +64,12 @@ public class EnemyAI : MonoBehaviour, IDamage
                 StartCoroutine(shoot());
             }
         }
-    }
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+       
+        if(!enemyFOVScript.playerSeen)
         {
-            playerInRange = true;
+            hasBeenSeen = false;
         }
     }
-
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = false;
-        }
-    }
-
     void faceTarget()
     {
         Quaternion rot = Quaternion.LookRotation(playerDir);
@@ -98,6 +95,8 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
+            hasBeenSeen = false;
+            GameManager.instance.RemoveSeen();
             GameManager.instance.gameGoalUpdate(-1);
             Destroy(gameObject);
         }

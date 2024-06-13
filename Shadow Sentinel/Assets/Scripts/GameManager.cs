@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    
+
     public static GameManager instance;
 
-    
+
     //menu variables
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text currentMagTxt;
     [SerializeField] TMP_Text magCapTxt;
     public Image playerHPBar;
+    public Image playerStealthBar;
 
     public GameObject player;
     public playerController playerScript;
@@ -27,21 +28,28 @@ public class GameManager : MonoBehaviour
 
     public bool isPaused;
     int enemyCount;
-    
 
-   
+    [SerializeField] int numberSeenBy;
+    int stealthAmount;
+    [SerializeField] float stealthMod;
+
+    bool hasLost;
+
     void Awake()
     {
         instance = this;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
+        GameManager.instance.playerStealthBar.fillAmount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateStealthBar();
+
         //if escape is pressed the game is paused
-        if(Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel"))
         {
             if (menuActive == null)
             {
@@ -53,6 +61,12 @@ public class GameManager : MonoBehaviour
             {
                 stateUnpause();
             }
+        }
+
+        if (GameManager.instance.playerStealthBar.fillAmount >= 1 && !hasLost)
+        {
+            youLose();
+            hasLost = true;
         }
     }
     //functions for pause states
@@ -82,14 +96,14 @@ public class GameManager : MonoBehaviour
         enemyCountTxt.text = enemyCount.ToString();
 
 
-        if(enemyCount <= 0)
+        if (enemyCount <= 0)
         {
             statePause();
             menuActive = menuWin;
             menuActive.SetActive(isPaused);
         }
 
-    }    
+    }
 
     //Readout for current num bullets in mag
     public void currentMagCount(int amount)
@@ -109,5 +123,25 @@ public class GameManager : MonoBehaviour
         statePause();
         menuActive = menuLose;
         menuActive.SetActive(isPaused);
+    }
+
+    public void AddSeen()
+    {
+        numberSeenBy++;
+    }
+
+    public void RemoveSeen() 
+    { 
+        numberSeenBy--;
+    }
+
+    public void UpdateStealthBar()
+    {
+        GameManager.instance.playerStealthBar.fillAmount += numberSeenBy * stealthMod;
+
+        if (numberSeenBy == 0)
+        {
+            GameManager.instance.playerStealthBar.fillAmount = 0;
+        }
     }
 }

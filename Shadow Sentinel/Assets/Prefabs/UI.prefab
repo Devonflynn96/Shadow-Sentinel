@@ -1393,9 +1393,12 @@ MonoBehaviour:
   currentMagTxt: {fileID: 282052543565965376}
   magCapTxt: {fileID: 5692326083947264967}
   playerHPBar: {fileID: 4155959220900438549}
+  playerStealthBar: {fileID: 1444294634507758744}
   player: {fileID: 0}
   playerScript: {fileID: 0}
   isPaused: 0
+  numberSeenBy: 0
+  stealthMod: 0.001
 --- !u!114 &1426770443679191924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2371,7 +2374,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.05
+  m_FillAmount: 0.5
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
