@@ -60,9 +60,12 @@ public class EnemyFOVCheck : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            if (playerSeen)
+            {
+                GameManager.instance.RemoveSeen();
+                playerSeen = false;
+            }
             playerCheck = false;
-            playerSeen = false;
-            GameManager.instance.RemoveSeen();
         }
     }
 
@@ -85,7 +88,11 @@ public class EnemyFOVCheck : MonoBehaviour
             }
             else if (hit.transform.tag == "Obstacle")
             {
-                playerSeen = false;
+                if (playerSeen)
+                {
+                    GameManager.instance.RemoveSeen();
+                    playerSeen = false;
+                }
             }
         }
     }
