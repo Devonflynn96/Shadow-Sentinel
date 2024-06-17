@@ -34,12 +34,12 @@ public class EnemyFOVCheck : MonoBehaviour
         //These if statements will change the size of the enemy FOV depending on the state of the isCrouched bool. -Devon
         if (isCrouched)
         {
-            fieldOfView.size = new Vector3(16, 1, 16);
+            fieldOfView.size = new Vector3(16, 5, 16);
         }
 
         if (!isCrouched)
         {
-            fieldOfView.size = new Vector3(32, 1, 32);
+            fieldOfView.size = new Vector3(32, 5, 32);
         }
 
     }
@@ -76,7 +76,7 @@ public class EnemyFOVCheck : MonoBehaviour
     {
         RaycastHit hit;
 
-        Debug.DrawRay(rayStartPoint.transform.position, GameManager.instance.player.transform.position - rayStartPoint.transform.position, Color.red);
+        Debug.DrawRay(rayStartPoint.transform.position, Camera.main.transform.position - rayStartPoint.transform.position, Color.red);
 
         if (Physics.Raycast(rayStartPoint.transform.position, GameManager.instance.player.transform.position - rayStartPoint.transform.position, out hit))
         {

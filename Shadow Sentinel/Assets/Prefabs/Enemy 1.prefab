@@ -390,6 +390,7 @@ MonoBehaviour:
   faceTargetSpeed: 5
   shootRate: 1
   bullet: {fileID: 2074843083737065071, guid: 5a7299d2a5664934f8ed35517bd44821, type: 3}
+  hasBeenSeen: 0
 --- !u!95 &4215539125713167787
 Animator:
   serializedVersion: 5
@@ -1073,10 +1074,6 @@ PrefabInstance:
     - target: {fileID: 7313441299592856581, guid: a1638d1dbbc7bcc4d897b7b407ab3fae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7313441299592856581, guid: a1638d1dbbc7bcc4d897b7b407ab3fae, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7313441299592856581, guid: a1638d1dbbc7bcc4d897b7b407ab3fae, type: 3}
       propertyPath: m_LocalPosition.z

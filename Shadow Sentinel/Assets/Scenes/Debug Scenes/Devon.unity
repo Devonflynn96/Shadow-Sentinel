@@ -1172,9 +1172,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5316591749791719790, guid: 958a21225b0b1864abaeabfc0a1d3ac6, type: 3}
-      propertyPath: m_StoppingDistance
-      value: 5
+    - target: {fileID: 4836495508418626621, guid: 958a21225b0b1864abaeabfc0a1d3ac6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.7500038
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836495508418626621, guid: 958a21225b0b1864abaeabfc0a1d3ac6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0000015497208
       objectReference: {fileID: 0}
     - target: {fileID: 7137647597416622686, guid: 958a21225b0b1864abaeabfc0a1d3ac6, type: 3}
       propertyPath: m_LocalPosition.x
