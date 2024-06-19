@@ -16,7 +16,7 @@ public class bullet : MonoBehaviour
     void Start()
     {
         Vector3 playerPos = GameManager.instance.player.transform.position;
-        rb.velocity = (new Vector3(playerPos.x, playerPos.y + 1, playerPos.z) - transform.position).normalized * speed;
+        rb.velocity = (new Vector3(playerPos.x, playerPos.y + 0.5f, playerPos.z) - transform.position).normalized * speed;
 
         Destroy(gameObject, destroyTime);
 
