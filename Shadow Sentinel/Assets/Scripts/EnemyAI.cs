@@ -14,15 +14,21 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int HP;
     [SerializeField] int animTranSpeed;
     [SerializeField] int faceTargetSpeed;
+    [SerializeField] int viewAngle;
+    [SerializeField] int roamDist;
+    [SerializeField] int roamTimer;
 
     [SerializeField] float shootRate;
 
     [SerializeField] GameObject bullet;
 
     bool isShooting;
+    bool playerInRange;
+    bool destChosen;
     [SerializeField] bool hasBeenSeen;
 
     Vector3 playerDir;
+    Vector3 startingPos;
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +76,29 @@ public class EnemyAI : MonoBehaviour, IDamage
             hasBeenSeen = false;
         }
     }
+
+    IEnumerator roam()
+    {
+        if (!destChosen && agent.remainingDistance < 0.05f)
+        {
+
+            destChosen = true;
+            yield return new WaitForSeconds(roamTimer);
+
+            agent.stoppingDistance = 0;
+
+            Vector3 ranPos = Random.insideUnitSphere * roamDist;
+            ranPos += startingPos;
+
+            NavMeshHit hit;
+            NavMesh.SamplePosition(ranPos, out hit, roamDist, 1);
+            agent.SetDestination(hit.position);
+
+            destChosen = false;
+        }
+
+    }
+
     void faceTarget()
     {
         Quaternion rot = Quaternion.LookRotation(playerDir);
