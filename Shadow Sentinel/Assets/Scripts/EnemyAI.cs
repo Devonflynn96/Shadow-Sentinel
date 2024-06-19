@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator anim;
     [SerializeField] Transform shootPos;
+    [SerializeField] Transform headPos;
     [SerializeField] EnemyFOVCheck enemyFOVScript;
 
     [SerializeField] int HP;
@@ -19,6 +20,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int roamTimer;
 
     [SerializeField] float shootRate;
+    [SerializeField] int shootAngle;
 
     [SerializeField] GameObject bullet;
 
@@ -30,6 +32,9 @@ public class EnemyAI : MonoBehaviour, IDamage
     Vector3 playerDir;
     Vector3 startingPos;
 
+    float angleToPlayer;
+    float stoppingDistOrig;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,13 +45,23 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        playerDir = GameManager.instance.player.transform.position - transform.position;
+        
 
         float agentSpeed = agent.velocity.normalized.magnitude;
 
         anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), agentSpeed, Time.deltaTime * animTranSpeed));
 
         //Checks to see if the player is seen. If player is seen, enemy will move towards player and start shooting. -Devon
+       
+        if (playerInRange && !canSeePlayer())
+        {
+            StartCoroutine(roam());
+        }
+        else if (!playerInRange)
+        {
+            StartCoroutine(roam());
+        }
+
 
         if (enemyFOVScript.playerSeen)
         {
@@ -56,19 +71,8 @@ public class EnemyAI : MonoBehaviour, IDamage
                 hasBeenSeen = true;
             }
 
-            agent.SetDestination(GameManager.instance.player.transform.position);
+    
 
-            if (agent.remainingDistance < agent.stoppingDistance)
-            {
-                faceTarget();
-            }
-
-
-
-            if (!isShooting)
-            {
-                StartCoroutine(shoot());
-            }
         }
        
         if(!enemyFOVScript.playerSeen)
@@ -97,6 +101,40 @@ public class EnemyAI : MonoBehaviour, IDamage
             destChosen = false;
         }
 
+    }
+
+    bool canSeePlayer()
+    {
+        playerDir = GameManager.instance.player.transform.position - headPos.position;
+        angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, playerDir.y + 1, playerDir.z), transform.forward);
+
+        Debug.Log(angleToPlayer);
+        Debug.DrawRay(headPos.position, new Vector3(playerDir.x, playerDir.y + 1, playerDir.z));
+
+        RaycastHit hit;
+        if (Physics.Raycast(headPos.position, playerDir, out hit))
+        {
+            //can see the player!
+            if (hit.collider.CompareTag("player") && angleToPlayer <= viewAngle)
+            {
+                agent.stoppingDistance = stoppingDistOrig;
+                agent.SetDestination(GameManager.instance.player.transform.position);
+
+                if (agent.remainingDistance < agent.stoppingDistance)
+                {
+                    faceTarget();
+                }
+
+                if (!isShooting && angleToPlayer <= shootAngle)
+                    StartCoroutine(shoot());
+
+
+                return true;
+            }
+        }
+        agent.stoppingDistance = 0;
+
+        return false;
     }
 
     void faceTarget()
