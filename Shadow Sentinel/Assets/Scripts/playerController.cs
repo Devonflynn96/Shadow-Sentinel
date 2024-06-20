@@ -14,6 +14,9 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int gravity;
     [SerializeField] int crouchSpeed;
 
+
+    [SerializeField] List<gunStats> gunList = new List<gunStats>();
+    [SerializeField] GameObject gunModel;
     [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
     [SerializeField] int shootDist;
@@ -29,6 +32,7 @@ public class playerController : MonoBehaviour, IDamage
 
     int HPOrig;
     int jumpCount;
+    int seletctedGun;
 
     Vector3 moveDir;
     Vector3 playerVel;
@@ -46,17 +50,23 @@ public class playerController : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
 
-        movement();
-        sprint();
-        crouch();
-        if (Input.GetButton("Fire1") && !isShooting)
-            StartCoroutine(shoot());
-        if(Input.GetButton("Reload"))
+        if (!GameManager.instance.isPaused)
         {
-            StartCoroutine(reload());
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
+
+            movement();
+            crouch();
+            if (Input.GetButton("Fire1") && !isShooting)
+                StartCoroutine(shoot());
+            if (Input.GetButton("Reload"))
+            {
+                StartCoroutine(reload());
+            }
+            selectGun();
         }
+        sprint();
+        
     }
 
     void movement()
@@ -161,10 +171,51 @@ public class playerController : MonoBehaviour, IDamage
         GameManager.instance.playerHPBar.fillAmount = (float)Hp / HPOrig;
     }
 
+    public void GetGunStats(gunStats gun)
+    {
+        gunList.Add(gun);
+
+        seletctedGun = gunList.Count - 1;
+
+        shootDamage = gun.shootDamage;
+        shootDist = gun.shootDist;
+        shootRate = gun.shootRate;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gun.gunModel.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+
+    }
+
+    void selectGun()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && seletctedGun < gunList.Count - 1)
+        {
+            seletctedGun++;
+            changeGun();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && seletctedGun > 0)
+        {
+            seletctedGun--;
+            changeGun();
+        }
+    }
+
+    void changeGun()
+    {
+        shootDamage = gunList[seletctedGun].shootDamage;
+        shootDist = gunList[seletctedGun].shootDist;
+        shootRate = gunList[seletctedGun].shootRate;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gunList[seletctedGun].gunModel.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunList[seletctedGun].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+
+    }
+
     public bool GetCrouch()
     {
         return isCrouching;
     }
+
 
     // Added reload method for when mag is empty.
     IEnumerator reload()
