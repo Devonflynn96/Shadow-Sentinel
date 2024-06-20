@@ -39,7 +39,9 @@ public class EnemyAI : MonoBehaviour, IDamage
     void Start()
     {
         GameManager.instance.gameGoalUpdate(1);
-      
+        startingPos = transform.position;
+        stoppingDistOrig = agent.stoppingDistance;
+
     }
 
     // Update is called once per frame
@@ -62,23 +64,6 @@ public class EnemyAI : MonoBehaviour, IDamage
             StartCoroutine(roam());
         }
 
-
-        if (enemyFOVScript.playerSeen)
-        {
-            if (!hasBeenSeen)
-            {
-                GameManager.instance.AddSeen();
-                hasBeenSeen = true;
-            }
-
-    
-
-        }
-       
-        if(!enemyFOVScript.playerSeen)
-        {
-            hasBeenSeen = false;
-        }
     }
 
     IEnumerator roam()
@@ -115,7 +100,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (Physics.Raycast(headPos.position, playerDir, out hit))
         {
             //can see the player!
-            if (hit.collider.CompareTag("player") && angleToPlayer <= viewAngle)
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= viewAngle)
             {
                 agent.stoppingDistance = stoppingDistOrig;
                 agent.SetDestination(GameManager.instance.player.transform.position);
