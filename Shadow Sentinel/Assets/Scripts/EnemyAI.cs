@@ -27,7 +27,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     bool isShooting;
     bool playerInRange;
     bool destChosen;
-    [SerializeField] bool hasBeenSeen;
+   
 
     Vector3 playerDir;
     Vector3 startingPos;
@@ -147,8 +147,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            hasBeenSeen = false;
-            GameManager.instance.RemoveSeen();
+           
             GameManager.instance.gameGoalUpdate(-1);
             Destroy(gameObject);
         }
