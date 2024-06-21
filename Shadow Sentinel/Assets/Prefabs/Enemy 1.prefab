@@ -344,9 +344,9 @@ GameObject:
   - component: {fileID: 5316591749791719790}
   - component: {fileID: 1762759791075451816}
   - component: {fileID: -9153708749890931092}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy 1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -396,7 +396,6 @@ MonoBehaviour:
   shootRate: 2
   shootAngle: 5
   bullet: {fileID: 2074843083737065071, guid: 5a7299d2a5664934f8ed35517bd44821, type: 3}
-  hasBeenSeen: 0
 --- !u!95 &4215539125713167787
 Animator:
   serializedVersion: 5

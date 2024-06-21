@@ -22,6 +22,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int shootDist;
     [SerializeField] int magCurrent;
     [SerializeField] int magCap;
+    [SerializeField] GameObject muzzleFlash;
 
 
     [SerializeField] float reloadSpeed;
@@ -57,7 +58,7 @@ public class playerController : MonoBehaviour, IDamage
 
             movement();
             crouch();
-            if (Input.GetButton("Fire1") && !isShooting)
+            if (Input.GetButton("Fire1") && gunList.Count > 0 && !isShooting)
                 StartCoroutine(shoot());
             if (Input.GetButton("Reload"))
             {
@@ -127,6 +128,7 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
+        StartCoroutine(flashMuzzle());
 
         RaycastHit hit;
         if(magCurrent >0 && !magEmpty)
@@ -141,8 +143,12 @@ public class playerController : MonoBehaviour, IDamage
                 {
                     dmg.takeDamage(shootDamage);
                 }
+                else
+                {
+                    Instantiate(gunList[seletctedGun].hitEffect, hit.point, Quaternion.identity);
+                }
 
-            magCurrent -= 1;
+                magCurrent -= 1;
             if(magCurrent <= 0)
                 magEmpty = true;
             }
@@ -153,6 +159,12 @@ public class playerController : MonoBehaviour, IDamage
         GameManager.instance.currentMagCount(magCurrent);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+    IEnumerator flashMuzzle()
+    {
+        muzzleFlash.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        muzzleFlash.SetActive(false);
     }
 
     public void takeDamage(int amount)
