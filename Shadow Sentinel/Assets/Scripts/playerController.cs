@@ -175,6 +175,16 @@ public class playerController : MonoBehaviour, IDamage
 
     }
 
+    public void AddHealth(int amount)
+    {
+        Hp += amount;
+        if (Hp > HPOrig)
+        {
+            Hp = HPOrig;
+        }
+        updatePlayerUI();
+    }
+
     void updatePlayerUI()
     {
         GameManager.instance.playerHPBar.fillAmount = (float)Hp / HPOrig;
@@ -241,4 +251,13 @@ public class playerController : MonoBehaviour, IDamage
         updatePlayerUI();
     }
    
+    public int GetHPMax()
+    {
+        return HPOrig;
+    }
+
+    public int GetHPCurrent()
+    {
+        return Hp;
+    }
 }

@@ -388,7 +388,7 @@ MonoBehaviour:
   HP: 3
   animTranSpeed: 8
   faceTargetSpeed: 5
-  viewAngle: 45
+  viewAngle: 90
   roamDist: 15
   roamTimer: 3
   shootRate: 2
