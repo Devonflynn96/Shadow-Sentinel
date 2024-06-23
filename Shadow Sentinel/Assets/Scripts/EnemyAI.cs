@@ -10,7 +10,6 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Animator anim;
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
-    [SerializeField] EnemyFOVCheck enemyFOVScript;
 
     [SerializeField] int HP;
     [SerializeField] int animTranSpeed;
@@ -27,7 +26,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     bool isShooting;
     bool playerInRange;
     bool destChosen;
-   
+
+    private bool isCrouched;
 
     Vector3 playerDir;
     Vector3 startingPos;
@@ -47,7 +47,20 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        
+        //isCrouched bool is set to the isCrouched bool variable in playerScript. -Devon
+        isCrouched = GameManager.instance.playerScript.GetCrouch();
+
+        //These if statements will change the size of the enemy FOV depending on the state of the isCrouched bool. -Devon
+        if (isCrouched)
+        {
+
+        }
+
+        if (!isCrouched)
+        {
+
+        }
+
 
         float agentSpeed = agent.velocity.normalized.magnitude;
 
@@ -86,6 +99,22 @@ public class EnemyAI : MonoBehaviour, IDamage
             destChosen = false;
         }
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
     }
 
     bool canSeePlayer()

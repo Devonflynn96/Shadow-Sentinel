@@ -21,6 +21,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3126168157979433563, guid: c2dde152291b7ae4989c28a6cfeca604, type: 3}
+      propertyPath: headPos
+      value: 
+      objectReference: {fileID: 8097389277267308575}
+    - target: {fileID: 3126168157979433563, guid: c2dde152291b7ae4989c28a6cfeca604, type: 3}
       propertyPath: shootRate
       value: 0.2
       objectReference: {fileID: 0}
@@ -85,3 +89,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2dde152291b7ae4989c28a6cfeca604, type: 3}
+--- !u!4 &8097389277267308575 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4190034229952443540, guid: c2dde152291b7ae4989c28a6cfeca604, type: 3}
+  m_PrefabInstance: {fileID: 5366682496305579147}
+  m_PrefabAsset: {fileID: 0}

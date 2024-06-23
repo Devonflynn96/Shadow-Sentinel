@@ -127,7 +127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2856444032811038146
 Transform:
   m_ObjectHideFlags: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
   shootDist: 150
   magCurrent: 8
   magCap: 15
-  muzzleFlash: {fileID: 0}
+  muzzleFlash: {fileID: 2533352588249766156}
   reloadSpeed: 0.75
 --- !u!143 &2214295527965831611
 CharacterController:
