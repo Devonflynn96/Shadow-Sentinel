@@ -29,7 +29,7 @@ public class playerController : MonoBehaviour, IDamage
 
     bool isShooting;
     bool isCrouching;
-    bool magEmpty;
+    public bool isInvisible;
 
     int HPOrig;
     int jumpCount;
@@ -128,11 +128,11 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
-        StartCoroutine(flashMuzzle());
 
         RaycastHit hit;
-        if(magCurrent >0 && !magEmpty)
+        if(magCurrent >0)
         {
+            StartCoroutine(flashMuzzle());
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
             {
                 Debug.Log(hit.transform.name);
@@ -149,8 +149,6 @@ public class playerController : MonoBehaviour, IDamage
                 }
 
                 magCurrent -= 1;
-            if(magCurrent <= 0)
-                magEmpty = true;
             }
         } else
         {
@@ -245,7 +243,6 @@ public class playerController : MonoBehaviour, IDamage
         yield return new WaitForSeconds(reloadSpeed);
         magCurrent = magCap;
         GameManager.instance.currentMagCount(magCurrent);
-        magEmpty = false;
     }
    
     public int GetHPMax()
