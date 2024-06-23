@@ -1398,7 +1398,7 @@ MonoBehaviour:
   playerScript: {fileID: 0}
   isPaused: 0
   numberSeenBy: 0
-  stealthMod: 0.25
+  stealthMod: 0.05
 --- !u!114 &1426770443679191924
 MonoBehaviour:
   m_ObjectHideFlags: 0

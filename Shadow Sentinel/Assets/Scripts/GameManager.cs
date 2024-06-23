@@ -25,12 +25,10 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public playerController playerScript;
 
-
     public bool isPaused;
     int enemyCount;
 
     [SerializeField] int numberSeenBy;
-    int stealthAmount;
     [SerializeField] float stealthMod;
 
     bool hasLost;
@@ -141,7 +139,7 @@ public class GameManager : MonoBehaviour
 
         if (numberSeenBy == 0)
         {
-            GameManager.instance.playerStealthBar.fillAmount = 0;
+            GameManager.instance.playerStealthBar.fillAmount -= stealthMod * Time.deltaTime;
         }
     }
 }

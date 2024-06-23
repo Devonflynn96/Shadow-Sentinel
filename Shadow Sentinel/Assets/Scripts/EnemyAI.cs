@@ -28,6 +28,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     bool destChosen;
 
     private bool isCrouched;
+    [SerializeField] bool hasBeenSeen;
 
     Vector3 playerDir;
     Vector3 startingPos;
@@ -69,6 +70,11 @@ public class EnemyAI : MonoBehaviour, IDamage
        
         if (playerInRange && !canSeePlayer())
         {
+            if (hasBeenSeen)
+            {
+                GameManager.instance.RemoveSeen();
+                hasBeenSeen = false;
+            }
             StartCoroutine(roam());
         }
         else if (!playerInRange)
@@ -112,6 +118,11 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
         if (other.CompareTag("Player"))
         {
+            if (hasBeenSeen)
+            {
+                GameManager.instance.RemoveSeen();
+                hasBeenSeen = false;
+            }
             playerInRange = false;
         }
     }
@@ -130,6 +141,11 @@ public class EnemyAI : MonoBehaviour, IDamage
             //can see the player!
             if (hit.collider.CompareTag("Player") && angleToPlayer <= viewAngle)
             {
+                if (!hasBeenSeen)
+                {
+                    GameManager.instance.AddSeen();
+                    hasBeenSeen = true;
+                }
                 agent.stoppingDistance = stoppingDistOrig;
                 agent.SetDestination(GameManager.instance.player.transform.position);
 
@@ -175,7 +191,8 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-           
+            hasBeenSeen = false;
+            GameManager.instance.RemoveSeen();
             GameManager.instance.gameGoalUpdate(-1);
             Destroy(gameObject);
         }
