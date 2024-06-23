@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gun - Pistol
   m_EditorClassIdentifier: 
   gunModel: {fileID: 5571641588984482722, guid: c303a18f1cbdd4156b139b9e5b35d6a9, type: 3}
-  shootDamage: 0
+  shootDamage: 1
   shootDist: 100
   shootRate: 0.1
   anmoCur: 0
