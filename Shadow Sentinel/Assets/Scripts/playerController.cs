@@ -33,7 +33,7 @@ public class playerController : MonoBehaviour, IDamage
 
     int HPOrig;
     int jumpCount;
-    int seletctedGun;
+    int selectedGun;
 
     Vector3 moveDir;
     Vector3 playerVel;
@@ -43,9 +43,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         HPOrig = Hp;
         updatePlayerUI();
-        // Added calls to the MagCap and currentMagCount methods to update UI.
-        GameManager.instance.currentMagCount(magCurrent);
-        GameManager.instance.MagCap(magCap);
+        // Added calls to the MagCap and currentMagCount methods to update UI. ** Removed from start and moved to updatePlayerUI.
     }
 
     // Update is called once per frame
@@ -130,7 +128,7 @@ public class playerController : MonoBehaviour, IDamage
         isShooting = true;
 
         RaycastHit hit;
-        if(magCurrent >0)
+        if (gunList[selectedGun].ammoCur >0)
         {
             StartCoroutine(flashMuzzle());
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
@@ -145,16 +143,17 @@ public class playerController : MonoBehaviour, IDamage
                 }
                 else
                 {
-                    Instantiate(gunList[seletctedGun].hitEffect, hit.point, Quaternion.identity);
+                    Instantiate(gunList[selectedGun].hitEffect, hit.point, Quaternion.identity);
                 }
 
-                magCurrent -= 1;
+                gunList[selectedGun].ammoCur -= 1;
+                updatePlayerUI();
             }
         } else
         {
             StartCoroutine(reload());
         }
-        GameManager.instance.currentMagCount(magCurrent);
+        //GameManager.instance.currentMagCount(magCurrent);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }
@@ -179,13 +178,20 @@ public class playerController : MonoBehaviour, IDamage
     void updatePlayerUI()
     {
         GameManager.instance.playerHPBar.fillAmount = (float)Hp / HPOrig;
+        if (gunList.Count > 0)
+        {
+            GameManager.instance.currentMagCount(gunList[selectedGun].ammoCur);
+            GameManager.instance.MagCap(gunList[selectedGun].ammoMax);
+        }
     }
 
     public void GetGunStats(gunStats gun)
     {
         gunList.Add(gun);
 
-        seletctedGun = gunList.Count - 1;
+        selectedGun = gunList.Count - 1;
+
+        updatePlayerUI();
 
         shootDamage = gun.shootDamage;
         shootDist = gun.shootDist;
@@ -198,26 +204,26 @@ public class playerController : MonoBehaviour, IDamage
 
     void selectGun()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && seletctedGun < gunList.Count - 1)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunList.Count - 1)
         {
-            seletctedGun++;
+            selectedGun++;
             changeGun();
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && seletctedGun > 0)
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && selectedGun > 0)
         {
-            seletctedGun--;
+            selectedGun--;
             changeGun();
         }
     }
 
     void changeGun()
     {
-        shootDamage = gunList[seletctedGun].shootDamage;
-        shootDist = gunList[seletctedGun].shootDist;
-        shootRate = gunList[seletctedGun].shootRate;
+        shootDamage = gunList[selectedGun].shootDamage;
+        shootDist = gunList[selectedGun].shootDist;
+        shootRate = gunList[selectedGun].shootRate;
 
-        gunModel.GetComponent<MeshFilter>().sharedMesh = gunList[seletctedGun].gunModel.GetComponent<MeshFilter>().sharedMesh;
-        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunList[seletctedGun].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gunList[selectedGun].gunModel.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunList[selectedGun].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
 
     }
 
@@ -230,9 +236,9 @@ public class playerController : MonoBehaviour, IDamage
     // Added reload method for when mag is empty.
     IEnumerator reload()
     {
-        yield return new WaitForSeconds(reloadSpeed);
-        magCurrent = magCap;
-        GameManager.instance.currentMagCount(magCurrent);
+        yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
+        gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
+        updatePlayerUI();
     }
    
 }
