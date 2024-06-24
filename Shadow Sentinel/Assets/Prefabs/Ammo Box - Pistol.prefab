@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 191010419238924083}
   - component: {fileID: 3932255269100010011}
   m_Layer: 0
-  m_Name: Ammo Box
+  m_Name: Ammo Box - Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3503966307243474286}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9999949, z: -0, w: 0.003211612}
-  m_LocalPosition: {x: 9.4778805, y: 0.5, z: 24.596298}
+  m_LocalPosition: {x: 13.053113, y: 0.57400566, z: 20.78892}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
