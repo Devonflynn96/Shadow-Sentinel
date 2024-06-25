@@ -5,6 +5,7 @@ using UnityEngine;
 public class playerController : MonoBehaviour, IDamage
 {
     [SerializeField] CharacterController controller;
+    [SerializeField] AudioSource aud;
 
     [SerializeField] int Hp;
     [SerializeField] int speed;
@@ -126,6 +127,7 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
+        aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
 
         RaycastHit hit;
         if (gunList[selectedGun].ammoCur >0)
