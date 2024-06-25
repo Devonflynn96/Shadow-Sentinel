@@ -268,6 +268,19 @@ MonoBehaviour:
   magCurrent: 8
   magCap: 15
   muzzleFlash: {fileID: 2533352588249766156}
+  audJump:
+  - {fileID: 8300000, guid: efc53b9b5e9925446bbdde5b3b58ce77, type: 3}
+  - {fileID: 8300000, guid: cc048920c1d3e294e93109192c08fa10, type: 3}
+  - {fileID: 8300000, guid: daa29e706ecd8364ca87ff94777b9874, type: 3}
+  audJumpVol: 0.5
+  audHurt:
+  - {fileID: 8300000, guid: f1f66d2f0eeaba542bfdb0be4ada1a33, type: 3}
+  - {fileID: 8300000, guid: 1e0c746f93bdd7f46bee05ba75ddcd40, type: 3}
+  - {fileID: 8300000, guid: 9ef2332bf5d10ea47a1c1505f55c1cb7, type: 3}
+  - {fileID: 8300000, guid: 0bcd4f1f02317164a909511dbe253e2c, type: 3}
+  - {fileID: 8300000, guid: 8ead4db6ff85ef2499434d9accce7c7b, type: 3}
+  - {fileID: 8300000, guid: ec7af1d9091aba84f984efd33b3f5f8e, type: 3}
+  audHurtVol: 0.5
   reloadSpeed: 0.75
   isInvisible: 0
 --- !u!143 &2214295527965831611

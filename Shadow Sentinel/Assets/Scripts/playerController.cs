@@ -25,6 +25,11 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int magCap;
     [SerializeField] GameObject muzzleFlash;
 
+    [SerializeField] AudioClip[] audJump;
+    [SerializeField] float audJumpVol;
+    [SerializeField] AudioClip[] audHurt;
+    [SerializeField] float audHurtVol;
+
 
     [SerializeField] float reloadSpeed;
 
@@ -91,6 +96,7 @@ public class playerController : MonoBehaviour, IDamage
 
         if (Input.GetButtonDown("Jump") && jumpCount < jumpMax)
         {
+            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
             jumpCount++;
             playerVel.y = jumpSpeed;
         }
@@ -169,6 +175,7 @@ public class playerController : MonoBehaviour, IDamage
     public void takeDamage(int amount)
     {
         Hp -= amount;
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
         updatePlayerUI();
         if (Hp <= 0)
         {
