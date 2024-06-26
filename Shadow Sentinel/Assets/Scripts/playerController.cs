@@ -150,7 +150,7 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
-        if (!isReloading)
+        if (!isReloading && gunList[selectedGun].ammoCur > 0)
         {
             aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
         }
