@@ -14,6 +14,8 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int jumpSpeed;
     [SerializeField] int gravity;
     [SerializeField] int crouchSpeed;
+    [SerializeField] float invisDuration;
+    [SerializeField] float invisCD;
 
 
     [SerializeField] List<gunStats> gunList = new List<gunStats>();
@@ -165,7 +167,6 @@ public class playerController : MonoBehaviour, IDamage
         {
             StartCoroutine(reload());
         }
-        //GameManager.instance.currentMagCount(magCurrent);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }
@@ -241,6 +242,8 @@ public class playerController : MonoBehaviour, IDamage
 
     void changeGun()
     {
+        //Added updateplayerui call to update gun ammo count
+        updatePlayerUI();
         shootDamage = gunList[selectedGun].shootDamage;
         shootDist = gunList[selectedGun].shootDist;
         shootRate = gunList[selectedGun].shootRate;
@@ -265,6 +268,14 @@ public class playerController : MonoBehaviour, IDamage
         updatePlayerUI();
 
         isReloading = false;
+    }
+
+    //Added code to toggle isInvisible, allowing player to go invisible.
+    IEnumerator goInvisible()
+    {
+        isInvisible = true;
+        yield return new WaitForSeconds(invisDuration);
+        isInvisible = false;
     }
    
     public int GetHPMax()
