@@ -88,7 +88,10 @@ public class playerController : MonoBehaviour, IDamage
             }
             selectGun();
             if (Input.GetButton("Ability 1") && invisRecharge == invisCD)
+               {
+                GameManager.instance.activateAbilityTxt.SetActive(false);
                 StartCoroutine(goInvisible());
+            }
             if (invisRecharge < invisCD)
             {
                 if (invisRecharge + 1 * Time.deltaTime > invisCD)
@@ -273,7 +276,10 @@ public class playerController : MonoBehaviour, IDamage
         }
         GameManager.instance.invisCooldownBar.fillAmount = invisRecharge / invisCD;
         if (!isInvisible && invisRecharge == invisCD)
+          { 
+            GameManager.instance.activateAbilityTxt.SetActive(true);
             GameManager.instance.SetInvisText("Ready!");
+        }
     }
 
     public void GetGunStats(gunStats gun)

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text objectiveRate;
 
     public GameObject reloadingTxt;
+    public GameObject activateAbilityTxt;
     
     public Image playerHPBar;
     public Image playerStealthBar;
