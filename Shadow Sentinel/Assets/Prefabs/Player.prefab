@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 2214295527965831611}
   aud: {fileID: -6508133077815234600}
-  Hp: 10
+  Hp: 5
   speed: 5
   sprintMod: 2
   jumpMax: 2
@@ -266,11 +266,23 @@ MonoBehaviour:
   gunList: []
   gunModel: {fileID: 8686520913844741730}
   shootDamage: 1
-  shootRate: 0.5
-  shootDist: 150
+  shootRate: 0.3
+  shootDist: 50
   magCurrent: 8
   magCap: 15
   muzzleFlash: {fileID: 2533352588249766156}
+  reloadSpeed: 0.75
+  audSteps:
+  - {fileID: 8300000, guid: 319de585490cde244a6087a0e66b1ed8, type: 3}
+  - {fileID: 8300000, guid: d412ebfc909883c40a6254e623f89ee4, type: 3}
+  - {fileID: 8300000, guid: c7fdb01be5625154cad511e72c5c5a12, type: 3}
+  - {fileID: 8300000, guid: 29a9abec630256d49a3d22ecba2d6590, type: 3}
+  - {fileID: 8300000, guid: 527d1073fe075b4499a004ce61aa19af, type: 3}
+  - {fileID: 8300000, guid: 201718c1264d95e4aac5170e0f480140, type: 3}
+  - {fileID: 8300000, guid: e5bd8977c97a53849b64dbd5bc95bb80, type: 3}
+  - {fileID: 8300000, guid: 3fb5a9889abc3ed4888aec7159ff654e, type: 3}
+  - {fileID: 8300000, guid: 8b47e54f5056b9d408930638648d636e, type: 3}
+  audStepsVol: 0.1
   audJump:
   - {fileID: 8300000, guid: efc53b9b5e9925446bbdde5b3b58ce77, type: 3}
   - {fileID: 8300000, guid: cc048920c1d3e294e93109192c08fa10, type: 3}
@@ -284,7 +296,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8ead4db6ff85ef2499434d9accce7c7b, type: 3}
   - {fileID: 8300000, guid: ec7af1d9091aba84f984efd33b3f5f8e, type: 3}
   audHurtVol: 0.5
-  reloadSpeed: 0.75
+  audReload:
+  - {fileID: 8300000, guid: b5b44b1593fe21a4bba6ed67c53794a0, type: 3}
+  audRelodVol: 0.5
   isInvisible: 0
 --- !u!143 &2214295527965831611
 CharacterController:
