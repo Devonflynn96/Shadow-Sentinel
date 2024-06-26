@@ -260,6 +260,9 @@ MonoBehaviour:
   jumpSpeed: 8
   gravity: 22
   crouchSpeed: 2
+  invisDuration: 5
+  invisCD: 10
+  invisRecharge: 10
   gunList: []
   gunModel: {fileID: 8686520913844741730}
   shootDamage: 1
