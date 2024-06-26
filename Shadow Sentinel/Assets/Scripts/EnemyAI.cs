@@ -139,7 +139,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (Physics.Raycast(headPos.position, playerDir, out hit))
         {
             //can see the player!
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= viewAngle)
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= viewAngle && !GameManager.instance.playerScript.isInvisible)
             {
                 if (!hasBeenSeen)
                 {
