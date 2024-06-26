@@ -6,9 +6,11 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour, IDamage
 {
+    [Header("------ Components --------")]
     [SerializeField] CharacterController controller;
     [SerializeField] AudioSource aud;
 
+    [Header("------ Stats --------")]
     [SerializeField] int Hp;
     [SerializeField] int speed;
     [SerializeField] int sprintMod;
@@ -20,7 +22,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] float invisCD;
     [SerializeField] float invisRecharge;
 
-
+    [Header("------ Guns --------")]
     [SerializeField] List<gunStats> gunList = new List<gunStats>();
     [SerializeField] GameObject gunModel;
     [SerializeField] int shootDamage;
@@ -29,17 +31,23 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int magCurrent;
     [SerializeField] int magCap;
     [SerializeField] GameObject muzzleFlash;
-    
+    [SerializeField] float reloadSpeed;
 
+
+    [Header("------ Audio --------")]
+    [SerializeField] AudioClip[] audSteps;
+    [SerializeField] float audStepsVol;
     [SerializeField] AudioClip[] audJump;
     [SerializeField] float audJumpVol;
     [SerializeField] AudioClip[] audHurt;
     [SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audReload;
+    [SerializeField] float audRelodVol;
 
-    
 
-    [SerializeField] float reloadSpeed;
-
+    bool isSprinting;
+    bool isPlayingHurt;
+    bool isPlayingSteps;
     bool isShooting;
     bool isCrouching;
     public bool isInvisible;
@@ -74,6 +82,7 @@ public class playerController : MonoBehaviour, IDamage
                 StartCoroutine(shoot());
             if (Input.GetButton("Reload") && gunList.Count > 0 && !isReloading)
             {
+                aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audRelodVol);
                 StartCoroutine(reload());
     
             }
@@ -124,17 +133,39 @@ public class playerController : MonoBehaviour, IDamage
         }
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
+
+        if (controller.isGrounded && moveDir.magnitude > 0.3f && !isPlayingSteps)
+        {
+            StartCoroutine(playSteps());
+        }
     }
     void sprint()
     {
         if (Input.GetButtonDown("Sprint"))
         {
             speed *= sprintMod;
+            isSprinting = true;
         }
         else if (Input.GetButtonUp("Sprint"))
         {
             speed /= sprintMod;
+            isSprinting = false;
         }
+    }
+    IEnumerator playSteps()
+    {
+        isPlayingSteps = true;
+        aud.PlayOneShot(audSteps[Random.Range(0, audSteps.Length)], audStepsVol);
+
+        if (!isSprinting)
+        {
+            yield return new WaitForSeconds(0.3f);
+        }
+        else
+            yield return new WaitForSeconds(0.1f);
+
+
+        isPlayingSteps = false;
     }
 
     void crouch()
@@ -162,7 +193,7 @@ public class playerController : MonoBehaviour, IDamage
         }
 
         RaycastHit hit;
-        if (gunList[selectedGun].ammoCur >0)
+        if (gunList[selectedGun].ammoCur > 0)
         {
             StartCoroutine(flashMuzzle());
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
@@ -200,7 +231,12 @@ public class playerController : MonoBehaviour, IDamage
     public void takeDamage(int amount)
     {
         Hp -= amount;
-        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+
+        if (!isPlayingHurt)
+        {
+            StartCoroutine(isHurtSoundPlaying());
+        }
+
         updatePlayerUI();
         if (Hp <= 0)
         {
@@ -217,6 +253,14 @@ public class playerController : MonoBehaviour, IDamage
             Hp = HPOrig;
         }
         updatePlayerUI();
+    }
+
+    IEnumerator isHurtSoundPlaying()
+    {
+        isPlayingHurt = true;
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+        yield return new WaitForSeconds(0.1f);
+        isPlayingHurt = false;
     }
 
     void updatePlayerUI()
