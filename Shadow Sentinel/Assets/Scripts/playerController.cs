@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class playerController : MonoBehaviour, IDamage
@@ -26,12 +28,14 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int magCurrent;
     [SerializeField] int magCap;
     [SerializeField] GameObject muzzleFlash;
+    
 
     [SerializeField] AudioClip[] audJump;
     [SerializeField] float audJumpVol;
     [SerializeField] AudioClip[] audHurt;
     [SerializeField] float audHurtVol;
 
+    
 
     [SerializeField] float reloadSpeed;
 
@@ -70,6 +74,7 @@ public class playerController : MonoBehaviour, IDamage
             if (Input.GetButton("Reload") && gunList.Count > 0 && !isReloading)
             {
                 StartCoroutine(reload());
+    
             }
             selectGun();
         }
@@ -138,6 +143,7 @@ public class playerController : MonoBehaviour, IDamage
         isShooting = true;
         if (!isReloading)
         {
+
             aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
         }
 
@@ -201,7 +207,7 @@ public class playerController : MonoBehaviour, IDamage
 
     void updatePlayerUI()
     {
-        GameManager.instance.playerHPBar.fillAmount = (float)Hp / HPOrig;
+            GameManager.instance.playerHPBar.fillAmount = (float)Hp / HPOrig;
         if (gunList.Count > 0)
         {
             GameManager.instance.currentMagCount(gunList[selectedGun].ammoCur);
@@ -261,13 +267,15 @@ public class playerController : MonoBehaviour, IDamage
 
     // Added reload method for when mag is empty.
     IEnumerator reload()
-    {
+    {        
         isReloading = true;
+        GameManager.instance.reloadingTxt.SetActive(true);
         yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
         gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
+        GameManager.instance.reloadingTxt.SetActive(false);
         updatePlayerUI();
-
         isReloading = false;
+        
     }
 
     //Added code to toggle isInvisible, allowing player to go invisible.
@@ -287,4 +295,5 @@ public class playerController : MonoBehaviour, IDamage
     {
         return Hp;
     }
+
 }

@@ -19,9 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text enemyCountTxt;
     [SerializeField] TMP_Text currentMagTxt;
     [SerializeField] TMP_Text magCapTxt;
-    [SerializeField] TMP_Text objectiveEnemy;
-    [SerializeField] TMP_Text objectiveDetection;
-    [SerializeField] TMP_Text objectiveRate;
+    public GameObject reloadingTxt;
+    
     public Image playerHPBar;
     public Image playerStealthBar;
 
@@ -34,7 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int numberSeenBy;
     [SerializeField] float stealthMod;
 
-    bool hasBeenDetected;
+    bool hasLost;
 
     void Awake()
     {
@@ -64,10 +63,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (GameManager.instance.playerStealthBar.fillAmount >= 1 && !hasBeenDetected)
+        if (GameManager.instance.playerStealthBar.fillAmount >= 1 && !hasLost)
         {
-            objectiveDetection.color = Color.red;
-            hasBeenDetected = true;
+            youLose();
+            hasLost = true;
         }
     }
     //functions for pause states
@@ -99,16 +98,6 @@ public class GameManager : MonoBehaviour
 
         if (enemyCount <= 0)
         {
-            if (!hasBeenDetected)
-            {
-                objectiveDetection.color = Color.green;
-                objectiveRate.text = "100%";
-            }
-            else
-            {
-                objectiveRate.text = "50%";
-            }
-            objectiveEnemy.color = Color.green;
             statePause();
             menuActive = menuWin;
             menuActive.SetActive(isPaused);
@@ -155,4 +144,5 @@ public class GameManager : MonoBehaviour
             GameManager.instance.playerStealthBar.fillAmount -= stealthMod * Time.deltaTime;
         }
     }
+
 }

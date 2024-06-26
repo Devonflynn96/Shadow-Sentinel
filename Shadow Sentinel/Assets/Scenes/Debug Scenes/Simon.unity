@@ -1602,6 +1602,14 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8734894451677908490, guid: 360590d9a97412749803f46d5b815661, type: 3}
+      propertyPath: reloadTxt
+      value: 
+      objectReference: {fileID: 945736807}
+    - target: {fileID: 8734894451677908490, guid: 360590d9a97412749803f46d5b815661, type: 3}
+      propertyPath: reloadText
+      value: 
+      objectReference: {fileID: 945736807}
+    - target: {fileID: 8734894451677908490, guid: 360590d9a97412749803f46d5b815661, type: 3}
       propertyPath: muzzleFlash
       value: 
       objectReference: {fileID: 929089652}
@@ -2144,6 +2152,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2533352588249766156, guid: 360590d9a97412749803f46d5b815661, type: 3}
   m_PrefabInstance: {fileID: 732044509}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &945736807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5018312764737362822, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
+  m_PrefabInstance: {fileID: 1738719556}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &948147907
 GameObject:
   m_ObjectHideFlags: 0
