@@ -180,9 +180,9 @@ public class playerController : MonoBehaviour, IDamage
                     Instantiate(gunList[selectedGun].hitEffect, hit.point, Quaternion.identity);
                 }
 
-                gunList[selectedGun].ammoCur -= 1;
-                updatePlayerUI();
             }
+            gunList[selectedGun].ammoCur -= 1;
+            updatePlayerUI();
         } else
         {
             StartCoroutine(reload());
