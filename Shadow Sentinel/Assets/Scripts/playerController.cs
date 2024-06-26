@@ -16,6 +16,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int crouchSpeed;
     [SerializeField] float invisDuration;
     [SerializeField] float invisCD;
+    [SerializeField] float invisRecharge;
 
 
     [SerializeField] List<gunStats> gunList = new List<gunStats>();
@@ -72,9 +73,22 @@ public class playerController : MonoBehaviour, IDamage
                 StartCoroutine(reload());
             }
             selectGun();
+            if (Input.GetButton("Ability 1") && invisRecharge == invisCD)
+                StartCoroutine(goInvisible());
+            if (invisRecharge < invisCD)
+            {
+                if (invisRecharge + 1 * Time.deltaTime > invisCD)
+                {
+                    invisRecharge = invisCD;
+                }
+                else
+                {
+                    invisRecharge += 1 * Time.deltaTime;
+                }
+            }
         }
         sprint();
-        
+        updatePlayerUI();
     }
 
     void movement()
@@ -207,6 +221,9 @@ public class playerController : MonoBehaviour, IDamage
             GameManager.instance.currentMagCount(gunList[selectedGun].ammoCur);
             GameManager.instance.MagCap(gunList[selectedGun].ammoMax);
         }
+        GameManager.instance.invisCooldownBar.fillAmount = invisRecharge / invisCD;
+        if (!isInvisible && invisRecharge == invisCD)
+            GameManager.instance.invisStatusText.SetText("Ready!");
     }
 
     public void GetGunStats(gunStats gun)
@@ -274,9 +291,14 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator goInvisible()
     {
         isInvisible = true;
+        GameManager.instance.invisStatusText.SetText("Active!");
         yield return new WaitForSeconds(invisDuration);
         isInvisible = false;
+        GameManager.instance.invisStatusText.SetText("Recharging...");
+        invisRecharge = 0;
     }
+
+    
    
     public int GetHPMax()
     {
