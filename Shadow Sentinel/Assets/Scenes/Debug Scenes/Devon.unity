@@ -864,10 +864,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 3366958656491790180, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
-      propertyPath: stealthMod
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 4573325137873385545, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
       propertyPath: menuWin
       value: 
@@ -880,6 +876,26 @@ PrefabInstance:
       propertyPath: menuPause
       value: 
       objectReference: {fileID: 24283824}
+    - target: {fileID: 5516216530914467299, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735822814874255516, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968040318973223795, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
+      propertyPath: m_Name
+      value: Objective - Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8169053276041981345, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
+      propertyPath: m_Name
+      value: Objective - Detection
+      objectReference: {fileID: 0}
+    - target: {fileID: 8404245145834172730, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4106304540941085085, guid: b4bd82b91cc2cf24496095d3dbdbd842, type: 3}
