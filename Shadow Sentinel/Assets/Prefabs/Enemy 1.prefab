@@ -394,6 +394,7 @@ MonoBehaviour:
   shootRate: 2
   shootAngle: 5
   bullet: {fileID: 2074843083737065071, guid: 5a7299d2a5664934f8ed35517bd44821, type: 3}
+  hasBeenSeen: 0
 --- !u!95 &4215539125713167787
 Animator:
   serializedVersion: 5
@@ -479,7 +480,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 10
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1800921861976749182
 GameObject:

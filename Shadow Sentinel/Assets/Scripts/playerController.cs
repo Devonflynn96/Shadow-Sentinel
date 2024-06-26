@@ -36,6 +36,7 @@ public class playerController : MonoBehaviour, IDamage
     bool isShooting;
     bool isCrouching;
     public bool isInvisible;
+    bool isReloading;
 
     int HPOrig;
     int jumpCount;
@@ -64,7 +65,7 @@ public class playerController : MonoBehaviour, IDamage
             crouch();
             if (Input.GetButton("Fire1") && gunList.Count > 0 && !isShooting)
                 StartCoroutine(shoot());
-            if (Input.GetButton("Reload"))
+            if (Input.GetButton("Reload") && gunList.Count > 0 && !isReloading)
             {
                 StartCoroutine(reload());
             }
@@ -133,7 +134,10 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
-        aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
+        if (!isReloading)
+        {
+            aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
+        }
 
         RaycastHit hit;
         if (gunList[selectedGun].ammoCur >0)
@@ -255,9 +259,12 @@ public class playerController : MonoBehaviour, IDamage
     // Added reload method for when mag is empty.
     IEnumerator reload()
     {
+        isReloading = true;
         yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
         gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
         updatePlayerUI();
+
+        isReloading = false;
     }
    
     public int GetHPMax()
