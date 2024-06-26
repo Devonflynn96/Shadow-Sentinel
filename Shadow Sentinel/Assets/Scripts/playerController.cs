@@ -223,7 +223,7 @@ public class playerController : MonoBehaviour, IDamage
         }
         GameManager.instance.invisCooldownBar.fillAmount = invisRecharge / invisCD;
         if (!isInvisible && invisRecharge == invisCD)
-            GameManager.instance.invisStatusText.SetText("Ready!");
+            GameManager.instance.SetInvisText("Ready!");
     }
 
     public void GetGunStats(gunStats gun)
@@ -291,10 +291,10 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator goInvisible()
     {
         isInvisible = true;
-        GameManager.instance.invisStatusText.SetText("Active!");
+        GameManager.instance.SetInvisText("Active!");
         yield return new WaitForSeconds(invisDuration);
         isInvisible = false;
-        GameManager.instance.invisStatusText.SetText("Recharging...");
+        GameManager.instance.SetInvisText("Recharging...");
         invisRecharge = 0;
     }
 

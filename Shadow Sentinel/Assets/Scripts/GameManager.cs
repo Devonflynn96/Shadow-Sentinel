@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text enemyCountTxt;
     [SerializeField] TMP_Text currentMagTxt;
     [SerializeField] TMP_Text magCapTxt;
-    public TMP_Text invisStatusText;
+    [SerializeField] TMP_Text invisStatusText;
 
     [SerializeField] TMP_Text objectiveEnemy;
     [SerializeField] TMP_Text objectiveDetection;
@@ -158,5 +158,10 @@ public class GameManager : MonoBehaviour
         {
             GameManager.instance.playerStealthBar.fillAmount -= stealthMod * Time.deltaTime;
         }
+    }
+
+    public void SetInvisText(string text)
+    {
+        invisStatusText.text = text;
     }
 }
