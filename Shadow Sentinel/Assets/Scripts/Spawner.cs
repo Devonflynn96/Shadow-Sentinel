@@ -5,8 +5,10 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject spawnedObject;
+
     [SerializeField] int spawnLimit;
     [SerializeField] int spawnTimer;
+
     [SerializeField] Transform[] spawnPos;
 
     //private variables
