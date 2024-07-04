@@ -82,7 +82,6 @@ public class playerController : MonoBehaviour, IDamage
                 StartCoroutine(shoot());
             if (Input.GetButton("Reload") && gunList.Count > 0 && !isReloading)
             {
-                aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audRelodVol);
                 StartCoroutine(reload());
     
             }
@@ -334,7 +333,8 @@ public class playerController : MonoBehaviour, IDamage
 
     // Added reload method for when mag is empty.
     IEnumerator reload()
-    {        
+    {
+        aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audRelodVol);
         isReloading = true;
         GameManager.instance.reloadingTxt.SetActive(true);
         yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
