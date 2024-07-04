@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         playerScript = player.GetComponent<playerController>();
         GameManager.instance.playerStealthBar.fillAmount = 0;
 
-       
+        UpdateCoinScoreText();
     }
 
     // Update is called once per frame
@@ -179,8 +179,12 @@ public class GameManager : MonoBehaviour
     public void AddScore (int value)
     {
         score += value;
-       
+        UpdateCoinScoreText();
     }
-
+    
+    private void UpdateCoinScoreText()
+    {
+        scoreCountTxt.text = "Coins: " + score.ToString();
+    }
   
 }
