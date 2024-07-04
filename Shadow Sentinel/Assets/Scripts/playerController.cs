@@ -216,7 +216,7 @@ public class playerController : MonoBehaviour, IDamage
             }
             gunList[selectedGun].ammoCur -= 1;
             updatePlayerUI();
-        } else
+        } else if(!isReloading && gunList[selectedGun].ammoCur >= 0)
         {
             StartCoroutine(reload());
         }
