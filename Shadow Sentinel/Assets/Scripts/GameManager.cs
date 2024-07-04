@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text currentMagTxt;
     [SerializeField] TMP_Text magCapTxt;
     [SerializeField] TMP_Text invisStatusText;
+    [SerializeField] TMP_Text scoreCountTxt;
+
 
     [SerializeField] TMP_Text objectiveEnemy;
     [SerializeField] TMP_Text objectiveDetection;
@@ -37,11 +39,14 @@ public class GameManager : MonoBehaviour
 
     public bool isPaused;
     int enemyCount;
+    
 
     [SerializeField] int numberSeenBy;
     [SerializeField] float stealthMod;
 
     bool hasBeenDetected;
+
+    private int score = 0;
 
     void Awake()
     {
@@ -49,6 +54,8 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         GameManager.instance.playerStealthBar.fillAmount = 0;
+
+       
     }
 
     // Update is called once per frame
@@ -102,6 +109,7 @@ public class GameManager : MonoBehaviour
         //win condition: once enemy count is zero player should be able to escape
         enemyCount += amount;
         enemyCountTxt.text = enemyCount.ToString();
+        scoreCountTxt.text = score.ToString(); 
 
 
         if (enemyCount <= 0)
@@ -168,4 +176,11 @@ public class GameManager : MonoBehaviour
         invisStatusText.text = text;
     }
 
+    public void AddScore (int value)
+    {
+        score += value;
+       
+    }
+
+  
 }
