@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text magCapTxt;
     [SerializeField] TMP_Text invisStatusText;
     [SerializeField] TMP_Text scoreCountTxt;
+    [SerializeField] TMP_Text moneyTxt;
 
 
     [SerializeField] TMP_Text objectiveEnemy;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     public bool isPaused;
     int enemyCount;
-    
+    public int money;
 
     [SerializeField] int numberSeenBy;
     [SerializeField] float stealthMod;
@@ -186,5 +187,26 @@ public class GameManager : MonoBehaviour
     {
         scoreCountTxt.text = "Coins: " + score.ToString();
     }
-  
+
+    public void AddMoney(int amount)
+    {
+        money += amount;
+        UpdateMoneyText();
+    }
+
+    public bool SpendMoney(int amount)
+    {
+        if (money >= amount)
+        {
+            money -= amount;
+            UpdateMoneyText();
+            return true;
+        }
+        return false;
+    }
+    private void UpdateMoneyText()
+    {
+        moneyTxt.text = "Money: " + money.ToString();
+    }
+
 }
