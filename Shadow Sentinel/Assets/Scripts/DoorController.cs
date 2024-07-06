@@ -5,6 +5,7 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
     [SerializeField] Animator doorAnim;
+    [SerializeField] bool doorLocked;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Player") && !doorLocked)
         {
             doorAnim.SetBool("character_nearby", true);
         }
@@ -28,7 +29,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Player") && !doorLocked)
         {
             doorAnim.SetBool("character_nearby", false);
         }
