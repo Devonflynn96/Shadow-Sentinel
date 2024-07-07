@@ -16,6 +16,7 @@ public class PickUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             gun.ammoCur = gun.ammoMax;
+            InventoryManager.instance.AddToInventory(gun);
             GameManager.instance.playerScript.GetGunStats(gun);
             Destroy(gameObject);
         }

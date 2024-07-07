@@ -11,33 +11,32 @@ public class GameManager : MonoBehaviour
 
 
     //menu variables
+
+    [Header("------ Menu UI --------")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
+    [Header("------ Player UI --------")]
     [SerializeField] TMP_Text enemyCountTxt;
     [SerializeField] TMP_Text currentMagTxt;
     [SerializeField] TMP_Text magCapTxt;
     [SerializeField] TMP_Text invisStatusText;
     [SerializeField] TMP_Text scoreCountTxt;
     [SerializeField] TMP_Text moneyTxt;
-
-
     [SerializeField] TMP_Text objectiveEnemy;
     [SerializeField] TMP_Text objectiveDetection;
     [SerializeField] TMP_Text objectiveRate;
-
     public GameObject reloadingTxt;
     public GameObject activateAbilityTxt;
-    
     public Image playerHPBar;
     public Image playerStealthBar;
     public Image invisCooldownBar;
 
+    [Header("------ Game Data --------")]
     public GameObject player;
     public playerController playerScript;
-
     public bool isPaused;
     int enemyCount;
     public int money;
@@ -49,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
 
+    public InventoryManager inventoryManager;
+
     void Awake()
     {
         instance = this;
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         GameManager.instance.playerStealthBar.fillAmount = 0;
 
         UpdateCoinScoreText();
+        inventoryManager = InventoryManager.instance;
     }
 
     // Update is called once per frame
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
                 statePause();
                 menuActive = menuPause;
                 menuActive.SetActive(isPaused);
+                inventoryManager.ToggleInventory(false);
             }
             else if (menuActive == menuPause)
             {
@@ -83,6 +86,11 @@ public class GameManager : MonoBehaviour
         {
             objectiveDetection.color = Color.red;
             hasBeenDetected = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.I) && menuActive == null)
+        {
+            InventoryManager.instance.ToggleInventory(true);
         }
     }
     //functions for pause states

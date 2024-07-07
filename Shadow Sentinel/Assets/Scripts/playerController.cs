@@ -102,6 +102,7 @@ public class playerController : MonoBehaviour, IDamage
                     invisRecharge += 1 * Time.deltaTime;
                 }
             }
+          
         }
         sprint();
         updatePlayerUI();
@@ -368,4 +369,5 @@ public class playerController : MonoBehaviour, IDamage
         return Hp;
     }
 
+  
 }
