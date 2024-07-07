@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
         GameManager.instance.playerStealthBar.fillAmount = 0;
 
         UpdateCoinScoreText();
+        UpdateMoneyText();
         inventoryManager = InventoryManager.instance;
     }
 
@@ -189,6 +190,13 @@ public class GameManager : MonoBehaviour
     {
         score += value;
         UpdateCoinScoreText();
+    }
+
+    public void stateItemShopMenu()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
     }
     
     private void UpdateCoinScoreText()
