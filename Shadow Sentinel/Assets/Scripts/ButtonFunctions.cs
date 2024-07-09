@@ -15,13 +15,15 @@ public class ButtonFunctions : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GameManager.instance.stateUnpause();
     }
-
     public void quitLevel()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        //quit level will no longer quit out of the application altogether
+        //instead it will bring the player back to the title screen 
+        SceneManager.LoadScene(0);
+//#if UNITY_EDITOR
+//        UnityEditor.EditorApplication.isPlaying = false;
+//#else
+//        Application.Quit();
+//#endif
     }
 }
