@@ -46,8 +46,8 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void ToggleInventory(bool isOpen)
+    public void ToggleInventory()
     {
-        inventoryPanel.SetActive(isOpen);
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
     }
 }

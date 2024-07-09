@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
                 statePause();
                 menuActive = menuPause;
                 menuActive.SetActive(isPaused);
-                inventoryManager.ToggleInventory(false);
+              
             }
             else if (menuActive == menuPause)
             {
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I) && menuActive == null)
         {
-            InventoryManager.instance.ToggleInventory(true);
+            InventoryManager.instance.ToggleInventory();
         }
     }
     //functions for pause states
