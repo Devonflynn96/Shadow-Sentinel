@@ -23,6 +23,8 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     [SerializeField] GameObject bullet;
 
+    [SerializeField] float hearingRange;  // Added hearing range
+
     bool isShooting;
     bool playerInRange;
     bool destChosen;
@@ -35,6 +37,27 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     float angleToPlayer;
     float stoppingDistOrig;
+
+    void OnEnable()
+    {
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnPlayerShoot += OnPlayerShoot;
+        }
+        else
+        {
+            Debug.LogError("GameManager instance is null. Make sure the GameManager is properly initialized.");
+        }
+    }
+
+    void OnDisable()
+    {
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnPlayerShoot -= OnPlayerShoot;
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -202,6 +225,17 @@ public class EnemyAI : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = Color.white;
+    }
+
+    void OnPlayerShoot(Vector3 shootPosition)
+    {
+        // Move the enemy towards the shoot position if within hearing range
+        float distanceToShoot = Vector3.Distance(transform.position, shootPosition);
+        if (distanceToShoot <= hearingRange)
+        {
+            agent.stoppingDistance = stoppingDistOrig;
+            agent.SetDestination(shootPosition);
+        }
     }
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,9 +41,11 @@ public class GameManager : MonoBehaviour
     public bool isPaused;
     int enemyCount;
     public int money;
-
     [SerializeField] int numberSeenBy;
     [SerializeField] float stealthMod;
+
+    public event Action<Vector3> OnPlayerShoot;
+
 
     bool hasBeenDetected;
 
@@ -75,7 +78,7 @@ public class GameManager : MonoBehaviour
                 statePause();
                 menuActive = menuPause;
                 menuActive.SetActive(isPaused);
-              
+
             }
             else if (menuActive == menuPause)
             {
@@ -119,7 +122,7 @@ public class GameManager : MonoBehaviour
         //win condition: once enemy count is zero player should be able to escape
         enemyCount += amount;
         enemyCountTxt.text = enemyCount.ToString();
-        scoreCountTxt.text = score.ToString(); 
+        scoreCountTxt.text = score.ToString();
 
 
         if (enemyCount <= 0)
@@ -166,8 +169,8 @@ public class GameManager : MonoBehaviour
         numberSeenBy++;
     }
 
-    public void RemoveSeen() 
-    { 
+    public void RemoveSeen()
+    {
         numberSeenBy--;
     }
 
@@ -186,7 +189,7 @@ public class GameManager : MonoBehaviour
         invisStatusText.text = text;
     }
 
-    public void AddScore (int value)
+    public void AddScore(int value)
     {
         score += value;
         UpdateCoinScoreText();
@@ -198,7 +201,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
     }
-    
+
     private void UpdateCoinScoreText()
     {
         scoreCountTxt.text = "Coins: " + score.ToString();
@@ -223,6 +226,14 @@ public class GameManager : MonoBehaviour
     private void UpdateMoneyText()
     {
         moneyTxt.text = "Money: " + money.ToString();
+    }
+
+    public void PlayerShoot(Vector3 shootPosition)
+    {
+        if (OnPlayerShoot != null)
+        {
+            OnPlayerShoot(shootPosition);
+        }
     }
 
 }

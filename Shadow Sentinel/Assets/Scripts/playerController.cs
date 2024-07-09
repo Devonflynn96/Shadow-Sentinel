@@ -27,6 +27,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] GameObject gunModel;
     [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
+    [SerializeField] Transform shootPos;
     [SerializeField] int shootDist;
     [SerializeField] int magCurrent;
     [SerializeField] int magCap;
@@ -194,6 +195,7 @@ public class playerController : MonoBehaviour, IDamage
 
             aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
         }
+        GameManager.instance.PlayerShoot(shootPos.position);
 
         RaycastHit hit;
         if (gunList[selectedGun].ammoCur > 0)
