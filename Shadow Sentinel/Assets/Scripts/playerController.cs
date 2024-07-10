@@ -82,7 +82,7 @@ public class playerController : MonoBehaviour, IDamage
             if (Input.GetButton("Fire1") && gunList.Count > 0 && !isShooting)
             {
                 StartCoroutine(shoot());
-                soundEmitter.EmitSound();
+                
             }
                 
             if (Input.GetButton("Reload") && gunList.Count > 0 && !isReloading)
