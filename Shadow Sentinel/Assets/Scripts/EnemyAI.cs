@@ -43,6 +43,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     float stoppingDistOrig;
 
 
+
     void OnEnable()
     {
         if (GameManager.instance != null)
@@ -62,6 +63,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             GameManager.instance.OnPlayerShoot -= OnPlayerShoot;
         }
     }
+
 
 
     // Start is called before the first frame update
@@ -84,6 +86,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
+        
+
         //isCrouched bool is set to the isCrouched bool variable in playerScript. -Devon
         isCrouched = GameManager.instance.playerScript.GetCrouch();
 
@@ -289,17 +293,54 @@ public class EnemyAI : MonoBehaviour, IDamage
             modelRenderer.material.color = Color.white;
         }
     }
-
-
     void OnPlayerShoot(Vector3 shootPosition)
     {
-        // Move the enemy towards the shoot position if within hearing range
         float distanceToShoot = Vector3.Distance(transform.position, shootPosition);
         if (distanceToShoot <= hearingRange)
         {
             agent.stoppingDistance = stoppingDistOrig;
             agent.SetDestination(shootPosition);
         }
+    }
+
+
+    public void OnHearSound(Vector3 soundPosition)
+    {
+        float distanceToSound = Vector3.Distance(transform.position, soundPosition);
+        if (distanceToSound <= hearingRange)
+        {
+            // React to the sound (e.g., move towards it, become alert, etc.)
+            agent.stoppingDistance = 0;
+            agent.SetDestination(soundPosition);
+            Debug.Log("Enemy heard a sound and is moving towards it!");
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, hearingRange);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, agent.stoppingDistance);
+
+        Gizmos.color = Color.yellow;
+        Vector3 viewAngleA = Quaternion.AngleAxis(-viewAngle / 2, Vector3.up) * transform.forward * hearingRange;
+        Vector3 viewAngleB = Quaternion.AngleAxis(viewAngle / 2, Vector3.up) * transform.forward * hearingRange;
+        Gizmos.DrawLine(transform.position, transform.position + viewAngleA);
+        Gizmos.DrawLine(transform.position, transform.position + viewAngleB);
+        Gizmos.DrawWireSphere(transform.position, hearingRange);
+
+        Gizmos.color = Color.green;
+        Vector3 shootAngleA = Quaternion.AngleAxis(-shootAngle / 2, Vector3.up) * transform.forward * hearingRange;
+        Vector3 shootAngleB = Quaternion.AngleAxis(shootAngle / 2, Vector3.up) * transform.forward * hearingRange;
+        Gizmos.DrawLine(transform.position, transform.position + shootAngleA);
+        Gizmos.DrawLine(transform.position, transform.position + shootAngleB);
+
+        //Hearing Range: A red wire sphere to visualize the enemy's hearing range.
+        //Stopping Distance: A blue wire sphere to show the stopping distance.
+       //View Angle: Two yellow lines to visualize the field of view.
+       //Shoot Angle: Two green lines to visualize the shooting angle.
     }
 
 }
