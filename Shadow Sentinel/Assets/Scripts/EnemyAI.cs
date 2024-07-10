@@ -143,28 +143,29 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
         while (true)
         {
-            if (patrolPoints.Length == 0 || destChosen) yield break;
-
-            destChosen = true;
-            int randomIndex = Random.Range(0, patrolPoints.Length);
-            agent.SetDestination(patrolPoints[randomIndex].position);
-            agent.stoppingDistance = 0;
-
-            while (agent.remainingDistance > 0.05f)
+            if (patrolPoints.Length == 0 || destChosen || agent == null || !agent.isOnNavMesh) yield break;
             {
-                yield return null;
+                destChosen = true;
+                int randomIndex = Random.Range(0, patrolPoints.Length);
+                agent.SetDestination(patrolPoints[randomIndex].position);
+                agent.stoppingDistance = 0;
+
+                while (agent != null && agent.isOnNavMesh && agent.remainingDistance > 0.05f)
+                {
+                    yield return null;
+                }
+
+                yield return new WaitForSeconds(patrolTimer);
+                destChosen = false;
             }
 
-            yield return new WaitForSeconds(patrolTimer);
-            destChosen = false;
-           
         }
     }
 
 
     IEnumerator Roam()
     {
-        if (!destChosen && agent.remainingDistance < 0.05f)
+        if (destChosen || agent == null || !agent.isOnNavMesh || agent.remainingDistance >= 0.05f) yield break;
         {
 
           
