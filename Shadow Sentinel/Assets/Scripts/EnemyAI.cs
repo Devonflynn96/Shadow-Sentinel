@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int viewAngle;
     [SerializeField] int roamDist;
     [SerializeField] int roamTimer;
+    [SerializeField] int patrolTimer;
 
     [SerializeField] float shootRate;
     [SerializeField] int shootAngle;
@@ -24,10 +25,12 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
 
     [SerializeField] float hearingRange;  // Added hearing range
+    [SerializeField] Transform[] patrolPoints;  // Patrol waypoints
 
     bool isShooting;
     bool playerInRange;
     bool destChosen;
+
 
     private bool isCrouched;
     [SerializeField] bool hasBeenSeen;
@@ -37,6 +40,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     float angleToPlayer;
     float stoppingDistOrig;
+
 
     void OnEnable()
     {
@@ -64,7 +68,14 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
-
+        if (patrolPoints.Length > 0)
+        {
+            StartCoroutine(Patrol());
+        }
+        else
+        {
+            StartCoroutine(Roam());
+        }
     }
 
     // Update is called once per frame
@@ -90,24 +101,60 @@ public class EnemyAI : MonoBehaviour, IDamage
         anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), agentSpeed, Time.deltaTime * animTranSpeed));
 
         //Checks to see if the player is seen. If player is seen, enemy will move towards player and start shooting. -Devon
-       
-        if (playerInRange && !canSeePlayer())
+        bool playerVisible = playerInRange && canSeePlayer();
+
+        if (playerVisible)
         {
+            
+
             if (hasBeenSeen)
             {
                 GameManager.instance.RemoveSeen();
                 hasBeenSeen = false;
             }
-            StartCoroutine(roam());
+            StartCoroutine(Roam());
+
+            if (patrolPoints.Length > 0)
+            {
+                StartCoroutine(Patrol());
+            }
         }
         else if (!playerInRange)
         {
-            StartCoroutine(roam());
-        }
+            StartCoroutine(Roam());
 
+            if (patrolPoints.Length > 0)
+            {
+                StartCoroutine(Patrol());
+            }
+           
+        }
+        agent.stoppingDistance = playerVisible ? stoppingDistOrig : 0;
     }
 
-    IEnumerator roam()
+    IEnumerator Patrol()
+    {
+        while (true)
+        {
+            if (patrolPoints.Length == 0 || destChosen) yield break;
+
+            destChosen = true;
+            int randomIndex = Random.Range(0, patrolPoints.Length);
+            agent.SetDestination(patrolPoints[randomIndex].position);
+            agent.stoppingDistance = 0;
+
+            while (agent.remainingDistance > 0.05f)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(patrolTimer);
+            destChosen = false;
+        }
+    }
+
+
+    IEnumerator Roam()
     {
         if (!destChosen && agent.remainingDistance < 0.05f)
         {
@@ -126,6 +173,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
             destChosen = false;
         }
+     
 
     }
 
@@ -184,8 +232,8 @@ public class EnemyAI : MonoBehaviour, IDamage
                 return true;
             }
         }
-        agent.stoppingDistance = 0;
 
+        agent.stoppingDistance = 0;
         return false;
     }
 
