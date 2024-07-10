@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour, IDamage
 {
-    [SerializeField] Renderer model;
+    [SerializeField] Renderer[] models;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator anim;
     [SerializeField] Transform shootPos;
@@ -28,6 +28,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform[] patrolPoints;  // Patrol waypoints
 
     bool isShooting;
+    
     bool playerInRange;
     bool destChosen;
 
@@ -150,6 +151,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
             yield return new WaitForSeconds(patrolTimer);
             destChosen = false;
+           
         }
     }
 
@@ -159,6 +161,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (!destChosen && agent.remainingDistance < 0.05f)
         {
 
+          
             destChosen = true;
             yield return new WaitForSeconds(roamTimer);
 
@@ -172,6 +175,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             agent.SetDestination(hit.position);
 
             destChosen = false;
+            
         }
      
 
@@ -248,6 +252,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         anim.SetTrigger("Shoot");
 
+
         Instantiate(bullet, shootPos.position, transform.rotation);
 
         yield return new WaitForSeconds(shootRate);
@@ -270,10 +275,19 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
     IEnumerator flashDamage()
     {
-        model.material.color = Color.red;
+        foreach (Renderer modelRenderer in models)
+        {
+            modelRenderer.material.color = Color.red;
+        }
+
         yield return new WaitForSeconds(0.1f);
-        model.material.color = Color.white;
+
+        foreach (Renderer modelRenderer in models)
+        {
+            modelRenderer.material.color = Color.white;
+        }
     }
+
 
     void OnPlayerShoot(Vector3 shootPosition)
     {
