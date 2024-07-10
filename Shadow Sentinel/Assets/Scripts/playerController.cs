@@ -45,7 +45,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] AudioClip[] audReload;
     [SerializeField] float audRelodVol;
 
-
+    public SoundEmitter soundEmitter;
     bool isSprinting;
     bool isPlayingHurt;
     bool isPlayingSteps;
@@ -80,7 +80,11 @@ public class playerController : MonoBehaviour, IDamage
             movement();
             crouch();
             if (Input.GetButton("Fire1") && gunList.Count > 0 && !isShooting)
+            {
                 StartCoroutine(shoot());
+                soundEmitter.EmitSound();
+            }
+                
             if (Input.GetButton("Reload") && gunList.Count > 0 && !isReloading)
             {
                 StartCoroutine(reload());

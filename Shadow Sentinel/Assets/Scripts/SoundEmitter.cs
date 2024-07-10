@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class SoundEmitter : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float soundRange = 10f;
+    [SerializeField] private LayerMask enemyLayer;
+    public void EmitSound()
     {
-        
+        Collider[] enemies = Physics.OverlapSphere(transform.position, soundRange, enemyLayer);
+
+        foreach (Collider enemy in enemies)
+        {
+            EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+            if (enemyAI != null)
+            {
+                enemyAI.OnHearSound(transform.position);
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDrawGizmosSelected()
     {
-        
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, soundRange);
     }
+
 }
