@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Ceiling
   - EnemyCheck
+  - Target
   layers:
   - Default
   - TransparentFX
