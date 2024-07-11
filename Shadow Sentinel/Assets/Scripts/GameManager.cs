@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject menuShop;
 
     [Header("------ Player UI --------")]
     [SerializeField] TMP_Text enemyCountTxt;
@@ -95,6 +96,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) && menuActive == null)
         {
             InventoryManager.instance.ToggleInventory();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            ToggleShopMenu();
         }
     }
     //functions for pause states
@@ -192,6 +198,7 @@ public class GameManager : MonoBehaviour
         score += value;
         UpdateCoinScoreText();
     }
+<<<<<<< Updated upstream
 
     public void stateItemShopMenu()
     {
@@ -200,6 +207,9 @@ public class GameManager : MonoBehaviour
 
     }
 
+=======
+    
+>>>>>>> Stashed changes
     private void UpdateCoinScoreText()
     {
         scoreCountTxt.text = "Coins: " + score.ToString();
@@ -209,6 +219,13 @@ public class GameManager : MonoBehaviour
     {
         money += amount;
         UpdateMoneyText();
+    }
+
+    public void ToggleShopMenu()
+    {
+        bool isActive = menuShop.activeSelf;
+        menuShop.SetActive(!isActive);
+        statePause();
     }
 
     public bool SpendMoney(int amount)
