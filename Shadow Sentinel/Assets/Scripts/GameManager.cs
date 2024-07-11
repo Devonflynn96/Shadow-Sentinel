@@ -123,10 +123,10 @@ public class GameManager : MonoBehaviour
         enemyCount += amount;
         enemyCountTxt.text = enemyCount.ToString();
         scoreCountTxt.text = score.ToString();
+    }
 
-
-        if (enemyCount <= 0)
-        {
+    public void YouWin()
+    {
             if (!hasBeenDetected)
             {
                 objectiveDetection.color = Color.green;
@@ -140,8 +140,6 @@ public class GameManager : MonoBehaviour
             statePause();
             menuActive = menuWin;
             menuActive.SetActive(isPaused);
-        }
-
     }
 
     //Readout for current num bullets in mag
@@ -234,6 +232,11 @@ public class GameManager : MonoBehaviour
         {
             OnPlayerShoot(shootPosition);
         }
+    }
+
+    public int GetEnemyCount()
+    {
+        return enemyCount;
     }
 
 }

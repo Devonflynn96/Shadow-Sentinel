@@ -276,7 +276,10 @@ public class EnemyAI : MonoBehaviour, IDamage
         {
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
-            GameManager.instance.gameGoalUpdate(-1);
+            if (this.CompareTag("Target"))
+            {
+                GameManager.instance.gameGoalUpdate(-1);
+            }
             Destroy(gameObject);
         }
     }
