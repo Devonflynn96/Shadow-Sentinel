@@ -214,7 +214,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         playerDir = GameManager.instance.player.transform.position - headPos.position;
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, playerDir.y + 1, playerDir.z), transform.forward);
 
-        Debug.Log(angleToPlayer);
+        // Debug.Log(angleToPlayer);
         Debug.DrawRay(headPos.position, new Vector3(playerDir.x, playerDir.y + 1, playerDir.z));
 
         RaycastHit hit;
@@ -302,8 +302,10 @@ public class EnemyAI : MonoBehaviour, IDamage
         float distanceToShoot = Vector3.Distance(transform.position, shootPosition);
         if (distanceToShoot <= hearingRange)
         {
+            Debug.Log("Enemy heard a sound and is moving towards it! (shoot)");
             agent.stoppingDistance = stoppingDistOrig;
             agent.SetDestination(shootPosition);
+            
         }
     }
 
@@ -313,10 +315,11 @@ public class EnemyAI : MonoBehaviour, IDamage
         float distanceToSound = Vector3.Distance(transform.position, soundPosition);
         if (distanceToSound <= hearingRange)
         {
+            Debug.Log("Enemy heard a sound and is moving towards it!");
             // React to the sound (e.g., move towards it, become alert, etc.)
             agent.stoppingDistance = 0;
             agent.SetDestination(soundPosition);
-            Debug.Log("Enemy heard a sound and is moving towards it!");
+            
         }
     }
 
