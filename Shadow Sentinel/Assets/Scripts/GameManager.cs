@@ -198,7 +198,6 @@ public class GameManager : MonoBehaviour
         score += value;
         UpdateCoinScoreText();
     }
-<<<<<<< Updated upstream
 
     public void stateItemShopMenu()
     {
@@ -207,9 +206,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-=======
-    
->>>>>>> Stashed changes
     private void UpdateCoinScoreText()
     {
         scoreCountTxt.text = "Coins: " + score.ToString();
