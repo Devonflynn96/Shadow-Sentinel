@@ -297,7 +297,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             modelRenderer.material.color = Color.white;
         }
     }
-    void OnPlayerShoot(Vector3 shootPosition)
+    public void OnPlayerShoot(Vector3 shootPosition)
     {
         float distanceToShoot = Vector3.Distance(transform.position, shootPosition);
         if (distanceToShoot <= hearingRange)
@@ -305,9 +305,9 @@ public class EnemyAI : MonoBehaviour, IDamage
             Debug.Log("Enemy heard a sound and is moving towards it! (shoot)");
             agent.stoppingDistance = stoppingDistOrig;
             agent.SetDestination(shootPosition);
-            
         }
     }
+
 
 
     public void OnHearSound(Vector3 soundPosition)

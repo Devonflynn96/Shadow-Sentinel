@@ -104,7 +104,7 @@ public class CivilianAI : MonoBehaviour, IDamage
             AlertEnemies();
             Debug.Log($"{gameObject.name} heard a sound at  shootPosition: {shootPosition} and is fleeing.");
             agent.stoppingDistance = stoppingDistOrig;
-            agent.SetDestination(shootPosition);
+            // agent.SetDestination(shootPosition);
             FleeFromSound(shootPosition);
 
         }
@@ -117,7 +117,7 @@ public class CivilianAI : MonoBehaviour, IDamage
             Debug.Log($"{gameObject.name} heard a sound at soundPosition: {soundPosition} and is fleeing.");
             // React to the sound (e.g., move towards it, become alert, etc.)
             agent.stoppingDistance = 0;
-            agent.SetDestination(soundPosition);
+            // agent.SetDestination(soundPosition);
             FleeFromSound(soundPosition);
            
         }
@@ -150,8 +150,9 @@ public class CivilianAI : MonoBehaviour, IDamage
 
 
 
-    void AlertEnemies()
+    public void AlertEnemies()
     {
+        Debug.Log($"{gameObject.name} is alerting enemies within {alertRange} units.");
         Collider[] colliders = Physics.OverlapSphere(transform.position, alertRange, enemyLayerMask);
         foreach (Collider collider in colliders)
         {
@@ -161,11 +162,15 @@ public class CivilianAI : MonoBehaviour, IDamage
                 EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
                 if (enemyAI != null)
                 {
-                    enemyAI.OnHearSound(transform.position); // Notify enemies about the civilian's death
+                    // Alert the enemy regardless of its own hearing range
+                    enemyAI.OnHearSound(transform.position);
+                    enemyAI.OnPlayerShoot(transform.position);
+                    Debug.Log($"{gameObject.name} alerted {enemy.name} at {enemy.transform.position}.");
                 }
             }
         }
     }
+
 
     void FleeFromSound(Vector3 soundPosition)
     {
