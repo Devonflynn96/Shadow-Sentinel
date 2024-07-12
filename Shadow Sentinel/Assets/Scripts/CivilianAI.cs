@@ -129,6 +129,10 @@ public class CivilianAI : MonoBehaviour, IDamage
         StopAllCoroutines();
         StartCoroutine(FlashDamage());
         AlertEnemies();
+        if (this.CompareTag("Target"))
+        {
+            GameManager.instance.gameGoalUpdate(-1);
+        }
         Destroy(gameObject);
     }
 
