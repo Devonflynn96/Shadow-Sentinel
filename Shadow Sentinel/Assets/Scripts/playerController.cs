@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class playerController : MonoBehaviour, IDamage
+public class playerController : MonoBehaviour, ISaveData, IDamage
 {
     [Header("------ Components --------")]
     [SerializeField] CharacterController controller;
@@ -182,11 +182,13 @@ public class playerController : MonoBehaviour, IDamage
         {
             isCrouching = true;
             controller.height /= 2;
+            audStepsVol /= 2;
         }
         else if (Input.GetButtonUp("Crouch"))
         {
             isCrouching = false;
             controller.height *= 2;
+            audStepsVol *= 2;
         }
     }
 
@@ -196,15 +198,10 @@ public class playerController : MonoBehaviour, IDamage
         isShooting = true;
         if (!isReloading && gunList[selectedGun].ammoCur > 0)
         {
-
             aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
-        }
-        GameManager.instance.PlayerShoot(shootPos.position);
+            GameManager.instance.PlayerShoot(shootPos.position);
 
-        RaycastHit hit;
-        if (gunList[selectedGun].ammoCur > 0)
-        {
-            StartCoroutine(flashMuzzle());
+            RaycastHit hit;
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
             {
                 Debug.Log(hit.transform.name);
@@ -219,11 +216,11 @@ public class playerController : MonoBehaviour, IDamage
                 {
                     Instantiate(gunList[selectedGun].hitEffect, hit.point, Quaternion.identity);
                 }
-
             }
             gunList[selectedGun].ammoCur -= 1;
-            updatePlayerUI();
-        } else if(!isReloading && gunList[selectedGun].ammoCur >= 0)
+            StartCoroutine(flashMuzzle());
+        }
+        else if (gunList[selectedGun].ammoCur == 0)
         {
             StartCoroutine(reload());
         }
@@ -375,5 +372,19 @@ public class playerController : MonoBehaviour, IDamage
         return Hp;
     }
 
-  
+  public void LoadData(GameData data)
+    {
+        this.transform.position = data.playerPos;
+        this.transform.rotation = data.playerRot;
+        this.Hp = data.playerHP;
+        this.HPOrig = data.playerBaseHP;
+    }
+
+    public void SaveData (ref GameData data)
+    {
+        data.playerPos = this.transform.position;
+        data.playerRot = this.transform.rotation;
+        data.playerHP = this.Hp;
+        data.playerBaseHP = this.HPOrig;
+    }
 }
