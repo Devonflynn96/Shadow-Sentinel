@@ -198,18 +198,7 @@ public class GameManager : MonoBehaviour
         score += value;
         UpdateCoinScoreText();
     }
-<<<<<<< Updated upstream
 
-    public void stateItemShopMenu()
-    {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
-
-    }
-
-=======
-    
->>>>>>> Stashed changes
     private void UpdateCoinScoreText()
     {
         scoreCountTxt.text = "Coins: " + score.ToString();
