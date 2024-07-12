@@ -184,6 +184,7 @@ public class CivilianAI : MonoBehaviour, IDamage
         Debug.Log($"{gameObject.name} is fleeing to {hit.position}");
     }
 
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

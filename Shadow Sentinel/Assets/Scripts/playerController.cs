@@ -198,15 +198,10 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         isShooting = true;
         if (!isReloading && gunList[selectedGun].ammoCur > 0)
         {
-
             aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
-        }
-        GameManager.instance.PlayerShoot(shootPos.position);
+            GameManager.instance.PlayerShoot(shootPos.position);
 
-        RaycastHit hit;
-        if (gunList[selectedGun].ammoCur > 0)
-        {
-            StartCoroutine(flashMuzzle());
+            RaycastHit hit;
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist))
             {
                 Debug.Log(hit.transform.name);
@@ -221,11 +216,11 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
                 {
                     Instantiate(gunList[selectedGun].hitEffect, hit.point, Quaternion.identity);
                 }
-
             }
             gunList[selectedGun].ammoCur -= 1;
-            updatePlayerUI();
-        } else if(!isReloading && gunList[selectedGun].ammoCur >= 0)
+            StartCoroutine(flashMuzzle());
+        }
+        else if (gunList[selectedGun].ammoCur == 0)
         {
             StartCoroutine(reload());
         }
