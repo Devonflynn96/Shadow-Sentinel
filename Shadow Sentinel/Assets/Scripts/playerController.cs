@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class playerController : MonoBehaviour, IDamage
+public class playerController : MonoBehaviour, ISaveData, IDamage
 {
     [Header("------ Components --------")]
     [SerializeField] CharacterController controller;
@@ -375,5 +375,19 @@ public class playerController : MonoBehaviour, IDamage
         return Hp;
     }
 
-  
+  public void LoadData(GameData data)
+    {
+        this.transform.position = data.playerPos;
+        this.transform.rotation = data.playerRot;
+        this.Hp = data.playerHP;
+        this.HPOrig = data.playerBaseHP;
+    }
+
+    public void SaveData (ref GameData data)
+    {
+        data.playerPos = this.transform.position;
+        data.playerRot = this.transform.rotation;
+        data.playerHP = this.Hp;
+        data.playerBaseHP = this.HPOrig;
+    }
 }

@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour, IDamage
+public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 {
+    [SerializeField] private string id;
+
+    [ContextMenu("Generate guid for ID")]
+
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
     [SerializeField] Renderer[] models;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator anim;
@@ -350,4 +358,13 @@ public class EnemyAI : MonoBehaviour, IDamage
        //Shoot Angle: Two green lines to visualize the shooting angle.
     }
 
+    public void LoadData(GameData data)
+    {
+
+    }
+
+    public void SaveData(ref GameData data)
+    {
+
+    }
 }
