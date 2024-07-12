@@ -66,37 +66,27 @@ public class CivilianAI : MonoBehaviour, IDamage
 
     IEnumerator Roam()
     {
-        while (true)
+        if (destChosen || agent == null || !agent.isOnNavMesh || agent.remainingDistance >= 0.05f) yield break;
         {
-            if (destChosen || agent == null || !agent.isOnNavMesh || agent.remainingDistance >= 0.05f) yield break;
+
 
             destChosen = true;
-
-            // Random wait time between minWaitTime and maxWaitTime
             yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));
 
-            if (!isDead)
-            {
-                // Set stopping distance to 0
-                agent.stoppingDistance = 0;
+            agent.stoppingDistance = 0;
 
-                // Generate random position within roamDist
-                Vector3 ranPos = Random.insideUnitSphere * roamDist;
-                ranPos += startingPos;
+            Vector3 ranPos = Random.insideUnitSphere * roamDist;
+            ranPos += startingPos;
 
-                // Find nearest valid position on the NavMesh
-                NavMeshHit hit;
-                NavMesh.SamplePosition(ranPos, out hit, roamDist, NavMesh.AllAreas);
+            NavMeshHit hit;
+            NavMesh.SamplePosition(ranPos, out hit, roamDist, 1);
+            agent.SetDestination(hit.position);
 
-                // Set destination to the found position
-                agent.SetDestination(hit.position);
-
-                // Reset destination chosen flag
-                destChosen = false;
-            }
+            destChosen = false;
+            
         }
     }
-    void OnPlayerShoot(Vector3 shootPosition)
+        void OnPlayerShoot(Vector3 shootPosition)
     {
         float distanceToShoot = Vector3.Distance(transform.position, shootPosition);
         if (distanceToShoot <= hearingRange)
