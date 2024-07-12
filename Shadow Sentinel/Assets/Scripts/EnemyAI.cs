@@ -94,12 +94,12 @@ public class EnemyAI : MonoBehaviour, IDamage
         //These if statements will change the size of the enemy FOV depending on the state of the isCrouched bool. -Devon
         if (isCrouched)
         {
-
+            viewAngle = 30;
         }
 
         if (!isCrouched)
         {
-
+            viewAngle = 100;
         }
 
 

@@ -27,6 +27,7 @@ public class EscapeScript : MonoBehaviour
             else
             {
                 Debug.Log("Target is still alive!");
+
             }
         }
     }
