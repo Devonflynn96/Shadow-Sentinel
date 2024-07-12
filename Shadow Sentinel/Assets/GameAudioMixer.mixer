@@ -133,7 +133,17 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 7d43b044c8ed3ac43823a78cf49796c5
+    name: InGameMusic
+  - guid: 138aab0f515326f4faf79a8c513ec4e6
+    name: InGameSFX
+  - guid: 4a5d09de36709de40bc54f3ede300e39
+    name: MasterVolume
+  - guid: 20d614fc35e0d794d882e2f718a597c4
+    name: TitleScreenMusic
+  - guid: 30942890af02aa041abfb7cccf6bee5d
+    name: TitleScreenSFX
   m_AudioMixerGroupViews:
   - guids:
     - bb628d9ee7fe2764cb258dba1ad4e765
