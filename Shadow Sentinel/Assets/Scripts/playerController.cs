@@ -182,11 +182,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         {
             isCrouching = true;
             controller.height /= 2;
+            audStepsVol /= 2;
         }
         else if (Input.GetButtonUp("Crouch"))
         {
             isCrouching = false;
             controller.height *= 2;
+            audStepsVol *= 2;
         }
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SaveHandler : MonoBehaviour
+public class SaveHandler
 {
     // String variables to hold save data directory pathway
     private string saveDirectoryPath = "";
