@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public static int currLvl;
   public void NewGame()
     {
         SceneManager.LoadScene(1); //this should be the first level 
     }
+
     public void ContinueGame()
     {
         //this function should be something along the lines of
@@ -16,9 +18,9 @@ public class MainMenu : MonoBehaviour
         //and load the saved profile
         //but the button will only be present if a save profile is present
     }
-    public void LevelSelect()
+    public void LevelSelect(int levelNumber)
     {
-        //this button will also only appear upon a save file being present
+        SceneManager.LoadScene(levelNumber);
         //upon clicking this button, a panel will open displaying all levels
         //only levels the player has played will be unlocked to replay
     }
