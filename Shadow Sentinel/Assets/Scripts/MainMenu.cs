@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
   public void NewGame()
     {
         SceneManager.LoadScene(1); //this should be the first level 
+        SaveDataManager.Instance.NewGame();
     }
 
     public void ContinueGame()

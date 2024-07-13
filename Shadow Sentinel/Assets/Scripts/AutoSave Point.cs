@@ -19,15 +19,15 @@ public class AutoSavePoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //StartCoroutine(Saving());
-        SaveDataManager.Instance.SaveGame();
+        StartCoroutine(AutoSave());
+        SaveDataManager.Instance.SaveGame("Autosave.Save");
         Destroy(gameObject);
     }
 
-    //IEnumerator Saving()
-    //{
-    //    GameManager.instance.savingTxt.SetActive(true);
-    //    yield return new WaitForSeconds(savingTextTime);
-    //    GameManager.instance.savingTxt.SetActive(false);
-    //}
+    IEnumerator AutoSave()
+    {
+        GameManager.instance.savingTxt.SetActive(true);
+        yield return new WaitForSeconds(savingTextTime);
+        GameManager.instance.savingTxt.SetActive(false);
+    }
 }

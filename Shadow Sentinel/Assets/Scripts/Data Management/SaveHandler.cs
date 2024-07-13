@@ -24,7 +24,7 @@ public class SaveHandler
     }
 
     //Load method, reads serialized data from a file and deserializes it
-    public GameData Load(string saveFolder)
+    public GameData Load(string saveFileName)
     {
         // create a string called fullPath that combines the saveDirectoryPath,
         // SaveFolder, and saveFileName, using Path.Combine as it accomodates
@@ -70,7 +70,7 @@ public class SaveHandler
         return loadedData;
     }
     //Save method, saves data to a file and serializes it
-    public void Save(GameData data, string saveFolder)
+    public void Save(GameData data, string saveFileName)
     {
         // Create a path using Path.Combine to accomodate all OS's
         string fullPath = Path.Combine(saveDirectoryPath, saveFolder, saveFileName);

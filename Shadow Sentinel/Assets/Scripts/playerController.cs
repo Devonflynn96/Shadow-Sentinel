@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour, ISaveData, IDamage
 {
@@ -374,17 +375,23 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
   public void LoadData(GameData data)
     {
-        this.transform.position = data.playerPos;
-        this.transform.rotation = data.playerRot;
-        this.Hp = data.playerHP;
-        this.HPOrig = data.playerBaseHP;
+        if (data.playerHP >0 && SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            this.transform.position = data.playerPos;
+            this.transform.rotation = data.playerRot;
+            this.Hp = data.playerHP;
+            this.HPOrig = data.playerBaseHP;
+        }
     }
 
     public void SaveData (ref GameData data)
     {
-        data.playerPos = this.transform.position;
-        data.playerRot = this.transform.rotation;
-        data.playerHP = this.Hp;
-        data.playerBaseHP = this.HPOrig;
+        if (SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            data.playerPos = this.transform.position;
+            data.playerRot = this.transform.rotation;
+            data.playerHP = this.Hp;
+            data.playerBaseHP = this.HPOrig;
+        }
     }
 }
