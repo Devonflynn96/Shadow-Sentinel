@@ -5,8 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+
     public static int currLvl;
-  public void NewGame()
+   
+    public void NewGame()
     {
         SceneManager.LoadScene(1); //this should be the first level
         SaveDataManager.Instance.NewGame();
@@ -20,6 +22,10 @@ public class MainMenu : MonoBehaviour
         //and load the saved profile
         //but the button will only be present if a save profile is present
     }
+    public void LoadCredits()
+    {
+        StartCoroutine(playCredits());
+    }
     public void ExitGame()
     {
 #if UNITY_EDITOR
@@ -27,5 +33,12 @@ public class MainMenu : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    IEnumerator playCredits()
+    {
+        SceneManager.LoadScene(6);
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene(0);
     }
 }

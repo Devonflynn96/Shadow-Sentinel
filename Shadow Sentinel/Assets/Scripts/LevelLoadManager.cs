@@ -36,4 +36,5 @@ public class LevelLoadingManager : MonoBehaviour
             yield return null;
         }
     }
+
 }

@@ -20,6 +20,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 4.unity
     guid: 19173deb72fb5dc48b5e6f38d87251ba
+  - enabled: 1
+    path: Assets/Scenes/Level 5.unity
+    guid: 9875860f47af96248bfbb8d399839e6d
+  - enabled: 1
+    path: Assets/Scenes/CreditsScreen.unity
+    guid: aa4ac17270078f44bbbe0bb8525d913d
   - enabled: 0
     path: Assets/Scenes/Debug Scenes/Simon.unity
     guid: cf1f3d5c8789d6c4eb9f8584717ef6f1
