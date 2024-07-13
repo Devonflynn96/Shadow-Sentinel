@@ -53,7 +53,9 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
 
-   
+    public InventoryManager inventoryManager;
+
+
 
     void Awake()
     {
@@ -63,8 +65,8 @@ public class GameManager : MonoBehaviour
         GameManager.instance.playerStealthBar.fillAmount = 0;
 
         UpdateCoinScoreText();
-     
-      
+
+        inventoryManager = GetComponent<InventoryManager>();
     }
 
     // Update is called once per frame

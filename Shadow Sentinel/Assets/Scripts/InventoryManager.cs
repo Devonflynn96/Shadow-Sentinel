@@ -11,29 +11,47 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] public GameObject inventoryMenu;
 
     private bool menuActivated;
-  
+
+    private GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = GetComponent<GameManager>();
+    }
 
     void Update()
     {
-        if (Input.GetButtonDown("Inventory") && menuActivated)
+        if (Input.GetButtonDown("Inventory"))
         {
-            Time.timeScale = 1;
-            inventoryMenu.SetActive(false);
-            menuActivated = false;
+            ToggleInventory();
         }
-        else if (Input.GetButtonDown("Inventory") && !menuActivated)
-        {
-            Time.timeScale = 0;
-            inventoryMenu.SetActive(true);
-            menuActivated= true;
-        }
-        
-
+      
 
     }
 
-    public void addItem(string itemName, int quantity, Sprite itemSprite)
+    public void ToggleInventory()
     {
-       
+        menuActivated = !menuActivated;
+        inventoryMenu.SetActive(menuActivated);
+        if (menuActivated)
+        {
+            if (gameManager != null)
+            { 
+                gameManager.statePause();
+            }
+        }
+        else
+        {
+            if(gameManager != null)
+            {
+                gameManager.stateUnpause();
+            }
+            
+        }
+    }
+
+    public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
+    {
+        Debug.Log($"Added {quantity} of {itemName} to inventory.");
     }
 }

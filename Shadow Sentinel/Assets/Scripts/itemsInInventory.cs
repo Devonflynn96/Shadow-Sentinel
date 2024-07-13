@@ -6,24 +6,32 @@ public class itemsInInventory : MonoBehaviour
 {
     [SerializeField] string itemName;
     [SerializeField] int quantity;
-    [SerializeField] Sprite image;
+    [SerializeField] MeshRenderer image;
      private InventoryManager inventoryManager;
 
 
 
     // Start is called before the first frame update
     void Start()
-    {
-        inventoryManager = GameObject.Find("Inventory") .GetComponent<InventoryManager>();
-    }
+    {                                                                                                              
+        GameObject inventoryObject = GameObject.Find("Inventory");
+        if (inventoryObject != null)
+        {
+            inventoryManager = inventoryObject.GetComponent<InventoryManager>();
 
+        }                                                                                                   
+    }                 
+                   
     // Update is called once per frame
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            inventoryManager.addItem(itemName, quantity, image);
-            Destroy(gameObject);
+            if (inventoryManager != null)
+            {
+                inventoryManager.addItem(itemName, quantity, image);
+                Destroy(gameObject);
+            }
         }
     }
 }
