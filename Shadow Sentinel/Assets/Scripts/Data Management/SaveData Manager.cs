@@ -9,6 +9,7 @@ public class SaveDataManager : MonoBehaviour
     [Header("File Configuration")]
     [SerializeField] private string fileName;
     [SerializeField] private bool Encrypt;
+    public string last;
 
     //GameData object to save data to/load from
     //and list of objects that save/load data
@@ -122,6 +123,6 @@ public class SaveDataManager : MonoBehaviour
 
     public string GetLastModified()
     {
-        return saveHandler.LoadLastModified();
+        return  last = saveHandler.LoadLastModified();
     }
 }

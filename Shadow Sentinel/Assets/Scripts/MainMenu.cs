@@ -9,11 +9,13 @@ public class MainMenu : MonoBehaviour
   public void NewGame()
     {
         SceneManager.LoadScene(1); //this should be the first level 
+        SaveDataManager.Instance.GetLastModified();
         SaveDataManager.Instance.NewGame();
     }
 
     public void ContinueGame()
     {
+        SaveDataManager.Instance.LoadGame(SaveDataManager.Instance.last);
         //this function should be something along the lines of
         //if a save profile is present then display the continue button 
         //and load the saved profile
