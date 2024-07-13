@@ -33,6 +33,7 @@ public class InventoryManager : MonoBehaviour
     {
         menuActivated = !menuActivated;
         inventoryMenu.SetActive(menuActivated);
+
         if (menuActivated)
         {
             if (gameManager != null)
@@ -52,6 +53,6 @@ public class InventoryManager : MonoBehaviour
 
     public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
     {
-        Debug.Log($"Added {quantity} of {itemName} to inventory.");
+       
     }
 }

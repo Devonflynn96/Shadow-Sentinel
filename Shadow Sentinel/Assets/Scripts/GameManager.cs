@@ -206,11 +206,7 @@ public class GameManager : MonoBehaviour
         scoreCountTxt.text = "Coins: " + score.ToString();
     }
 
-    public void AddMoney(int amount)
-    {
-        money += amount;
-        
-    }
+ 
 
     public void ToggleShopMenu()
     {
@@ -221,9 +217,9 @@ public class GameManager : MonoBehaviour
 
     public bool SpendMoney(int amount)
     {
-        if (money >= amount)
+        if (score >= amount)
         {
-            money -= amount;
+            score -= amount;
             return true;
         }
         return false;
