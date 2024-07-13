@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -135,6 +136,25 @@ public class SaveHandler
             }
         }
         return savedGames;
+    }
+
+    public string LoadLastModified()
+    {
+        DateTime newest = DateTime.MinValue;
+        string newestFile = "";
+        DirectoryInfo dirInfo = new DirectoryInfo(Path.Combine(saveDirectoryPath, saveFolder));
+        foreach (FileInfo file in dirInfo.GetFiles())
+        {
+            DateTime dt = file.LastWriteTime;
+            if(dt > newest)
+            {
+                newest = dt;
+                newestFile = file.Name;
+            }
+
+        }
+        Debug.Log(newestFile);
+        return newestFile;
     }
 
 

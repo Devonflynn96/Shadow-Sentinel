@@ -120,4 +120,8 @@ public class SaveDataManager : MonoBehaviour
         return saveHandler.LoadAllSaves();
     }
 
+    public string GetLastModified()
+    {
+        return saveHandler.LoadLastModified();
+    }
 }

@@ -287,13 +287,14 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 
         if (HP <= 0)
         {
+            isDead = true;
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
             if (this.CompareTag("Target"))
             {
 
-                SaveDataManager.Instance.SaveGame("Autosave.Save");
                 GameManager.instance.gameGoalUpdate(-1);
+                SaveDataManager.Instance.SaveGame("Autosave.Save");
             }
             Destroy(gameObject);
         }
