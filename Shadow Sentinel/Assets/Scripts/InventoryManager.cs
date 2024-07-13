@@ -5,49 +5,35 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-    public static InventoryManager instance;
+   
 
     [Header("Inventory UI")]
-    [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private Transform inventoryContent;
-    [SerializeField] private GameObject inventoryItemPrefab;
+    [SerializeField] public GameObject inventoryMenu;
 
-    private List<gunStats> inventory = new List<gunStats>();
+    private bool menuActivated;
+  
 
-    void Awake()
+    void Update()
     {
-        instance = this;
-    }
-
-    public void AddToInventory(gunStats gun)
-    {
-        inventory.Add(gun);
-        UpdateInventoryUI();
-    }
-
-    public void RemoveFromInventory(gunStats gun)
-    {
-        inventory.Remove(gun);
-        UpdateInventoryUI();
-    }
-
-    private void UpdateInventoryUI()
-    {
-        foreach (Transform child in inventoryContent)
+        if (Input.GetButtonDown("Inventory") && menuActivated)
         {
-            Destroy(child.gameObject);
+            Time.timeScale = 1;
+            inventoryMenu.SetActive(false);
+            menuActivated = false;
         }
-
-        foreach (var item in inventory)
+        else if (Input.GetButtonDown("Inventory") && !menuActivated)
         {
-            GameObject obj = Instantiate(inventoryItemPrefab, inventoryContent);
-            obj.GetComponentInChildren<TMP_Text>().text = item.name;
-            // Optionally set up other UI elements like icon or stats
+            Time.timeScale = 0;
+            inventoryMenu.SetActive(true);
+            menuActivated= true;
         }
+        
+
+
     }
 
-    public void ToggleInventory()
+    public void addItem(string itemName, int quantity, Sprite itemSprite)
     {
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+       
     }
 }
