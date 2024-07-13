@@ -20,6 +20,8 @@ public class SaveDataManager : MonoBehaviour
     private string selectedSaveName = "";
     public static SaveDataManager Instance;
 
+    [SerializeField] float savingTextTime;
+
     private void Awake()
     {
         if (Instance == null)
@@ -59,6 +61,7 @@ public class SaveDataManager : MonoBehaviour
     //Save Game method, loops through the project, saving all flagged information.
     public void SaveGame()
     {
+        StartCoroutine(Saving());
         //If no gameData selected.
         if (this.gameData == null)
             return;
@@ -113,5 +116,12 @@ public class SaveDataManager : MonoBehaviour
     public Dictionary<string, GameData> GetAllSaveGames()
     {
         return saveHandler.LoadAllSaves();
+    }
+    //Saving text pop-up
+    public IEnumerator Saving()
+    {
+        GameManager.instance.savingTxt.SetActive(true);
+        yield return new WaitForSeconds(savingTextTime);
+        GameManager.instance.savingTxt.SetActive(false);
     }
 }

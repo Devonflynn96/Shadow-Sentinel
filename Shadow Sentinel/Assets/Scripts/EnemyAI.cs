@@ -286,6 +286,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
             GameManager.instance.RemoveSeen();
             if (this.CompareTag("Target"))
             {
+                SaveDataManager.Instance.SaveGame();
                 GameManager.instance.gameGoalUpdate(-1);
             }
             Destroy(gameObject);
