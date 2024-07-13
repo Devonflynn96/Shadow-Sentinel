@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3494648a3db6ece4fb95844df26082e4, type: 3}
   m_Name: Gun - Pistol
   m_EditorClassIdentifier: 
-  gunModel: {fileID: 5571641588984482722, guid: c303a18f1cbdd4156b139b9e5b35d6a9, type: 3}
+  gunModel: {fileID: 919132149155446097, guid: 28ebbcd7f4773384e867c255af2c669b, type: 3}
   shootDamage: 1
   shootDist: 100
   shootRate: 0.1
-  ammoCur: 10
+  ammoCur: 15
   ammoMax: 15
   reloadSpeed: 0.75
   isSilenced: 1
   hitEffect: {fileID: 4211432851266630995, guid: 98d3281f68b89a24c9d2e56c8eac47ec, type: 3}
-  shootSound: {fileID: 8300000, guid: 4f452064d69a99042aa2313703838d55, type: 3}
+  shootSound: {fileID: 8300000, guid: ced2f992f16a16a478a9d55969e3fde1, type: 3}
   shootVol: 0.5
