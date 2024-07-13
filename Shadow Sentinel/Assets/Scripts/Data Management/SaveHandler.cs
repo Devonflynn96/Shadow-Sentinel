@@ -149,7 +149,7 @@ public class SaveHandler
             if(dt > newest)
             {
                 newest = dt;
-                newestFile = file.Name;
+                newestFile = file.FullName;
             }
 
         }
