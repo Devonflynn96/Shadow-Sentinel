@@ -41,7 +41,7 @@ public class PickUp : MonoBehaviour
     void PickUpGun()
     {
         gun.ammoCur = gun.ammoMax;
-        InventoryManager.instance.AddToInventory(gun);
+        
         GameManager.instance.playerScript.GetGunStats(gun);
         GameManager.instance.pickUpMessage.SetActive(false); // Hide the "Press E" message
         Destroy(gameObject);
