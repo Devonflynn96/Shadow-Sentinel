@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthPickup : MonoBehaviour
 {
     [SerializeField] int healthToAdd;
+    
 
     private int healthMax;
     private int healthCurrent;
@@ -12,13 +13,28 @@ public class HealthPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        healthMax = GameManager.instance.playerScript.GetHPMax();
-        healthCurrent = GameManager.instance.playerScript.GetHPCurrent();
+        if (other.CompareTag("Player"))
+        { 
+          healthMax = GameManager.instance.playerScript.GetHPMax();
+          healthCurrent = GameManager.instance.playerScript.GetHPCurrent();
 
-        if (other.CompareTag("Player") && healthCurrent != healthMax)
-        {
-            GameManager.instance.playerScript.AddHealth(healthToAdd);
-            Destroy(gameObject);
+            if(healthCurrent < healthMax)
+            {
+                GameManager.instance.playerScript.AddHealth(healthToAdd);
+            }
+            else
+            {
+                InventoryManager inventoryManager = GameObject.Find("Inventory").GetComponent<InventoryManager>();
+                if(inventoryManager != null)
+                {
+                    inventoryManager.addItem(gameObject.name, 1, GetComponent<MeshRenderer>());
+                }
+                Destroy(gameObject);
+            }
+     
+           
         }
     }
+
+   
 }

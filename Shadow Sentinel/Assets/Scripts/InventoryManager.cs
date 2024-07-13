@@ -48,6 +48,30 @@ public class InventoryManager : MonoBehaviour
 
     public void ToggleInventory()
     {
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+
+        menuActivated = !menuActivated;
+        inventoryMenu.SetActive(menuActivated);
+
+        if (menuActivated)
+        {
+            if (gameManager != null)
+            { 
+                gameManager.statePause();
+            }
+        }
+        else
+        {
+            if(gameManager != null)
+            {
+                gameManager.stateUnpause();
+            }
+            
+        }
+    }
+
+    public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
+    {
+       
+
     }
 }
