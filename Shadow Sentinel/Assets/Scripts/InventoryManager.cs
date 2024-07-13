@@ -5,53 +5,49 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-   
+    public static InventoryManager instance;
 
     [Header("Inventory UI")]
-    [SerializeField] public GameObject inventoryMenu;
+    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private Transform inventoryContent;
+    [SerializeField] private GameObject inventoryItemPrefab;
 
-    private bool menuActivated;
+    private List<gunStats> inventory = new List<gunStats>();
 
-    private GameManager gameManager;
-
-    void Start()
+    void Awake()
     {
-        gameManager = GetComponent<GameManager>();
+        instance = this;
     }
 
-    void Update()
+    public void AddToInventory(gunStats gun)
     {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            ToggleInventory();
-        }
-      
+        inventory.Add(gun);
+        UpdateInventoryUI();
+    }
 
+    public void RemoveFromInventory(gunStats gun)
+    {
+        inventory.Remove(gun);
+        UpdateInventoryUI();
+    }
+
+    private void UpdateInventoryUI()
+    {
+        foreach (Transform child in inventoryContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var item in inventory)
+        {
+            GameObject obj = Instantiate(inventoryItemPrefab, inventoryContent);
+            obj.GetComponentInChildren<TMP_Text>().text = item.name;
+            // Optionally set up other UI elements like icon or stats
+        }
     }
 
     public void ToggleInventory()
     {
-        menuActivated = !menuActivated;
-        inventoryMenu.SetActive(menuActivated);
-        if (menuActivated)
-        {
-            if (gameManager != null)
-            { 
-                gameManager.statePause();
-            }
-        }
-        else
-        {
-            if(gameManager != null)
-            {
-                gameManager.stateUnpause();
-            }
-            
-        }
-    }
-
-    public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
-    {
-        Debug.Log($"Added {quantity} of {itemName} to inventory.");
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
     }
 }

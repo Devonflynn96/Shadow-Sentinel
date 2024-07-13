@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuShop;
-  
 
     [Header("------ Player UI --------")]
     [SerializeField] TMP_Text enemyCountTxt;
@@ -27,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text magCapTxt;
     [SerializeField] TMP_Text invisStatusText;
     [SerializeField] TMP_Text scoreCountTxt;
+    [SerializeField] TMP_Text moneyTxt;
     [SerializeField] TMP_Text objectiveEnemy;
     [SerializeField] TMP_Text objectiveDetection;
     [SerializeField] TMP_Text objectiveRate;
@@ -50,13 +50,10 @@ public class GameManager : MonoBehaviour
 
 
     bool hasBeenDetected;
-  
 
     private int score = 0;
 
     public InventoryManager inventoryManager;
-
-
 
     void Awake()
     {
@@ -66,8 +63,8 @@ public class GameManager : MonoBehaviour
         GameManager.instance.playerStealthBar.fillAmount = 0;
 
         UpdateCoinScoreText();
-
-        inventoryManager = GetComponent<InventoryManager>();
+        UpdateMoneyText();
+        inventoryManager = InventoryManager.instance;
     }
 
     // Update is called once per frame
@@ -97,14 +94,15 @@ public class GameManager : MonoBehaviour
             hasBeenDetected = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.I) && menuActive == null)
+        {
+            InventoryManager.instance.ToggleInventory();
+        }
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             ToggleShopMenu();
         }
-
-        
-
-
     }
     //functions for pause states
     public void statePause()
@@ -210,7 +208,7 @@ public class GameManager : MonoBehaviour
     public void AddMoney(int amount)
     {
         money += amount;
-        
+        UpdateMoneyText();
     }
 
     public void ToggleShopMenu()
@@ -225,13 +223,15 @@ public class GameManager : MonoBehaviour
         if (money >= amount)
         {
             money -= amount;
+            UpdateMoneyText();
             return true;
         }
         return false;
     }
- 
-
-
+    private void UpdateMoneyText()
+    {
+        moneyTxt.text = "Money: " + money.ToString();
+    }
 
     public void PlayerShoot(Vector3 shootPosition)
     {
