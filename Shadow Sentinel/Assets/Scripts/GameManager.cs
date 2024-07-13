@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text objectiveEnemy;
     [SerializeField] TMP_Text objectiveDetection;
     [SerializeField] TMP_Text objectiveRate;
-    public GameObject pickUpMessage;
     public GameObject reloadingTxt;
     public GameObject savingTxt;
     public GameObject activateAbilityTxt;
