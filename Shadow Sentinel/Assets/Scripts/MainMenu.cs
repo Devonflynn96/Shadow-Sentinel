@@ -19,12 +19,6 @@ public class MainMenu : MonoBehaviour
         //and load the saved profile
         //but the button will only be present if a save profile is present
     }
-    public void LevelSelect(int levelNumber)
-    {
-        SceneManager.LoadScene(levelNumber);
-        //upon clicking this button, a panel will open displaying all levels
-        //only levels the player has played will be unlocked to replay
-    }
     public void ExitGame()
     {
 #if UNITY_EDITOR
