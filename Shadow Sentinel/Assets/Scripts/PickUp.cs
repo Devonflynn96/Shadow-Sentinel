@@ -5,21 +5,23 @@ using UnityEngine;
 public class PickUp : MonoBehaviour
 {
     [SerializeField] gunStats gun;
-    private bool isPlayerNearby;
 
     void Start()
     {
-        GameManager.instance.pickUpMessage.SetActive(false); // Ensure the message is hidden initially
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerNearby = true;
-            GameManager.instance.pickUpMessage.SetActive(true); // Show the "Press E" message
+            gun.ammoCur = gun.ammoMax;
+            //InventoryManager.instance.AddToInventory(gun);
+            GameManager.instance.playerScript.GetGunStats(gun);
+            Destroy(gameObject);
         }
     }
+<<<<<<< HEAD
 
     private void OnTriggerExit(Collider other)
     {
@@ -46,4 +48,6 @@ public class PickUp : MonoBehaviour
         GameManager.instance.pickUpMessage.SetActive(false); // Hide the "Press E" message
         Destroy(gameObject);
     }
+=======
+>>>>>>> parent of e097c95 (Merge branch 'main' of https://github.com/Devonflynn96/Shadow-Sentinel)
 }

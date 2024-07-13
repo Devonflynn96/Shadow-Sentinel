@@ -13,7 +13,6 @@ public class gunStats : ScriptableObject
     public int ammoCur;
     public int ammoMax;
     public float reloadSpeed;
-    public bool isSilenced;
 
     public ParticleSystem hitEffect;
     public AudioClip shootSound;
