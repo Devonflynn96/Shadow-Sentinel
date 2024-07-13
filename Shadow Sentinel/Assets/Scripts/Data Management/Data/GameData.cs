@@ -11,7 +11,7 @@ public class GameData
     public List<gunStats> gunList;
     public int playerHP, playerBaseHP;
 
-    public Dictionary<string, bool> livingEnemies;
-    public Dictionary<string, Vector3> enemyLocations;
-    public Dictionary<string, Quaternion> enemyRots;
+    public SerializableDict<string, bool> livingEnemies;
+    public SerializableDict<string, Vector3> enemyLocations;
+    public SerializableDict<string, Quaternion> enemyRots;
 }

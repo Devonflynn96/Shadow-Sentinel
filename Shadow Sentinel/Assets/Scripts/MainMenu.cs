@@ -8,8 +8,7 @@ public class MainMenu : MonoBehaviour
     public static int currLvl;
   public void NewGame()
     {
-        SceneManager.LoadScene(1); //this should be the first level 
-        SaveDataManager.Instance.GetLastModified();
+        SceneManager.LoadScene(1); //this should be the first level
         SaveDataManager.Instance.NewGame();
     }
 

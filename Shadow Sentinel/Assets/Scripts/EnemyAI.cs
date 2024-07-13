@@ -368,11 +368,14 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 
     public void LoadData(GameData data)
     {
-        data.livingEnemies.TryGetValue(id, out isDead);
-        if(!isDead)
+        if (data.livingEnemies.Count > 0)
         {
-            this.transform.rotation = data.enemyRots.GetValueOrDefault(id);
-            this.transform.position = data.enemyLocations.GetValueOrDefault(id);
+            data.livingEnemies.TryGetValue(id, out isDead);
+            if (!isDead)
+            {
+                this.transform.rotation = data.enemyRots.GetValueOrDefault(id);
+                this.transform.position = data.enemyLocations.GetValueOrDefault(id);
+            }
         }
     }
 

@@ -36,6 +36,7 @@ public class SaveDataManager : MonoBehaviour
         //To ensure Save manager persists through all scenes
         DontDestroyOnLoad(gameObject);
         this.saveHandler = new SaveHandler(Application.persistentDataPath, fileName, Encrypt);
+        GetLastModified();
     }
 
     //New game method. Sets data to a new save data.
@@ -113,7 +114,6 @@ public class SaveDataManager : MonoBehaviour
     //Use OnSceneUnloaded to save the game when unloaded
     public void OnSceneUnloaded(Scene scene)
     {
-        SaveGame();
     }
     //Method to get all the save games loaded into a dictionary.
     public Dictionary<string, GameData> GetAllSaveGames()
