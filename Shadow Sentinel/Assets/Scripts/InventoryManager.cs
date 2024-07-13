@@ -5,6 +5,10 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     [Header("Inventory UI")]
     [SerializeField] public GameObject inventoryMenu;
@@ -25,7 +29,10 @@ public class InventoryManager : MonoBehaviour
             ToggleInventory();
         }
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     }
 
     public void ToggleInventory()
@@ -52,6 +59,10 @@ public class InventoryManager : MonoBehaviour
 
     public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
     {
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
     }
 }
