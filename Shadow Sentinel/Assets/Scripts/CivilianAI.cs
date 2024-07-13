@@ -18,7 +18,7 @@ public class CivilianAI : MonoBehaviour, IDamage
     [SerializeField] float fleeDistance = 20f;
 
     //bool isRunning;
-    bool isDead;
+    //bool isDead;
     bool destChosen;
     
 
@@ -115,7 +115,7 @@ public class CivilianAI : MonoBehaviour, IDamage
 
     public void takeDamage(int amount)
     {
-        isDead = true;
+        //isDead = true;
         StopAllCoroutines();
         StartCoroutine(FlashDamage());
         AlertEnemies();

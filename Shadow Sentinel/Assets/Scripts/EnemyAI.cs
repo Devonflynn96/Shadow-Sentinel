@@ -122,11 +122,8 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         {
             
 
-            if (hasBeenSeen)
-            {
-                GameManager.instance.RemoveSeen();
-                hasBeenSeen = false;
-            }
+           
+
             StartCoroutine(Roam());
 
             if (patrolPoints.Length > 0)
@@ -217,6 +214,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         }
     }
 
+
     bool canSeePlayer()
     {
         playerDir = GameManager.instance.player.transform.position - headPos.position;
@@ -250,6 +248,12 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 
                 return true;
             }
+        }
+
+        if (hasBeenSeen)
+        {
+            GameManager.instance.RemoveSeen();
+            hasBeenSeen = false;
         }
 
         agent.stoppingDistance = 0;
