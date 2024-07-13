@@ -5,49 +5,53 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-    public static InventoryManager instance;
 
     [Header("Inventory UI")]
-    [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private Transform inventoryContent;
-    [SerializeField] private GameObject inventoryItemPrefab;
+    [SerializeField] public GameObject inventoryMenu;
 
-    private List<gunStats> inventory = new List<gunStats>();
+    private bool menuActivated;
 
-    void Awake()
+    private GameManager gameManager;
+
+    void Start()
     {
-        instance = this;
+        gameManager = GetComponent<GameManager>();
     }
 
-    public void AddToInventory(gunStats gun)
+    void Update()
     {
-        inventory.Add(gun);
-        UpdateInventoryUI();
-    }
-
-    public void RemoveFromInventory(gunStats gun)
-    {
-        inventory.Remove(gun);
-        UpdateInventoryUI();
-    }
-
-    private void UpdateInventoryUI()
-    {
-        foreach (Transform child in inventoryContent)
+        if (Input.GetButtonDown("Inventory"))
         {
-            Destroy(child.gameObject);
+            ToggleInventory();
         }
 
-        foreach (var item in inventory)
-        {
-            GameObject obj = Instantiate(inventoryItemPrefab, inventoryContent);
-            obj.GetComponentInChildren<TMP_Text>().text = item.name;
-            // Optionally set up other UI elements like icon or stats
-        }
+
     }
 
     public void ToggleInventory()
     {
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+        menuActivated = !menuActivated;
+        inventoryMenu.SetActive(menuActivated);
+
+        if (menuActivated)
+        {
+            if (gameManager != null)
+            {
+                gameManager.statePause();
+            }
+        }
+        else
+        {
+            if (gameManager != null)
+            {
+                gameManager.stateUnpause();
+            }
+
+        }
+    }
+
+    public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
+    {
+        
     }
 }

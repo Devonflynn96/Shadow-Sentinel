@@ -316,7 +316,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     public void OnPlayerShoot(Vector3 shootPosition)
     {
         float distanceToShoot = Vector3.Distance(transform.position, shootPosition);
-        if (distanceToShoot <= hearingRange)
+        if (distanceToShoot <= hearingRange && !GameManager.instance.playerScript.gunSilenced)
         {
             Debug.Log("Enemy heard a sound and is moving towards it! (shoot)");
             agent.stoppingDistance = stoppingDistOrig;
@@ -329,7 +329,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     public void OnHearSound(Vector3 soundPosition)
     {
         float distanceToSound = Vector3.Distance(transform.position, soundPosition);
-        if (distanceToSound <= hearingRange)
+        if (distanceToSound <= hearingRange && !GameManager.instance.playerScript.gunSilenced)
         {
             Debug.Log("Enemy heard a sound and is moving towards it!");
             // React to the sound (e.g., move towards it, become alert, etc.)
