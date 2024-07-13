@@ -5,10 +5,6 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-<<<<<<< HEAD
-=======
-   
->>>>>>> parent of e097c95 (Merge branch 'main' of https://github.com/Devonflynn96/Shadow-Sentinel)
 
     [Header("Inventory UI")]
     [SerializeField] public GameObject inventoryMenu;
@@ -28,12 +24,8 @@ public class InventoryManager : MonoBehaviour
         {
             ToggleInventory();
         }
-      
 
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of e097c95 (Merge branch 'main' of https://github.com/Devonflynn96/Shadow-Sentinel)
     }
 
     public void ToggleInventory()
@@ -60,10 +52,6 @@ public class InventoryManager : MonoBehaviour
 
     public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
     {
-<<<<<<< HEAD
         
-=======
-       
->>>>>>> parent of e097c95 (Merge branch 'main' of https://github.com/Devonflynn96/Shadow-Sentinel)
     }
 }

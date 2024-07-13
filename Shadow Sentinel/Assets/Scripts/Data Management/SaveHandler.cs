@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +31,7 @@ public class SaveHandler
     }
 
     //Load method, reads serialized data from a file and deserializes it
-    public GameData Load(string saveFolder)
+    public GameData Load(string saveFileName)
     {
         // create a string called fullPath that combines the saveDirectoryPath,
         // SaveFolder, and saveFileName, using Path.Combine as it accomodates
@@ -76,7 +77,7 @@ public class SaveHandler
         return loadedData;
     }
     //Save method, saves data to a file and serializes it
-    public void Save(GameData data, string saveFolder)
+    public void Save(GameData data, string saveFileName)
     {
         // Create a path using Path.Combine to accomodate all OS's
         string fullPath = Path.Combine(saveDirectoryPath, saveFolder, saveFileName);
@@ -141,6 +142,25 @@ public class SaveHandler
             }
         }
         return savedGames;
+    }
+
+    public string LoadLastModified()
+    {
+        DateTime newest = DateTime.MinValue;
+        string newestFile = "";
+        DirectoryInfo dirInfo = new DirectoryInfo(Path.Combine(saveDirectoryPath, saveFolder));
+        foreach (FileInfo file in dirInfo.GetFiles())
+        {
+            DateTime dt = file.LastWriteTime;
+            if(dt > newest)
+            {
+                newest = dt;
+                newestFile = file.FullName;
+            }
+
+        }
+        Debug.Log(newestFile);
+        return newestFile;
     }
 
 
