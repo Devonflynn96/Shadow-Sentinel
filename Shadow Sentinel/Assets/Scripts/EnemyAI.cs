@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 {
@@ -36,7 +37,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     [SerializeField] Transform[] patrolPoints;  // Patrol waypoints
 
     bool isShooting;
-    
+    bool isDead;
     bool playerInRange;
     bool destChosen;
 
@@ -286,11 +287,14 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 
         if (HP <= 0)
         {
+            isDead = true;
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
             if (this.CompareTag("Target"))
             {
+
                 GameManager.instance.gameGoalUpdate(-1);
+                SaveDataManager.Instance.SaveGame("Autosave.Save");
             }
             Destroy(gameObject);
         }
@@ -325,7 +329,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     public void OnHearSound(Vector3 soundPosition)
     {
         float distanceToSound = Vector3.Distance(transform.position, soundPosition);
-        if (distanceToSound <= hearingRange)
+        if (distanceToSound <= hearingRange && GameManager.instance.playerScript.gunSilenced)
         {
             Debug.Log("Enemy heard a sound and is moving towards it!");
             // React to the sound (e.g., move towards it, become alert, etc.)
@@ -364,11 +368,39 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 
     public void LoadData(GameData data)
     {
-
+        if (data.livingEnemies.Count > 0)
+        {
+            data.livingEnemies.TryGetValue(id, out isDead);
+            if (!isDead)
+            {
+                this.transform.rotation = data.enemyRots.GetValueOrDefault(id);
+                this.transform.position = data.enemyLocations.GetValueOrDefault(id);
+            }
+        }
     }
 
     public void SaveData(ref GameData data)
     {
-
+        if (SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            if (data.livingEnemies.ContainsKey(id))
+            {
+                data.livingEnemies.Remove(id);
+            }
+            data.livingEnemies.Add(id, isDead);
+            if (!isDead)
+            {
+                if (data.enemyLocations.ContainsKey(id))
+                {
+                    data.enemyLocations.Remove(id);
+                }
+                data.enemyLocations.Add(id, this.transform.position);
+                if (data.enemyRots.ContainsKey(id))
+                {
+                    data.enemyRots.Remove(id);
+                }
+                data.enemyRots.Add(id, this.transform.rotation);
+            }
+        }
     }
 }

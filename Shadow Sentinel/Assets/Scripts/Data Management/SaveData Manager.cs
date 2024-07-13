@@ -9,6 +9,7 @@ public class SaveDataManager : MonoBehaviour
     [Header("File Configuration")]
     [SerializeField] private string fileName;
     [SerializeField] private bool Encrypt;
+    public string last;
 
     //GameData object to save data to/load from
     //and list of objects that save/load data
@@ -17,8 +18,10 @@ public class SaveDataManager : MonoBehaviour
 
     private SaveHandler saveHandler;
 
-    private string selectedSaveName = "";
+    //private string selectedSaveName = "";
     public static SaveDataManager Instance;
+
+    [SerializeField] float savingTextTime;
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class SaveDataManager : MonoBehaviour
         //To ensure Save manager persists through all scenes
         DontDestroyOnLoad(gameObject);
         this.saveHandler = new SaveHandler(Application.persistentDataPath, fileName, Encrypt);
+        GetLastModified();
     }
 
     //New game method. Sets data to a new save data.
@@ -41,10 +45,10 @@ public class SaveDataManager : MonoBehaviour
         this.gameData = new GameData();
     }
     //Load game method, checks to see if the data selected exists and loads it if so.
-    public void LoadGame()
+    public void LoadGame(string saveFileName = "Default.Save")
     {
         //loads data using the save handler
-        this.gameData = saveHandler.Load(selectedSaveName);
+        this.gameData = saveHandler.Load(saveFileName);
 
         //Check to see if data exists and return if not
         if (this.gameData == null)
@@ -57,23 +61,26 @@ public class SaveDataManager : MonoBehaviour
         }
     }
     //Save Game method, loops through the project, saving all flagged information.
-    public void SaveGame()
+    public void SaveGame(string saveFileName = "Default.Save")
     {
         //If no gameData selected.
         if (this.gameData == null)
             return;
-        //Loops through list of dataSaving objects and captures data to save, saving it to a file.
-        foreach (ISaveData dataSavingObject in  dataSavingObjects)
-        {
-            dataSavingObject.SaveData(ref gameData);
-        }    
-        //Calls saveHandler to save the data with the fileName
-        saveHandler.Save(gameData, selectedSaveName);
+
+            //Loops through list of dataSaving objects and captures data to save, saving it to a file.
+            foreach (ISaveData dataSavingObject in dataSavingObjects)
+            {
+                dataSavingObject.SaveData(ref gameData);
+            }
+
+            //Calls saveHandler to save the data with the fileName
+            saveHandler.Save(gameData, saveFileName);
+        
     }
     //Use OnApplicationQuit to save the game if left by clicking quit.
     private void OnApplicationQuit()
     {
-        SaveGame(); 
+        SaveGame("Autosave.Save"); 
     }
 
     private List<ISaveData> FindAllDataSavingObjects()
@@ -107,11 +114,15 @@ public class SaveDataManager : MonoBehaviour
     //Use OnSceneUnloaded to save the game when unloaded
     public void OnSceneUnloaded(Scene scene)
     {
-        SaveGame();
     }
     //Method to get all the save games loaded into a dictionary.
     public Dictionary<string, GameData> GetAllSaveGames()
     {
         return saveHandler.LoadAllSaves();
+    }
+
+    public string GetLastModified()
+    {
+        return  last = saveHandler.LoadLastModified();
     }
 }

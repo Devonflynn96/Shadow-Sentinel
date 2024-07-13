@@ -195,6 +195,10 @@ public class GameManager : MonoBehaviour
         invisStatusText.text = text;
     }
 
+
+
+
+
     public void AddScore(int value)
     {
         score += value;
@@ -205,8 +209,6 @@ public class GameManager : MonoBehaviour
     {
         scoreCountTxt.text = "Coins: " + score.ToString();
     }
-
- 
 
     public void ToggleShopMenu()
     {
