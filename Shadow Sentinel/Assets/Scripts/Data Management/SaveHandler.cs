@@ -22,6 +22,12 @@ public class SaveHandler
         this.saveDirectoryPath = saveDirectoryPath;
         this.saveFileName = saveFileName;
         this.useEncryption = useEncryption;
+
+        string fullPath = Path.Combine(this.saveDirectoryPath, this.saveFolder);
+        if (!Directory.Exists(fullPath))
+        {
+            Directory.CreateDirectory(fullPath);
+        }
     }
 
     //Load method, reads serialized data from a file and deserializes it
