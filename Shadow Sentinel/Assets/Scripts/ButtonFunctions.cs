@@ -23,4 +23,18 @@ public class ButtonFunctions : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void nextLevel()
+    {
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+            GameManager.instance.stateUnpause();
+        }
+        else
+        {
+            Debug.LogWarning("No next level found.");
+            SceneManager.LoadScene(0);
+        }
+    }
 }

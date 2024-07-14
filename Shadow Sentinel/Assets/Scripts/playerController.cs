@@ -255,6 +255,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         }
 
         updatePlayerUI();
+
         if (Hp <= 0)
         {
             GameManager.instance.youLose();
@@ -282,15 +283,21 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     void updatePlayerUI()
     {
-            GameManager.instance.playerHPBar.fillAmount = (float)Hp / HPOrig;
+        float targetFillAmount = (float)Hp / HPOrig;
+        float smoothFillSpeed = 5f;
+
+        GameManager.instance.playerHPBar.fillAmount = Mathf.Lerp(GameManager.instance.playerHPBar.fillAmount, targetFillAmount, Time.deltaTime * smoothFillSpeed);
+
         if (gunList.Count > 0)
         {
             GameManager.instance.currentMagCount(gunList[selectedGun].ammoCur);
             GameManager.instance.MagCap(gunList[selectedGun].ammoMax);
         }
-        GameManager.instance.invisCooldownBar.fillAmount = invisRecharge / invisCD;
+
+        GameManager.instance.invisCooldownBar.fillAmount = Mathf.Lerp(GameManager.instance.invisCooldownBar.fillAmount, invisRecharge / invisCD, Time.deltaTime * smoothFillSpeed);
+
         if (!isInvisible && invisRecharge == invisCD)
-          { 
+        {
             GameManager.instance.activateAbilityTxt.SetActive(true);
             GameManager.instance.SetInvisText("Ready!");
         }

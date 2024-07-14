@@ -34,16 +34,21 @@ public class PickUp : MonoBehaviour
     {
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
         {
-            PickUpGun();
+            if (this.CompareTag("Gun"))
+            {
+                PickUpGun();
+            }
         }
     }
 
     void PickUpGun()
     {
         gun.ammoCur = gun.ammoMax;
-        
+        InventoryManager.instance.AddToInventory(gun);
         GameManager.instance.playerScript.GetGunStats(gun);
         GameManager.instance.pickUpMessage.SetActive(false); // Hide the "Press E" message
         Destroy(gameObject);
     }
+
+
 }
