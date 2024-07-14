@@ -5,10 +5,7 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 
     [Header("Inventory UI")]
     [SerializeField] public GameObject inventoryMenu;
@@ -29,40 +26,32 @@ public class InventoryManager : MonoBehaviour
             ToggleInventory();
         }
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     }
 
     public void ToggleInventory()
     {
-        menuActivated = !menuActivated;
-        inventoryMenu.SetActive(menuActivated);
+            menuActivated = !menuActivated;
+            inventoryMenu.SetActive(menuActivated);
 
-        if (menuActivated)
-        {
-            if (gameManager != null)
+            if (menuActivated)
             {
-                gameManager.statePause();
+                if (gameManager != null)
+                {
+                    gameManager.statePause();
+                }
             }
-        }
-        else
-        {
-            if (gameManager != null)
+            else
             {
-                gameManager.stateUnpause();
-            }
+                if (gameManager != null)
+                {
+                    gameManager.stateUnpause();
+                }
 
-        }
+            }
     }
 
     public void addItem(string itemName, int quantity, MeshRenderer itemMesh)
     {
-<<<<<<< Updated upstream
-        
-=======
 
->>>>>>> Stashed changes
     }
 }
