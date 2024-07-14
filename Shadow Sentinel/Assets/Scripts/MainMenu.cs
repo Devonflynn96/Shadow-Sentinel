@@ -17,11 +17,18 @@ public class MainMenu : MonoBehaviour
 
     public void ContinueGame()
     {
-        SaveDataManager.Instance.LoadGame(SaveDataManager.Instance.last);
-        //this function should be something along the lines of
-        //if a save profile is present then display the continue button 
-        //and load the saved profile
-        //but the button will only be present if a save profile is present
+        string lastModifiedSave = SaveDataManager.Instance.GetLastModified();
+
+        if (!string.IsNullOrEmpty(lastModifiedSave))
+        {
+            SaveDataManager.Instance.LoadGame(lastModifiedSave);
+            SceneManager.LoadScene(1); // Load the saved scene
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            Debug.LogWarning("No save file found.");
+        }
     }
     public void LoadCredits()
     {
