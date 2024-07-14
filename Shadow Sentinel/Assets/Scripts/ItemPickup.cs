@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUp : MonoBehaviour
+public class ItemPickup : MonoBehaviour
 {
-    [SerializeField] gunStats gun;
+    [SerializeField] KeyStats key;
     private bool isPlayerNearby;
 
     void Start()
@@ -34,21 +34,17 @@ public class PickUp : MonoBehaviour
     {
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
         {
-            if (this.CompareTag("Gun"))
+            if (this.CompareTag("Key"))
             {
-                PickUpGun();
+                PickUpKey();
             }
         }
     }
 
-    void PickUpGun()
+    void PickUpKey()
     {
-        gun.ammoCur = gun.ammoMax;
-        InventoryManager.instance.AddToInventory(gun);
-        GameManager.instance.playerScript.GetGunStats(gun);
+        InventoryManager.instance.addKey(key);
         GameManager.instance.pickUpMessage.SetActive(false); // Hide the "Press E" message
         Destroy(gameObject);
     }
-
-
 }

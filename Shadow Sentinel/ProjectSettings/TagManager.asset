@@ -9,6 +9,9 @@ TagManager:
   - Ceiling
   - EnemyCheck
   - Target
+  - Item
+  - Gun
+  - Key
   layers:
   - Default
   - TransparentFX

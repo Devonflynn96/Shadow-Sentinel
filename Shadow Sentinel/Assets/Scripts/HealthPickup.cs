@@ -18,21 +18,11 @@ public class HealthPickup : MonoBehaviour
           healthMax = GameManager.instance.playerScript.GetHPMax();
           healthCurrent = GameManager.instance.playerScript.GetHPCurrent();
 
-            if(healthCurrent < healthMax)
+            if (healthCurrent < healthMax)
             {
                 GameManager.instance.playerScript.AddHealth(healthToAdd);
-            }
-            else
-            {
-                InventoryManager inventoryManager = GameObject.Find("Inventory").GetComponent<InventoryManager>();
-                if(inventoryManager != null)
-                {
-                    inventoryManager.addItem(gameObject.name, 1, GetComponent<MeshRenderer>());
-                }
                 Destroy(gameObject);
             }
-     
-           
         }
     }
 

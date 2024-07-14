@@ -23,16 +23,16 @@ public class itemsInInventory : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            if (inventoryManager != null)
-            {
-                inventoryManager.addItem(itemName, quantity, image);
-                Destroy(gameObject);
-            }
-        }
-    }
+    //// Update is called once per frame
+    //void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        if (inventoryManager != null)
+    //        {
+    //            inventoryManager.addItem(itemName, quantity, image);
+    //            Destroy(gameObject);
+    //        }
+    //    }
+    //}
 }
