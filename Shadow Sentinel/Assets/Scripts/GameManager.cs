@@ -100,10 +100,20 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            ToggleShopMenu();
+            if (menuActive == null)
+            {
+                ToggleShopMenu();
+                menuActive = menuShop;
+            }
+            else if (menuActive == menuShop)
+            {
+                stateUnpause();
+            }
+
+
         }
 
-        
+
 
 
     }
