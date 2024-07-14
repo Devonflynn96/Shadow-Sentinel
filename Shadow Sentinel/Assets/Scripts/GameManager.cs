@@ -115,7 +115,6 @@ public class GameManager : MonoBehaviour
 
 
 
-
     }
     //functions for pause states
     public void statePause()
@@ -132,8 +131,12 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        menuActive.SetActive(isPaused);
-        menuActive = null;
+
+        if (menuActive != null)
+        {
+            menuActive.SetActive(isPaused);
+            menuActive = null;
+        }
     }
 
     // ***** Game Goal reporting, to be completed once game goal is finalized *****
@@ -217,7 +220,7 @@ public class GameManager : MonoBehaviour
         UpdateCoinScoreText();
     }
 
-    private void UpdateCoinScoreText()
+    public void UpdateCoinScoreText()
     {
         scoreCountTxt.text = "Coins: " + score.ToString();
     }
@@ -226,7 +229,15 @@ public class GameManager : MonoBehaviour
     {
         bool isActive = menuShop.activeSelf;
         menuShop.SetActive(!isActive);
-        statePause();
+        if(isActive)
+        {
+            stateUnpause();
+        }
+        else
+        {
+            statePause();
+        }
+        
     }
 
     public bool SpendMoney(int amount)
@@ -234,6 +245,7 @@ public class GameManager : MonoBehaviour
         if (score >= amount)
         {
             score -= amount;
+            UpdateCoinScoreText();
             return true;
         }
         return false;

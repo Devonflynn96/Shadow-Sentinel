@@ -13,10 +13,11 @@ public class shop : MonoBehaviour
             Vector3 playerPosition = GameManager.instance.player.transform.position; // get player position
             Vector3 playerForward = GameManager.instance.player.transform.forward; // player foward direction
 
-            float distanceInFront = 1.0f; // distance in front of player
+            float distanceInFront = 2.0f; // distance in front of player
             Vector3 dropPosition = playerPosition + playerForward * distanceInFront; // drop postion in front of player
 
-            Instantiate(item.healthBox, playerPosition, Quaternion.identity); //drop at player position
+            Instantiate(item.healthBox, playerPosition, Quaternion.identity);//drop at player position
+            GameManager.instance.UpdateCoinScoreText();
             Debug.Log("Item purchased and dropped!");
         }
         else
