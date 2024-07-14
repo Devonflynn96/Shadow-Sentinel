@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(1); //this should be the first level
         SaveDataManager.Instance.NewGame();
+        Time.timeScale = 1f;
     }
 
     public void ContinueGame()
@@ -39,6 +40,7 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(6);
         yield return new WaitForSeconds(5f);
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 }
