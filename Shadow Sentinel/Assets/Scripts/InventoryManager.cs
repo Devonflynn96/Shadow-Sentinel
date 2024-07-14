@@ -84,18 +84,7 @@ public class InventoryManager : MonoBehaviour
 
     public bool CheckKey(KeyStats key)
     {
-        for (int i = 0; i < keyList.Count; i++)
-        {
-            if (keyList.Contains(key))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return false;
+        return keyList.Contains(key);
     }
 
     public void AddToInventory(gunStats gun)
