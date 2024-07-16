@@ -34,7 +34,8 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     [SerializeField] GameObject bullet;
 
     [SerializeField] float hearingRange;  // Added hearing range
-    [SerializeField] Transform[] patrolPoints;  // Patrol waypoints
+    [SerializeField] Transform[] patrolPoints; // Patrol waypoints
+    [SerializeField] GameObject coinPrefab;
 
     bool isShooting;
     bool isDead;
@@ -296,6 +297,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
                 GameManager.instance.gameGoalUpdate(-1);
                 SaveDataManager.Instance.SaveGame("Autosave.Save");
             }
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
