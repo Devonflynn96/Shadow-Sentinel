@@ -6,5 +6,6 @@ public class itemsInShop : MonoBehaviour
 {
     public int cost;
     public GameObject healthBox;
+    public GameObject invisibility;
 
 }
