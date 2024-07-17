@@ -10,6 +10,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     [Header("------ Components --------")]
     [SerializeField] CharacterController controller;
     [SerializeField] AudioSource aud;
+    [SerializeField] Headbobber headbobber;
 
     [Header("------ Stats --------")]
     [SerializeField] int Hp;
@@ -143,6 +144,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
             jumpCount++;
             playerVel.y = jumpSpeed;
+
+            
         }
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
@@ -150,7 +153,11 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         if (controller.isGrounded && moveDir.magnitude > 0.3f && !isPlayingSteps)
         {
             StartCoroutine(playSteps());
+
+            
         }
+
+        headbobber.UpdateHeadbob(moveDir, isSprinting, isCrouching);
     }
     void sprint()
     {
