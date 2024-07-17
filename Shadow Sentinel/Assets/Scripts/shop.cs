@@ -17,6 +17,7 @@ public class shop : MonoBehaviour
             Vector3 dropPosition = playerPosition + playerForward * distanceInFront; // drop postion in front of player
 
             Instantiate(item.healthBox, playerPosition, Quaternion.identity); //drop at player position
+            Instantiate(item.invisibility, playerPosition, Quaternion.identity);
             Debug.Log("Item purchased and dropped!");
         }
         else
