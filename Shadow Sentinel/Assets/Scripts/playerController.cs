@@ -22,6 +22,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     [SerializeField] float invisDuration;
     [SerializeField] float invisCD;
     [SerializeField] float invisRecharge;
+    [SerializeField] float savingThrowTime;
 
     [Header("------ Guns --------")]
     [SerializeField] public List<gunStats> gunList = new List<gunStats>();
@@ -55,6 +56,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     bool isCrouching;
     public bool isInvisible;
     bool isReloading;
+    bool isSaved;
 
     int HPOrig;
     int jumpCount;
@@ -68,6 +70,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     {
         HPOrig = Hp;
         updatePlayerUI();
+        isSaved = false;
         // Added calls to the MagCap and currentMagCount methods to update UI. ** Removed from start and moved to updatePlayerUI.
     }
 
@@ -178,6 +181,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         isPlayingSteps = false;
     }
 
+    IEnumerator savingThrowTimer()
+    {
+        isSaved = true;
+        yield return new WaitForSeconds(savingThrowTime);
+        isSaved = false;
+    }
+
     void crouch()
     {
         if (Input.GetButtonDown("Crouch"))
@@ -256,7 +266,12 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
         updatePlayerUI();
 
-        if (Hp <= 0)
+        if (Hp <= 0 && isSaved == false)
+        {
+            StartCoroutine(savingThrowTimer());
+            Hp = 1;
+        }
+        else if (Hp <= 0 && isSaved == true)
         {
             GameManager.instance.youLose();
         }
