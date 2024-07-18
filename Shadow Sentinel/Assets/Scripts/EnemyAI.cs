@@ -96,54 +96,56 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     // Update is called once per frame
     void Update()
     {
-        
 
-        //isCrouched bool is set to the isCrouched bool variable in playerScript. -Devon
-        isCrouched = GameManager.instance.playerScript.GetCrouch();
-
-        //These if statements will change the size of the enemy FOV depending on the state of the isCrouched bool. -Devon
-        if (isCrouched)
+        if (!isDead)
         {
-            viewAngle = 30;
-        }
+            //isCrouched bool is set to the isCrouched bool variable in playerScript. -Devon
+            isCrouched = GameManager.instance.playerScript.GetCrouch();
 
-        if (!isCrouched)
-        {
-            viewAngle = 100;
-        }
-
-
-        float agentSpeed = agent.velocity.normalized.magnitude;
-
-        anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), agentSpeed, Time.deltaTime * animTranSpeed));
-
-        //Checks to see if the player is seen. If player is seen, enemy will move towards player and start shooting. -Devon
-        bool playerVisible = playerInRange && canSeePlayer();
-
-        if (playerVisible)
-        {
-            
-
-           
-
-            StartCoroutine(Roam());
-
-            if (patrolPoints.Length > 0)
+            //These if statements will change the size of the enemy FOV depending on the state of the isCrouched bool. -Devon
+            if (isCrouched)
             {
-                StartCoroutine(Patrol());
+                viewAngle = 30;
             }
-        }
-        else if (!playerInRange)
-        {
-            StartCoroutine(Roam());
 
-            if (patrolPoints.Length > 0)
+            if (!isCrouched)
             {
-                StartCoroutine(Patrol());
+                viewAngle = 100;
             }
-           
+
+
+            float agentSpeed = agent.velocity.normalized.magnitude;
+
+            anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), agentSpeed, Time.deltaTime * animTranSpeed));
+
+            //Checks to see if the player is seen. If player is seen, enemy will move towards player and start shooting. -Devon
+            bool playerVisible = playerInRange && canSeePlayer();
+
+            if (playerVisible)
+            {
+
+
+
+
+                StartCoroutine(Roam());
+
+                if (patrolPoints.Length > 0)
+                {
+                    StartCoroutine(Patrol());
+                }
+            }
+            else if (!playerInRange)
+            {
+                StartCoroutine(Roam());
+
+                if (patrolPoints.Length > 0)
+                {
+                    StartCoroutine(Patrol());
+                }
+
+            }
+            agent.stoppingDistance = playerVisible ? stoppingDistOrig : 0;
         }
-        agent.stoppingDistance = playerVisible ? stoppingDistOrig : 0;
     }
 
     IEnumerator Patrol()
@@ -229,7 +231,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         if (Physics.Raycast(headPos.position, playerDir, out hit))
         {
             //can see the player!
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= viewAngle && !GameManager.instance.playerScript.isInvisible)
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= viewAngle && !GameManager.instance.playerScript.isInvisible && !isDead)
             {
                 if (!hasBeenSeen)
                 {
@@ -244,7 +246,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
                     faceTarget();
                 }
 
-                if (!isShooting && angleToPlayer <= shootAngle)
+                if (!isShooting && angleToPlayer <= shootAngle && !isDead)
                     StartCoroutine(shoot());
 
 
@@ -286,20 +288,66 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         agent.SetDestination(GameManager.instance.player.transform.position);
         StartCoroutine(flashDamage());
 
-        if (HP <= 0)
+        if (HP <= 0 && !isDead)
         {
             isDead = true;
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
-            if (this.CompareTag("Target"))
-            {
 
-                GameManager.instance.gameGoalUpdate(-1);
-                SaveDataManager.Instance.SaveGame("Autosave.Save");
+
+            if (agent != null)
+            {
+                agent.isStopped = true;
             }
-            Instantiate(coinPrefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+
+            if (anim != null)
+            {
+                anim.SetTrigger("Die");
+               StartCoroutine(WaitForAnimation());
+
+            }
+            else
+            {
+                // If no animation, destroy immediately
+                DestroyEnemy();
+            }
+
         }
+    }
+    IEnumerator WaitForAnimation()
+    {
+        // Wait for the end of the frame to ensure anim is updated
+        yield return new WaitForEndOfFrame();
+
+
+        yield return new WaitForSeconds(3f);
+
+        // Now the animation is finished or the wait time is over, destroy the enemy
+        DestroyEnemy();
+    }
+
+
+    void DestroyEnemy()
+    {
+        // Disable components or behaviors that are no longer needed
+        if (agent != null)
+        {
+            agent.enabled = false;
+        }
+        if (this.CompareTag("Target"))
+        {
+            GameManager.instance.gameGoalUpdate(-1);
+            SaveDataManager.Instance.SaveGame("Autosave.Save");
+        }
+
+        // Instantiate a coin or any other reward
+        if (coinPrefab != null)
+        {
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
+
+        // Destroy the enemy object
+        Destroy(gameObject);
     }
     IEnumerator flashDamage()
     {
