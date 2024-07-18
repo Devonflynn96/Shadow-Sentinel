@@ -12,11 +12,12 @@ TagManager:
   - Item
   - Gun
   - Key
+  - Pickup
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Icons
   - Water
   - UI
   - Player
