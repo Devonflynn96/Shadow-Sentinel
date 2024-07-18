@@ -14,6 +14,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Transform inventoryContent;
     [SerializeField] private GameObject inventoryItemPrefab;
 
+    [SerializeField] private Vector3 inventoryItemOffset;
+
     private bool menuActivated;
 
     private GameManager gameManager;
@@ -74,6 +76,11 @@ public class InventoryManager : MonoBehaviour
             GameObject obj = Instantiate(inventoryItemPrefab, inventoryContent);
             obj.GetComponentInChildren<TMP_Text>().text = item.name;
             // Optionally set up other UI elements like icon or stats
+        }
+        foreach (var item in keyList)
+        {
+            GameObject obj = Instantiate(inventoryItemPrefab, inventoryContent);
+            obj.GetComponentInChildren<TMP_Text>().text = item.name;
         }
         if (hasInvisibility)
         {
