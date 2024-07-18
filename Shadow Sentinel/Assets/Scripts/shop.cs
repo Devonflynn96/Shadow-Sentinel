@@ -16,14 +16,11 @@ public class shop : MonoBehaviour
             float distanceInFront = 1.0f; // distance in front of player
             Vector3 dropPosition = playerPosition + playerForward * distanceInFront; // drop postion in front of player
 
-            Instantiate(item.healthBox, playerPosition, Quaternion.identity); //drop at player position
-            Instantiate(item.invisibility, playerPosition, Quaternion.identity);
+            Instantiate(item.item, playerPosition, Quaternion.identity); //drop at player position
+            
             Debug.Log("Item purchased and dropped!");
 
-            if (item.invisibility != null)
-            {
-                InventoryManager.instance.addInvisibility();
-            }
+           
         }
         else
         {

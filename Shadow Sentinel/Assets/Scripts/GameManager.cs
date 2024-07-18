@@ -234,6 +234,7 @@ public class GameManager : MonoBehaviour
         if (score >= amount)
         {
             score -= amount;
+            UpdateCoinScoreText();
             return true;
         }
         return false;

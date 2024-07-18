@@ -5,7 +5,7 @@ using UnityEngine;
 public class itemsInShop : MonoBehaviour
 {
     public int cost;
-    public GameObject healthBox;
-    public GameObject invisibility;
+    public GameObject item;
+    
 
 }
