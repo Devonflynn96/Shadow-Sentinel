@@ -19,6 +19,11 @@ public class shop : MonoBehaviour
             Instantiate(item.healthBox, playerPosition, Quaternion.identity); //drop at player position
             Instantiate(item.invisibility, playerPosition, Quaternion.identity);
             Debug.Log("Item purchased and dropped!");
+
+            if (item.invisibility != null)
+            {
+                InventoryManager.instance.addInvisibility();
+            }
         }
         else
         {

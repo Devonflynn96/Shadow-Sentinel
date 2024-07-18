@@ -20,6 +20,7 @@ public class InventoryManager : MonoBehaviour
 
     private List<gunStats> gunList = new List<gunStats>();
     private List<KeyStats> keyList = new List<KeyStats>();
+    private bool hasInvisibility = false;
 
     void Awake()
     {
@@ -74,6 +75,11 @@ public class InventoryManager : MonoBehaviour
             obj.GetComponentInChildren<TMP_Text>().text = item.name;
             // Optionally set up other UI elements like icon or stats
         }
+        if (hasInvisibility)
+        {
+            GameObject invisibilityObj = Instantiate(inventoryItemPrefab, inventoryContent);
+            invisibilityObj.GetComponentInChildren<TMP_Text>().text = "Invisibility";
+        }
     }
 
     public void addKey(KeyStats key)
@@ -99,5 +105,15 @@ public class InventoryManager : MonoBehaviour
         UpdateInventoryUI();
     }
 
+    public void addInvisibility()
+    {
+        hasInvisibility = true;
+        UpdateInventoryUI();
+    }
 
+    public void dropInvisibilty()
+    {
+        hasInvisibility = false;
+        UpdateInventoryUI();
+    }
 }
