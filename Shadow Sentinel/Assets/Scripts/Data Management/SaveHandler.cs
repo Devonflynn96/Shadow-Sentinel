@@ -159,6 +159,10 @@ public class SaveHandler
             }
 
         }
+        if(newest ==  DateTime.MinValue)
+        {
+            return null;
+        }
         Debug.Log(newestFile);
         return newestFile;
     }

@@ -431,7 +431,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
 
     public void SaveData(ref GameData data)
     {
-        if (SceneManager.GetActiveScene().buildIndex > 0)
+        if (SceneManager.GetActiveScene().buildIndex > 0 && this != null)
         {
             if (data.livingEnemies.ContainsKey(id))
             {

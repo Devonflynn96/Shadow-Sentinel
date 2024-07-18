@@ -7,7 +7,16 @@ public class MainMenu : MonoBehaviour
 {
 
     public static int currLvl;
-   
+    [SerializeField] GameObject continueButton;
+    public void Start()
+    {
+        string lastSave = SaveDataManager.Instance.GetLastModified();
+        if(!string.IsNullOrEmpty(lastSave) )
+        {
+            continueButton.SetActive(true);
+        }
+    }
+
     public void NewGame()
     {
         SceneManager.LoadScene(1); //this should be the first level

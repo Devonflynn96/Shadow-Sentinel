@@ -114,6 +114,7 @@ public class SaveDataManager : MonoBehaviour
     //Use OnSceneUnloaded to save the game when unloaded
     public void OnSceneUnloaded(Scene scene)
     {
+        SaveGame();
     }
     //Method to get all the save games loaded into a dictionary.
     public Dictionary<string, GameData> GetAllSaveGames()

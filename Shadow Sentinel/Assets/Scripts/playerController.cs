@@ -427,7 +427,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     public void SaveData (ref GameData data)
     {
-        if (SceneManager.GetActiveScene().buildIndex > 0)
+        if (SceneManager.GetActiveScene().buildIndex > 0 && this != null)
         {
             data.playerPos = this.transform.position;
             data.playerRot = this.transform.rotation;
