@@ -22,6 +22,8 @@ public class MiniMapController : MonoBehaviour
         // Initialize mini-map icons for enemies
         InitializeIcons("Enemy", enemyIconPrefab);
 
+        InitializeIcons("Target", enemyIconPrefab);
+
         // Initialize mini-map icons for pickups
         InitializeIcons("Pickup", pickupIconPrefab);
 

@@ -288,18 +288,13 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         agent.SetDestination(GameManager.instance.player.transform.position);
         StartCoroutine(flashDamage());
 
-        if (HP <= 0 && !isDead)
+        if (HP <= 0)
         {
             isDead = true;
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
 
-            if (this.CompareTag("Target"))
-            {
 
-                GameManager.instance.gameGoalUpdate(-1);
-                SaveDataManager.Instance.SaveGame("Autosave.Save");
-            }
 
             if (agent != null)
             {
@@ -309,7 +304,8 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
             if (anim != null)
             {
                 anim.SetTrigger("Die");
-               StartCoroutine(WaitForAnimation());
+                StartCoroutine(WaitForAnimation());
+
 
             }
             else
@@ -318,6 +314,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
                 DestroyEnemy();
             }
 
+
         }
     }
     IEnumerator WaitForAnimation()
@@ -325,8 +322,9 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         // Wait for the end of the frame to ensure anim is updated
         yield return new WaitForEndOfFrame();
 
+        
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         // Now the animation is finished or the wait time is over, destroy the enemy
         DestroyEnemy();
@@ -336,15 +334,20 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     void DestroyEnemy()
     {
         // Disable components or behaviors that are no longer needed
-        if (agent != null)
-        {
-            agent.enabled = false;
-        }
+
         if (this.CompareTag("Target"))
         {
             GameManager.instance.gameGoalUpdate(-1);
             SaveDataManager.Instance.SaveGame("Autosave.Save");
         }
+
+
+        if (agent != null)
+        {
+            agent.enabled = false;
+        }
+
+        
 
         // Instantiate a coin or any other reward
         if (coinPrefab != null)
