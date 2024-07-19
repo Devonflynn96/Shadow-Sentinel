@@ -294,6 +294,12 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
 
+            if (this.CompareTag("Target"))
+            {
+
+                GameManager.instance.gameGoalUpdate(-1);
+                SaveDataManager.Instance.SaveGame("Autosave.Save");
+            }
 
             if (agent != null)
             {
