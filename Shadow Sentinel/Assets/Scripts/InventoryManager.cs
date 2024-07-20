@@ -20,9 +20,9 @@ public class InventoryManager : MonoBehaviour
 
     private GameManager gameManager;
 
-    private List<gunStats> gunList = new List<gunStats>();
-    private List<KeyStats> keyList = new List<KeyStats>();
-    private bool hasInvisibility = false;
+    public List<gunStats> gunList = new List<gunStats>();
+    public List<KeyStats> keyList = new List<KeyStats>();
+    public bool hasInvisibility = false;
 
     void Awake()
     {

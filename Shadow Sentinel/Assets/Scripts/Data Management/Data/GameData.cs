@@ -9,6 +9,8 @@ public class GameData
     public Vector3 playerPos;
     public Quaternion playerRot;
     public List<gunStats> gunList;
+    public List<KeyStats> keyList;
+    public bool hasInvis;
     public int playerHP, playerBaseHP;
 
     public SerializableDict<string, bool> livingEnemies;

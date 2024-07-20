@@ -125,6 +125,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         updatePlayerUI();
     }
 
+    // ************ MOVEMENT ************
+
     void movement()
     {
 
@@ -217,6 +219,9 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         }
     }
 
+
+    // ************ WEAPON/SHOOTING INFO ************
+
     //Updated shoot method to do a reload needed check
     IEnumerator shoot()
     {
@@ -268,68 +273,6 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         else
             gunSilenced = false;
     }
-    public void takeDamage(int amount)
-    {
-        Hp -= amount;
-
-        if (!isPlayingHurt)
-        {
-            StartCoroutine(isHurtSoundPlaying());
-        }
-
-        updatePlayerUI();
-
-        if (Hp <= 0 && isSaved == false)
-        {
-            StartCoroutine(savingThrowTimer());
-            Hp = 1;
-        }
-        else if (Hp <= 0 && isSaved == true)
-        {
-            GameManager.instance.youLose();
-        }
-
-    }
-
-    public void AddHealth(int amount)
-    {
-        Hp += amount;
-        if (Hp > HPOrig)
-        {
-            Hp = HPOrig;
-        }
-        updatePlayerUI();
-    }
-
-    IEnumerator isHurtSoundPlaying()
-    {
-        isPlayingHurt = true;
-        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
-        yield return new WaitForSeconds(0.1f);
-        isPlayingHurt = false;
-    }
-
-    void updatePlayerUI()
-    {
-        float targetFillAmount = (float)Hp / HPOrig;
-        float smoothFillSpeed = 5f;
-
-        GameManager.instance.playerHPBar.fillAmount = Mathf.Lerp(GameManager.instance.playerHPBar.fillAmount, targetFillAmount, Time.deltaTime * smoothFillSpeed);
-
-        if (gunList.Count > 0)
-        {
-            GameManager.instance.currentMagCount(gunList[selectedGun].ammoCur);
-            GameManager.instance.MagCap(gunList[selectedGun].ammoMax);
-        }
-
-        GameManager.instance.invisCooldownBar.fillAmount = Mathf.Lerp(GameManager.instance.invisCooldownBar.fillAmount, invisRecharge / invisCD, Time.deltaTime * smoothFillSpeed);
-
-        if (!isInvisible && invisRecharge == invisCD)
-        {
-            GameManager.instance.activateAbilityTxt.SetActive(true);
-            GameManager.instance.SetInvisText("Ready!");
-        }
-    }
 
     public void GetGunStats(gunStats gun)
     {
@@ -377,12 +320,6 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     }
 
-    public bool GetCrouch()
-    {
-        return isCrouching;
-    }
-
-
     // Added reload method for when mag is empty.
     IEnumerator reload()
     {
@@ -394,8 +331,76 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         GameManager.instance.reloadingTxt.SetActive(false);
         updatePlayerUI();
         isReloading = false;
-        
     }
+
+    // ************ PLAYER HEALTH,DAMAGE MODIFIERS ************
+
+    public void takeDamage(int amount)
+    {
+        Hp -= amount;
+
+        if (!isPlayingHurt)
+        {
+            StartCoroutine(isHurtSoundPlaying());
+        }
+
+        updatePlayerUI();
+
+        if (Hp <= 0 && isSaved == false)
+        {
+            StartCoroutine(savingThrowTimer());
+            Hp = 1;
+        }
+        else if (Hp <= 0 && isSaved == true)
+        {
+            GameManager.instance.youLose();
+        }
+
+    }
+
+    public void AddHealth(int amount)
+    {
+        Hp += amount;
+        if (Hp > HPOrig)
+        {
+            Hp = HPOrig;
+        }
+        updatePlayerUI();
+    }
+
+    IEnumerator isHurtSoundPlaying()
+    {
+        isPlayingHurt = true;
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+        yield return new WaitForSeconds(0.1f);
+        isPlayingHurt = false;
+    }
+
+    // ************ PLAYER UI UPDATES ************
+
+    void updatePlayerUI()
+    {
+        float targetFillAmount = (float)Hp / HPOrig;
+        float smoothFillSpeed = 5f;
+
+        GameManager.instance.playerHPBar.fillAmount = Mathf.Lerp(GameManager.instance.playerHPBar.fillAmount, targetFillAmount, Time.deltaTime * smoothFillSpeed);
+
+        if (gunList.Count > 0)
+        {
+            GameManager.instance.currentMagCount(gunList[selectedGun].ammoCur);
+            GameManager.instance.MagCap(gunList[selectedGun].ammoMax);
+        }
+
+        GameManager.instance.invisCooldownBar.fillAmount = Mathf.Lerp(GameManager.instance.invisCooldownBar.fillAmount, invisRecharge / invisCD, Time.deltaTime * smoothFillSpeed);
+
+        if (!isInvisible && invisRecharge == invisCD)
+        {
+            GameManager.instance.activateAbilityTxt.SetActive(true);
+            GameManager.instance.SetInvisText("Ready!");
+        }
+    }
+
+    // ************ ABILITY FUNCTIONALITY ************
 
     //Added code to toggle isInvisible, allowing player to go invisible.
     IEnumerator goInvisible()
@@ -408,8 +413,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         invisRecharge = 0;
     }
 
-    
-   
+    // ************ PLAYER STATUS GETTERS ************
+
     public int GetHPMax()
     {
         return HPOrig;
@@ -420,7 +425,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         return Hp;
     }
 
-  public void LoadData(GameData data)
+    public bool GetCrouch()
+    {
+        return isCrouching;
+    }
+
+    // ************ SAVE MANAGEMENT ************
+    public void LoadData(GameData data)
     {
         if (data.playerHP >0 && SceneManager.GetActiveScene().buildIndex > 0)
         {
@@ -428,6 +439,9 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             this.transform.rotation = data.playerRot;
             this.Hp = data.playerHP;
             this.HPOrig = data.playerBaseHP;
+            InventoryManager.instance.gunList = data.gunList;
+            InventoryManager.instance.keyList = data.keyList;
+            InventoryManager.instance.hasInvisibility = data.hasInvis;
         }
     }
 
@@ -439,6 +453,9 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             data.playerRot = this.transform.rotation;
             data.playerHP = this.Hp;
             data.playerBaseHP = this.HPOrig;
+            data.gunList = InventoryManager.instance.gunList;
+            data.keyList = InventoryManager.instance.keyList;
+            data.hasInvis = InventoryManager.instance.hasInvisibility;
         }
     }
 }

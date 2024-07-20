@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveHandler
 {
@@ -36,7 +37,7 @@ public class SaveHandler
         // create a string called fullPath that combines the saveDirectoryPath,
         // SaveFolder, and saveFileName, using Path.Combine as it accomodates
         // different path separators.
-        string fullPath = Path.Combine(saveDirectoryPath, saveFolder, saveFileName);
+        string fullPath = Path.Combine(saveDirectoryPath, saveFolder, saveFileName + SceneManager.GetActiveScene().buildIndex);
         // Initialize a GameData object to null for now, 
         // will be set to a value if data exists
         GameData loadedData = null;
@@ -80,7 +81,7 @@ public class SaveHandler
     public void Save(GameData data, string saveFileName)
     {
         // Create a path using Path.Combine to accomodate all OS's
-        string fullPath = Path.Combine(saveDirectoryPath, saveFolder, saveFileName);
+        string fullPath = Path.Combine(saveDirectoryPath, saveFolder, saveFileName + SceneManager.GetActiveScene().buildIndex + ".Save");
         //Try-catch to write the data or report an error
         try
         {

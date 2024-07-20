@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 
     public static int currLvl;
     [SerializeField] GameObject continueButton;
-    public void Start()
+    public void Update()
     {
         string lastSave = SaveDataManager.Instance.GetLastModified();
         if(!string.IsNullOrEmpty(lastSave) )

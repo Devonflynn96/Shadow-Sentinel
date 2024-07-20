@@ -45,14 +45,17 @@ public class SaveDataManager : MonoBehaviour
         this.gameData = new GameData();
     }
     //Load game method, checks to see if the data selected exists and loads it if so.
-    public void LoadGame(string saveFileName = "Default.Save")
+    public void LoadGame(string saveFileName = "Level")
     {
         //loads data using the save handler
         this.gameData = saveHandler.Load(saveFileName);
 
         //Check to see if data exists and return if not
         if (this.gameData == null)
+        {
+            NewGame();
             return;
+        }
 
         //Loop through the project and load the relevant information for each item that exists
         foreach (ISaveData DataSavingObject in dataSavingObjects)
@@ -61,7 +64,7 @@ public class SaveDataManager : MonoBehaviour
         }
     }
     //Save Game method, loops through the project, saving all flagged information.
-    public void SaveGame(string saveFileName = "Default.Save")
+    public void SaveGame(string saveFileName = "Level")
     {
         //If no gameData selected.
         if (this.gameData == null)
@@ -80,7 +83,7 @@ public class SaveDataManager : MonoBehaviour
     //Use OnApplicationQuit to save the game if left by clicking quit.
     private void OnApplicationQuit()
     {
-        SaveGame("Autosave.Save"); 
+        SaveGame("Autosave"); 
     }
 
     private List<ISaveData> FindAllDataSavingObjects()
