@@ -58,6 +58,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     public bool isInvisible;
     bool isReloading;
     bool isSaved;
+    bool hasInvisDrink;
 
     int HPOrig;
     int jumpCount;
@@ -97,11 +98,14 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     
             }
             selectGun();
-            if (Input.GetButton("Ability 1") && invisRecharge == invisCD)
+
+            if (Input.GetButton("Ability 1") && hasInvisDrink && invisRecharge == invisCD)
                {
                 GameManager.instance.activateAbilityTxt.SetActive(false);
                 StartCoroutine(goInvisible());
+                hasInvisDrink = false;
             }
+
             if (invisRecharge < invisCD)
             {
                 if (invisRecharge + 1 * Time.deltaTime > invisCD)
@@ -389,6 +393,12 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         updatePlayerUI();
         isReloading = false;
         
+    }
+
+    public void AddInvisibilityDrink()
+    {
+        hasInvisDrink = true;
+        GameManager.instance.activateAbilityTxt.SetActive(true);
     }
 
     //Added code to toggle isInvisible, allowing player to go invisible.
