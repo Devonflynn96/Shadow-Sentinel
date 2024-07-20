@@ -43,6 +43,11 @@ public class SaveDataManager : MonoBehaviour
     public void NewGame()
     {
         this.gameData = new GameData();
+        this.gameData.livingEnemies = new SerializableDict<string, bool>();
+        this.gameData.enemyLocations = new SerializableDict<string, Vector3>();
+        this.gameData.enemyRots = new SerializableDict<string, Quaternion>();
+        this.gameData.gunList = new List<gunStats>();
+        this.gameData.keyList = new List<KeyStats>();
     }
     //Load game method, checks to see if the data selected exists and loads it if so.
     public void LoadGame(string saveFileName = "Level")
@@ -64,7 +69,7 @@ public class SaveDataManager : MonoBehaviour
         }
     }
     //Save Game method, loops through the project, saving all flagged information.
-    public void SaveGame(string saveFileName = "Level")
+    public void SaveGame(string saveFileName = "Default.Save")
     {
         //If no gameData selected.
         if (this.gameData == null)
@@ -83,7 +88,7 @@ public class SaveDataManager : MonoBehaviour
     //Use OnApplicationQuit to save the game if left by clicking quit.
     private void OnApplicationQuit()
     {
-        SaveGame("Autosave"); 
+        SaveGame("Autosave.Save"); 
     }
 
     private List<ISaveData> FindAllDataSavingObjects()

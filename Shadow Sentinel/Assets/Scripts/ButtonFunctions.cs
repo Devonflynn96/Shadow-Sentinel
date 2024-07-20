@@ -19,7 +19,7 @@ public class ButtonFunctions : MonoBehaviour
     {
         //quit level will no longer quit out of the application altogether
         //instead it will bring the player back to the title screen 
-        SaveDataManager.Instance.SaveGame();
+        SaveDataManager.Instance.SaveGame("Autosave.Save");
         SceneManager.LoadScene(0);
     }
 
