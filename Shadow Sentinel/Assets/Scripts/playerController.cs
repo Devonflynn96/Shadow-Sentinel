@@ -442,6 +442,11 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         return Hp;
     }
 
+    public void SetHPCurrent(int hp)
+    {
+        Hp = hp;
+    }
+
     public bool GetCrouch()
     {
         return isCrouching;
