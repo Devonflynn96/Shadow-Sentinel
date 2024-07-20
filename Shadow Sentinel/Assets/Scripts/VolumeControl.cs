@@ -15,7 +15,14 @@ public class VolumeControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currSlider.value = PlayerPrefs.GetFloat(volParam, currSlider.value);
+        if (PlayerPrefs.HasKey(volParam))
+        {
+            currSlider.value = PlayerPrefs.GetFloat(volParam, currSlider.value);
+        }
+        else
+        {
+            currSlider.value = PlayerPrefs.GetFloat(volParam, 0.50f);
+        }
     }
     private void Awake()
     {
@@ -24,6 +31,7 @@ public class VolumeControl : MonoBehaviour
     public void SetVolume(float volume)
     {
         audMixer.SetFloat(volParam, Mathf.Log10(volume) * multiplier);
+        PlayerPrefs.SetFloat(volParam, volume);
     }
 
 }
