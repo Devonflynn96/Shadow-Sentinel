@@ -70,6 +70,12 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     // Start is called before the first frame update
     void Start()
     {
+        // Get the current level index
+        int currentLevel = SceneManager.GetActiveScene().buildIndex;
+
+        // Set the player's position to the spawn point position for the current level
+        transform.position = Spawnpoint.Instance.GetSpawnPoint(currentLevel);
+
         HPOrig = Hp;
         updatePlayerUI();
         isSaved = false;
