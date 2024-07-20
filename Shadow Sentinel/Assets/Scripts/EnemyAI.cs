@@ -319,11 +319,6 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     }
     IEnumerator WaitForAnimation()
     {
-        // Wait for the end of the frame to ensure anim is updated
-        yield return new WaitForEndOfFrame();
-
-        
-
         yield return new WaitForSeconds(2f);
 
         // Now the animation is finished or the wait time is over, destroy the enemy

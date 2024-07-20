@@ -401,7 +401,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
         GameManager.instance.invisCooldownBar.fillAmount = Mathf.Lerp(GameManager.instance.invisCooldownBar.fillAmount, invisRecharge / invisCD, Time.deltaTime * smoothFillSpeed);
 
-        if (!isInvisible && invisRecharge == invisCD)
+        if (!isInvisible && isPlayerNearInvisDrink && invisRecharge == invisCD)
         {
             GameManager.instance.activateAbilityTxt.SetActive(true);
             GameManager.instance.SetInvisText("Ready!");
