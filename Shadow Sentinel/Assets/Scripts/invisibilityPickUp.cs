@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class invisibilityPickUp : MonoBehaviour
 {
-    bool isPlayerNear;
-    
+    private bool isPlayerNearby;
+
+    void Start()
+    {
+        GameManager.instance.pickUpMessage.SetActive(false); // Ensure the message is hidden initially
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-           isPlayerNear = true;
-            GameManager.instance.activateAbilityTxt.SetActive(true);
+            isPlayerNearby = true;
+            GameManager.instance.pickUpMessage.SetActive(true); // Show the "Press 1 to Activate" message
         }
     }
 
@@ -20,20 +25,33 @@ public class invisibilityPickUp : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerNear = false;
-            GameManager.instance.activateAbilityTxt.SetActive(false);
+            isPlayerNearby = false;
+            GameManager.instance.pickUpMessage.SetActive(false); // Hide the "Press 1 to Activate" message
         }
     }
 
-    private void Update()
+    void Update()
     {
-        if (isPlayerNear && Input.GetKeyDown(KeyCode.Alpha1))
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.Alpha1))
         {
-            InventoryManager.instance.addInvisibility();
-            GameManager.instance.activateAbilityTxt.SetActive(false);
-            Destroy(gameObject);
+            if (this.CompareTag("Item"))
+            {
+                ActivateInvisibility();
+            }
         }
     }
+
+    void ActivateInvisibility()
+    {
+        
+        GameManager.instance.pickUpMessage.SetActive(false); // Hide the "Press 1 to Activate" message
+        Destroy(gameObject);
+        GameManager.instance.playerScript.StartCoroutine(GameManager.instance.playerScript.goInvisible());
+        
+    }
+
+
+
 
 
 

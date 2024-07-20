@@ -49,6 +49,9 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     [SerializeField] AudioClip[] audReload;
     [SerializeField] float audRelodVol;
 
+    [SerializeField] TMP_Text activateAbilityTxt;
+    bool isPlayerNearInvisDrink = false;
+
     public SoundEmitter soundEmitter;
     bool isSprinting;
     bool isPlayingHurt;
@@ -58,7 +61,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     public bool isInvisible;
     bool isReloading;
     bool isSaved;
-    bool hasInvisDrink;
+    
+    
 
     int HPOrig;
     int jumpCount;
@@ -105,29 +109,29 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             }
             selectGun();
 
-            if (Input.GetButton("Ability 1") && hasInvisDrink && invisRecharge == invisCD)
-               {
+            if (isPlayerNearInvisDrink && Input.GetKeyDown(KeyCode.Alpha1)) 
+            {
                 GameManager.instance.activateAbilityTxt.SetActive(false);
                 StartCoroutine(goInvisible());
-                hasInvisDrink = false;
+                isPlayerNearInvisDrink = false;
+                Destroy(gameObject);
+                
             }
 
+
+            // Update invisibility recharge logic
             if (invisRecharge < invisCD)
             {
-                if (invisRecharge + 1 * Time.deltaTime > invisCD)
-                {
-                    invisRecharge = invisCD;
-                }
-                else
-                {
-                    invisRecharge += 1 * Time.deltaTime;
-                }
+                invisRecharge += Time.deltaTime;
             }
-          
+
+            sprint();
+            updatePlayerUI();
         }
-        sprint();
-        updatePlayerUI();
+       
     }
+
+    
 
     // ************ MOVEMENT ************
 
@@ -402,17 +406,18 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             GameManager.instance.activateAbilityTxt.SetActive(true);
             GameManager.instance.SetInvisText("Ready!");
         }
+        else
+        {
+            GameManager.instance.activateAbilityTxt.SetActive(false);
+
+        }
     }
 
     // ************ ABILITY FUNCTIONALITY ************
 
-    public void AddInvisibilityDrink()
-    {
-        hasInvisDrink = true;
-        GameManager.instance.activateAbilityTxt.SetActive(true);
-    }
+   
     //Added code to toggle isInvisible, allowing player to go invisible.
-    IEnumerator goInvisible()
+    public IEnumerator goInvisible()
     {
         isInvisible = true;
         GameManager.instance.SetInvisText("Active!");
@@ -420,8 +425,11 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         isInvisible = false;
         GameManager.instance.SetInvisText("Recharging...");
         invisRecharge = 0;
+
+        GameManager.instance.activateAbilityTxt.SetActive(false);
     }
 
+    
     // ************ PLAYER STATUS GETTERS ************
 
     public int GetHPMax()

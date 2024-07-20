@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
         UpdateCoinScoreText();
 
         inventoryManager = GetComponent<InventoryManager>();
+        
     }
 
     // Update is called once per frame
