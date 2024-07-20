@@ -35,7 +35,15 @@ public class Spawnpoint : MonoBehaviour
         spawnPointDictionary = new Dictionary<int, Vector3>();
         foreach (var levelSpawn in levelSpawnPoints)
         {
-            spawnPointDictionary.Add(levelSpawn.level, levelSpawn.spawnPoint.position);
+            if (levelSpawn.spawnPoint != null)
+            {
+                spawnPointDictionary.Add(levelSpawn.level, levelSpawn.spawnPoint.position);
+                Debug.Log($"Added spawn point for level {levelSpawn.level}");
+            }
+            else
+            {
+                Debug.LogError($"Spawn point for level {levelSpawn.level} is null");
+            }
         }
     }
 
