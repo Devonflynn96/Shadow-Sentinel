@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using System.Globalization;
 
 public class GameManager : MonoBehaviour
 {
@@ -56,7 +55,6 @@ public class GameManager : MonoBehaviour
   
 
     private int score = 0;
-    private const string ScoreKey = "ScoreKey";
 
     public InventoryManager inventoryManager;
 
@@ -72,8 +70,7 @@ public class GameManager : MonoBehaviour
         UpdateCoinScoreText();
 
         inventoryManager = GetComponent<InventoryManager>();
-        score = PlayerPrefs.GetInt(ScoreKey, 0);
-
+        
     }
 
     // Update is called once per frame
@@ -213,12 +210,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void OnApplicationQuit()
-    {
-        // Save the score when the application quits
-        PlayerPrefs.SetInt(ScoreKey, score);
-        PlayerPrefs.Save();
-    }
+
 
 
     public void AddScore(int value)
