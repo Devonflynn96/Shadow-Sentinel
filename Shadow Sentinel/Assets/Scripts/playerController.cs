@@ -399,12 +399,17 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             GameManager.instance.MagCap(gunList[selectedGun].ammoMax);
         }
 
-        GameManager.instance.invisCooldownBar.fillAmount = Mathf.Lerp(GameManager.instance.invisCooldownBar.fillAmount, invisRecharge / invisCD, Time.deltaTime * smoothFillSpeed);
+        if(isInvisible)
+        {
+            GameManager.instance.invisCooldownBar.fillAmount = Mathf.Lerp(GameManager.instance.invisCooldownBar.fillAmount, invisRecharge / invisCD, Time.deltaTime * smoothFillSpeed);
+        }
+
+        
 
         if (!isInvisible && isPlayerNearInvisDrink && invisRecharge == invisCD)
         {
             GameManager.instance.activateAbilityTxt.SetActive(true);
-            GameManager.instance.SetInvisText("Ready!");
+            
         }
         else
         {
