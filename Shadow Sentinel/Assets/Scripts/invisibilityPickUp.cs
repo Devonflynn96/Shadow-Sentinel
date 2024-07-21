@@ -41,7 +41,7 @@ public class invisibilityPickUp : MonoBehaviour
     void ActivateInvisibility()
     {
         
-        GameManager.instance.activateAbilityTxt.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
+        GameManager.instance.pickUpMessage.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
         GameManager.instance.playerScript.StartCoroutine(GameManager.instance.playerScript.goInvisible());
         Destroy(gameObject);
 
