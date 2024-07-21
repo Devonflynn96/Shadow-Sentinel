@@ -29,7 +29,7 @@ public class ButtonFunctions : MonoBehaviour
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
         {
-            SceneManager.LoadScene(nextSceneIndex);
+            LevelLoadingManager.Instance.SceneLoad(nextSceneIndex);
             GameManager.instance.stateUnpause();
         }
         else

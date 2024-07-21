@@ -6,9 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoadingManager : MonoBehaviour
 {
+    public static LevelLoadingManager Instance;
     public GameObject loadingScreen; //this will be a prefab game object present in the UI 
     public Image loadingProgress;    //this is the fill bar of the loading panel
-   
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+    }
+
     public void SceneLoad(int sceneNumber)
     {
         //this function will call the coroutine to load the scene in the background

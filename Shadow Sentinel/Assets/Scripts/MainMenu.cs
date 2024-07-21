@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(1); //this should be the first level
+        LevelLoadingManager.Instance.SceneLoad(1); //this should be the first level
         SaveDataManager.Instance.NewGame();
         Time.timeScale = 1f;
     }
