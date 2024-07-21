@@ -9,7 +9,7 @@ public class invisibilityPickUp : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.pickUpMessage.gameObject.SetActive(false);
+        GameManager.instance.activateAbilityTxt.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,7 +17,7 @@ public class invisibilityPickUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            GameManager.instance.pickUpMessage.gameObject.SetActive(true); // Show the "Press 1 to Activate" message
+            GameManager.instance.activateAbilityTxt.gameObject.SetActive(true); // Show the "Press 1 to Activate" message
         }
     }
 
@@ -26,7 +26,7 @@ public class invisibilityPickUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            GameManager.instance.pickUpMessage.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
+            GameManager.instance.activateAbilityTxt.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
         }
     }
 
@@ -41,7 +41,7 @@ public class invisibilityPickUp : MonoBehaviour
     void ActivateInvisibility()
     {
         
-        GameManager.instance.pickUpMessage.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
+        GameManager.instance.activateAbilityTxt.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
         Destroy(gameObject);
         GameManager.instance.playerScript.StartCoroutine(GameManager.instance.playerScript.goInvisible());
         
