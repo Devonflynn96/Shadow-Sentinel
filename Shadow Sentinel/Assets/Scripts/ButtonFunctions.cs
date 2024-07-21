@@ -25,6 +25,7 @@ public class ButtonFunctions : MonoBehaviour
 
     public void nextLevel()
     {
+        SaveDataManager.Instance.SaveGame();
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
         {

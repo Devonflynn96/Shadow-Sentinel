@@ -47,8 +47,8 @@ public class MainMenu : MonoBehaviour
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
+#elif !UNITY_WEBGL
+    Application.Quit();
 #endif
     }
 
