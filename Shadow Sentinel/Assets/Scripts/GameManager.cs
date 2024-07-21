@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public Image playerHPBar;
     public Image playerStealthBar;
     public Image invisCooldownBar;
+    [SerializeField] public GameObject invisOverlay;
 
     [Header("------ Game Data --------")]
     public GameObject player;

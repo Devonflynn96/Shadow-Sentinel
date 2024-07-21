@@ -114,7 +114,6 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
                 GameManager.instance.activateAbilityTxt.SetActive(false);
                 StartCoroutine(goInvisible());
                 isPlayerNearInvisDrink = false;
-                Destroy(gameObject);
                 
             }
 
@@ -426,9 +425,11 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     {
         isInvisible = true;
         GameManager.instance.SetInvisText("Active!");
+        GameManager.instance.invisOverlay.SetActive(isInvisible);
         yield return new WaitForSeconds(invisDuration);
         isInvisible = false;
         GameManager.instance.SetInvisText("Recharging...");
+        GameManager.instance.invisOverlay.SetActive(isInvisible);
         invisRecharge = 0;
 
        
