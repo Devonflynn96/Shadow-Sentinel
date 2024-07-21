@@ -34,10 +34,7 @@ public class invisibilityPickUp : MonoBehaviour
     {
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if (this.CompareTag("Item"))
-            {
-                ActivateInvisibility();
-            }
+            ActivateInvisibility();
         }
     }
 

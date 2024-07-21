@@ -426,7 +426,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         GameManager.instance.SetInvisText("Recharging...");
         invisRecharge = 0;
 
-        GameManager.instance.activateAbilityTxt.SetActive(false);
+       
     }
 
     
