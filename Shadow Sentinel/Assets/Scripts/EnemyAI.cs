@@ -285,14 +285,21 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     public void takeDamage(int amount)
     {
         HP -= amount;
+       
         agent.SetDestination(GameManager.instance.player.transform.position);
-        StartCoroutine(flashDamage());
-
+      
         if (HP <= 0)
         {
+            StopAllCoroutines();
+          
             isDead = true;
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
+
+            if (agent != null)
+            {
+                agent.isStopped = true;
+            }
 
             if (anim != null)
             {
@@ -303,25 +310,14 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
             }
             else
             {
-                // If no animation, destroy immediately
                 DestroyEnemy();
             }
-
-            if (agent != null)
-            {
-                agent.isStopped = true;
-            }
-
-           
-
-
+            
         }
     }
     IEnumerator WaitForAnimation()
     {
         yield return new WaitForSeconds(2f);
-
-        // Now the animation is finished or the wait time is over, destroy the enemy
         DestroyEnemy();
     }
 

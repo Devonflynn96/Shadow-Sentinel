@@ -16,6 +16,8 @@ public class CivilianAI : MonoBehaviour, IDamage
     [SerializeField] float minWaitTime = 5f;  // Minimum wait time in seconds
     [SerializeField] float maxWaitTime = 10f;
     [SerializeField] float fleeDistance = 20f;
+    [SerializeField] private float destroyDelay = 2f;
+    [SerializeField] private string dieAnimationTrigger = "Die";
 
     //bool isRunning;
     //bool isDead;
@@ -115,14 +117,51 @@ public class CivilianAI : MonoBehaviour, IDamage
 
     public void takeDamage(int amount)
     {
-        //isDead = true;
-        StopAllCoroutines();
+        if (anim == null)
+        {
+            Debug.LogWarning("Animator component is missing.");
+            return;
+        }
+
+        if (agent != null)
+        {
+            agent.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning("NavMeshAgent component is missing.");
+        }
+
+        StopAllCoroutines(); // Stops any currently running coroutines
         StartCoroutine(FlashDamage());
         AlertEnemies();
-        if (this.CompareTag("Target"))
+        anim.SetTrigger(dieAnimationTrigger);
+
+        // Start waiting for animation to finish
+        StartCoroutine(WaitForAnimation());
+    }
+
+    private IEnumerator WaitForAnimation()
+    {
+        // Wait for the animation to play
+        yield return new WaitForSeconds(destroyDelay);
+
+        // Ensure DestroyEnemy is called after the delay
+        DestroyEnemy();
+    }
+
+    private void DestroyEnemy()
+    {
+        // Disable unnecessary components
+        if (CompareTag("Target"))
         {
             GameManager.instance.gameGoalUpdate(-1);
+            SaveDataManager.Instance.SaveGame("Autosave.Save");
         }
+
+      
+
+        // Destroy the enemy object
         Destroy(gameObject);
     }
 
@@ -142,7 +181,7 @@ public class CivilianAI : MonoBehaviour, IDamage
         }
     }
 
-
+   
 
     public void AlertEnemies()
     {
@@ -200,4 +239,5 @@ public class CivilianAI : MonoBehaviour, IDamage
         Gizmos.DrawWireSphere(transform.position, roamDist);
         
     }
+
 }
