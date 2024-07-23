@@ -294,13 +294,6 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
 
-
-
-            if (agent != null)
-            {
-                agent.isStopped = true;
-            }
-
             if (anim != null)
             {
                 anim.SetTrigger("Die");
@@ -313,6 +306,13 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
                 // If no animation, destroy immediately
                 DestroyEnemy();
             }
+
+            if (agent != null)
+            {
+                agent.isStopped = true;
+            }
+
+           
 
 
         }

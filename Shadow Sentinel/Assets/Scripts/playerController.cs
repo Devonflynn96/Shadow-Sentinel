@@ -197,7 +197,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             yield return new WaitForSeconds(0.3f);
         }
         else
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
 
 
         isPlayingSteps = false;
