@@ -53,11 +53,14 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     bool isPlayerNearInvisDrink = false;
 
     public SoundEmitter soundEmitter;
+    public float crouchHeight = 1.0f; // Height when crouching
+    public float standHeight = 2.0f; // Height when standing
+    public float crouchVolumeFactor = 0.5f; // Volume reduction factor when crouching
     bool isSprinting;
     bool isPlayingHurt;
     bool isPlayingSteps;
     bool isShooting;
-    bool isCrouching;
+    bool isCrouching = false;
     public bool isInvisible;
     bool isReloading;
     bool isSaved;
@@ -212,18 +215,24 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     void crouch()
     {
+        float targetHeight = isCrouching ? crouchHeight : standHeight;
+       
+
+        // Check input
         if (Input.GetButtonDown("Crouch"))
         {
             isCrouching = true;
-            controller.height /= 2;
-            audStepsVol /= 2;
+            audStepsVol = audStepsVol / 2;
         }
         else if (Input.GetButtonUp("Crouch"))
         {
             isCrouching = false;
-            controller.height *= 2;
-            audStepsVol *= 2;
+            audStepsVol = audStepsVol * 2;
         }
+
+        // Smoothly interpolate the height and volume
+        controller.height = Mathf.Lerp(controller.height, targetHeight, Time.deltaTime * 10);
+       
     }
 
 
