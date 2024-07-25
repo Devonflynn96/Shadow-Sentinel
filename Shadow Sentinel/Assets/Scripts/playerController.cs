@@ -49,8 +49,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     [SerializeField] AudioClip[] audReload;
     [SerializeField] float audRelodVol;
 
-    [SerializeField] TMP_Text activateAbilityTxt;
-    bool isPlayerNearInvisDrink = false;
+   
+   
 
     public SoundEmitter soundEmitter;
     public float crouchHeight = 1.0f; // Height when crouching
@@ -64,8 +64,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     public bool isInvisible;
     bool isReloading;
     bool isSaved;
-    
-    
+
+     public bool isPlayerNearInvisDrink = false;
 
     int HPOrig;
     int jumpCount;

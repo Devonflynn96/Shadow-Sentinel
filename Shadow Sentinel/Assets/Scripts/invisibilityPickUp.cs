@@ -6,10 +6,11 @@ using TMPro;
 public class invisibilityPickUp : MonoBehaviour
 {
     private bool isPlayerNearby;
+    private playerController Player;
 
     void Start()
     {
-        GameManager.instance.activateAbilityTxt.gameObject.SetActive(false);
+        GameManager.instance.activateAbilityTxt.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,7 +18,12 @@ public class invisibilityPickUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            GameManager.instance.activateAbilityTxt.gameObject.SetActive(true); // Show the "Press 1 to Activate" message
+            Player = other.GetComponent<playerController>();
+            if (Player != null)
+            {
+                Player.isPlayerNearInvisDrink = true;
+            }
+            GameManager.instance.activateAbilityTxt.SetActive(true); // Show the "Press 1 to Activate" message
         }
     }
 
@@ -26,7 +32,11 @@ public class invisibilityPickUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            GameManager.instance.activateAbilityTxt.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
+            if (Player != null)
+            {
+                Player.isPlayerNearInvisDrink = false;
+            }
+            GameManager.instance.activateAbilityTxt.SetActive(false); // Hide the "Press 1 to Activate" message
         }
     }
 
@@ -41,7 +51,7 @@ public class invisibilityPickUp : MonoBehaviour
     void ActivateInvisibility()
     {
         
-        GameManager.instance.activateAbilityTxt.gameObject.SetActive(false); // Hide the "Press 1 to Activate" message
+        GameManager.instance.activateAbilityTxt.SetActive(false); // Hide the "Press 1 to Activate" message
         GameManager.instance.playerScript.StartCoroutine(GameManager.instance.playerScript.goInvisible());
         Destroy(gameObject);
 
