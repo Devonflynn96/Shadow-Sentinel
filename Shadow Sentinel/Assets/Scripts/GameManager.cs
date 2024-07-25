@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     public playerController playerScript;
     public bool isPaused;
     int enemyCount;
+    int secondaryEnemyCount;
     public int money;
     [SerializeField] int numberSeenBy;
     [SerializeField] float stealthMod;
@@ -146,9 +147,12 @@ public class GameManager : MonoBehaviour
     {
         //win condition: once enemy count is zero player should be able to escape
         enemyCount += amount;
-        enemyCountTxt.text = enemyCount.ToString();
-        scoreCountTxt.text = score.ToString();
     }
+
+    public void secondaryGoalUpdate(int amt)
+    {
+        secondaryEnemyCount += amt;
+    }    
 
     public void YouWin()
     {
@@ -160,6 +164,10 @@ public class GameManager : MonoBehaviour
             else
             {
                 objectiveRate.text = "50%";
+            }
+            if (secondaryEnemyCount >= 0)
+            {
+                enemyCountTxt.color = Color.green;
             }
             objectiveEnemy.color = Color.green;
             statePause();
