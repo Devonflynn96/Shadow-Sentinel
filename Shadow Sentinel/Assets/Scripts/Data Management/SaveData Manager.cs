@@ -50,7 +50,7 @@ public class SaveDataManager : MonoBehaviour
         this.gameData.keyList = new List<KeyStats>();
     }
     //Load game method, checks to see if the data selected exists and loads it if so.
-    public void LoadGame(string saveFileName = "Level")
+    public void LoadGame(string saveFileName = "Default.Save")
     {
         //loads data using the save handler
         this.gameData = saveHandler.Load(saveFileName);
@@ -133,5 +133,11 @@ public class SaveDataManager : MonoBehaviour
     public string GetLastModified()
     {
         return  last = saveHandler.LoadLastModified();
+    }
+
+
+    public int getLoadScene()
+    {
+        return gameData.currScene;
     }
 }

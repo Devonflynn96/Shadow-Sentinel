@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
         if (!string.IsNullOrEmpty(lastModifiedSave))
         {
             SaveDataManager.Instance.LoadGame(lastModifiedSave);
-            SceneManager.LoadScene(1); // Load the saved scene
+            LevelLoadingManager.Instance.SceneLoad(SaveDataManager.Instance.getLoadScene()); // Load the saved scene
             Time.timeScale = 1f;
         }
         else

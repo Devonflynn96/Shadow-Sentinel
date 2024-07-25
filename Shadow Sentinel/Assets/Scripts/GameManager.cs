@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuShop;
+    [SerializeField] GameObject menuInventory;
   
 
     [Header("------ Player UI --------")]
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     public playerController playerScript;
     public bool isPaused;
     int enemyCount;
+    int secondaryEnemyCount;
     public int money;
     [SerializeField] int numberSeenBy;
     [SerializeField] float stealthMod;
@@ -79,6 +81,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateStealthBar();
+        UpdateCoinScoreText();
 
         //if escape is pressed the game is paused
         if (Input.GetButtonDown("Cancel"))
@@ -117,8 +120,19 @@ public class GameManager : MonoBehaviour
 
         }
 
-
-
+        if (Input.GetButtonDown("Inventory"))
+        {
+            if (menuActive == null)
+            {
+                statePause();
+                menuActive = menuInventory;
+                menuActive.SetActive(isPaused);
+            }
+            else if (menuActive == menuInventory)
+            {
+                stateUnpause();
+            }
+        }
 
     }
 
@@ -146,8 +160,11 @@ public class GameManager : MonoBehaviour
     {
         //win condition: once enemy count is zero player should be able to escape
         enemyCount += amount;
-        enemyCountTxt.text = enemyCount.ToString();
-        scoreCountTxt.text = score.ToString();
+    }
+
+    public void SecondaryGoalUpdate(int amt)
+    {
+        secondaryEnemyCount += amt;
     }
 
     public void YouWin()
@@ -160,6 +177,10 @@ public class GameManager : MonoBehaviour
             else
             {
                 objectiveRate.text = "50%";
+            }
+            if (secondaryEnemyCount <= 0)
+            {
+                enemyCountTxt.color = Color.green;
             }
             objectiveEnemy.color = Color.green;
             statePause();
@@ -223,13 +244,13 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int value)
     {
-        score += value;
+        money += value;
         UpdateCoinScoreText();
     }
 
-    private void UpdateCoinScoreText()
+    public void UpdateCoinScoreText()
     {
-        scoreCountTxt.text = "Coins: " + score.ToString();
+        scoreCountTxt.text = "Coins: " + money.ToString();
     }
 
     public void ToggleShopMenu()

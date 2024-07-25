@@ -79,7 +79,10 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(this.CompareTag("Enemy"))
+        {
+            GameManager.instance.SecondaryGoalUpdate(1);
+        }
 
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
@@ -330,6 +333,10 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         {
             GameManager.instance.gameGoalUpdate(-1);
             SaveDataManager.Instance.SaveGame("Autosave.Save");
+        }
+        else if (this.CompareTag("Enemy"))
+        {
+            GameManager.instance.SecondaryGoalUpdate(-1);
         }
 
 
