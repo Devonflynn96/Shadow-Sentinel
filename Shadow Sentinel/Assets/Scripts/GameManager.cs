@@ -270,11 +270,6 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
-
-    public void OpenShopMenuButton()
-    {
-        ToggleShopMenu();
-    }
  
 
 
