@@ -79,10 +79,7 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        if(this.CompareTag("Enemy"))
-        {
-            GameManager.instance.secondaryGoalUpdate(1);
-        }
+        
 
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
@@ -288,16 +285,16 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
     public void takeDamage(int amount)
     {
         HP -= amount;
+       
         agent.SetDestination(GameManager.instance.player.transform.position);
-        StartCoroutine(flashDamage());
-
+      
         if (HP <= 0)
         {
+            StopAllCoroutines();
+          
             isDead = true;
             hasBeenSeen = false;
             GameManager.instance.RemoveSeen();
-
-
 
             if (agent != null)
             {
@@ -313,18 +310,14 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
             }
             else
             {
-                // If no animation, destroy immediately
                 DestroyEnemy();
             }
-
-
+            
         }
     }
     IEnumerator WaitForAnimation()
     {
         yield return new WaitForSeconds(2f);
-
-        // Now the animation is finished or the wait time is over, destroy the enemy
         DestroyEnemy();
     }
 
@@ -337,9 +330,6 @@ public class EnemyAI : MonoBehaviour, ISaveData, IDamage
         {
             GameManager.instance.gameGoalUpdate(-1);
             SaveDataManager.Instance.SaveGame("Autosave.Save");
-        } else if (this.CompareTag("Enemy"))
-        {
-            GameManager.instance.secondaryGoalUpdate(-1);
         }
 
 
