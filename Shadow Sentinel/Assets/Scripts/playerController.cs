@@ -99,13 +99,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
             movement();
             crouch();
-            if (Input.GetButton("Fire1") && gunList.Count > 0 && !isShooting)
+            if (Input.GetButton("Fire1") && InventoryManager.instance.gunList.Count > 0 && !isShooting)
             {
                 StartCoroutine(shoot());
                 
             }
                 
-            if (Input.GetButton("Reload") && gunList.Count > 0 && !isReloading)
+            if (Input.GetButton("Reload") && InventoryManager.instance.gunList.Count > 0 && !isReloading)
             {
                 StartCoroutine(reload());
     
@@ -242,9 +242,9 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
-        if (!isReloading && gunList[selectedGun].ammoCur > 0)
+        if (!isReloading && InventoryManager.instance.gunList[selectedGun].ammoCur > 0)
         {
-            aud.PlayOneShot(gunList[selectedGun].shootSound, gunList[selectedGun].shootVol);
+            aud.PlayOneShot(InventoryManager.instance.gunList[selectedGun].shootSound, InventoryManager.instance.gunList[selectedGun].shootVol);
             GameManager.instance.PlayerShoot(shootPos.position);
 
             RaycastHit hit;
@@ -260,13 +260,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
                 }
                 else
                 {
-                    Instantiate(gunList[selectedGun].hitEffect, hit.point, Quaternion.identity);
+                    Instantiate(InventoryManager.instance.gunList[selectedGun].hitEffect, hit.point, Quaternion.identity);
                 }
             }
-            gunList[selectedGun].ammoCur -= 1;
+            InventoryManager.instance.gunList[selectedGun].ammoCur -= 1;
             StartCoroutine(flashMuzzle());
         }
-        else if (gunList[selectedGun].ammoCur == 0)
+        else if (InventoryManager.instance.gunList[selectedGun].ammoCur == 0 && !isReloading)
         {
             StartCoroutine(reload());
         }
@@ -282,7 +282,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     public void silenceWeapon()
     {
-        if (gunList[selectedGun].isSilenced)
+        if (InventoryManager.instance.gunList[selectedGun].isSilenced)
         {
             gunSilenced = true;
         }
@@ -292,16 +292,16 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     public void GetGunStats(gunStats gun)
     {
-        gunList.Add(gun);
+        InventoryManager.instance.gunList.Add(gun);
 
-        selectedGun = gunList.Count - 1;
+        selectedGun = InventoryManager.instance.gunList.Count - 1;
 
         updatePlayerUI();
 
         shootDamage = gun.shootDamage;
         shootDist = gun.shootDist;
         shootRate = gun.shootRate;
-        gunSilenced = gunList[selectedGun].isSilenced;
+        gunSilenced = InventoryManager.instance.gunList[selectedGun].isSilenced;
 
         gunModel.GetComponent<MeshFilter>().sharedMesh = gun.gunModel.GetComponent<MeshFilter>().sharedMesh;
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
@@ -310,7 +310,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     void selectGun()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunList.Count - 1)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < InventoryManager.instance.gunList.Count - 1)
         {
             selectedGun++;
             changeGun();
@@ -326,13 +326,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     {
         //Added updateplayerui call to update gun ammo count
         updatePlayerUI();
-        shootDamage = gunList[selectedGun].shootDamage;
-        shootDist = gunList[selectedGun].shootDist;
-        shootRate = gunList[selectedGun].shootRate;
-        gunSilenced = gunList[selectedGun].isSilenced;
+        shootDamage = InventoryManager.instance.gunList[selectedGun].shootDamage;
+        shootDist = InventoryManager.instance.gunList[selectedGun].shootDist;
+        shootRate = InventoryManager.instance.gunList[selectedGun].shootRate;
+        gunSilenced = InventoryManager.instance.gunList[selectedGun].isSilenced;
 
-        gunModel.GetComponent<MeshFilter>().sharedMesh = gunList[selectedGun].gunModel.GetComponent<MeshFilter>().sharedMesh;
-        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunList[selectedGun].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+        gunModel.GetComponent<MeshFilter>().sharedMesh = InventoryManager.instance.gunList[selectedGun].gunModel.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = InventoryManager.instance.gunList[selectedGun].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
 
     }
 
@@ -342,8 +342,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audRelodVol);
         isReloading = true;
         GameManager.instance.reloadingTxt.SetActive(true);
-        yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
-        gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
+        yield return new WaitForSeconds(InventoryManager.instance.gunList[selectedGun].reloadSpeed);
+        InventoryManager.instance.gunList[selectedGun].ammoCur = InventoryManager.instance.gunList[selectedGun].ammoMax;
         GameManager.instance.reloadingTxt.SetActive(false);
         updatePlayerUI();
         isReloading = false;
@@ -401,10 +401,10 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
         GameManager.instance.playerHPBar.fillAmount = Mathf.Lerp(GameManager.instance.playerHPBar.fillAmount, targetFillAmount, Time.deltaTime * smoothFillSpeed);
 
-        if (gunList.Count > 0)
+        if (InventoryManager.instance.gunList.Count > 0)
         {
-            GameManager.instance.currentMagCount(gunList[selectedGun].ammoCur);
-            GameManager.instance.MagCap(gunList[selectedGun].ammoMax);
+            GameManager.instance.currentMagCount(InventoryManager.instance.gunList[selectedGun].ammoCur);
+            GameManager.instance.MagCap(InventoryManager.instance.gunList[selectedGun].ammoMax);
         }
 
         if(isInvisible)
@@ -479,6 +479,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             InventoryManager.instance.gunList = data.gunList;
             InventoryManager.instance.keyList = data.keyList;
             InventoryManager.instance.hasInvisibility = data.hasInvis;
+            this.selectedGun = data.selectedGun;
+            GameManager.instance.money = data.money;
+            GameManager.instance.UpdateCoinScoreText();
+        }
+        if(InventoryManager.instance.gunList.Count >0)
+        {
+            changeGun();
         }
     }
 
@@ -486,13 +493,16 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     {
         if (SceneManager.GetActiveScene().buildIndex > 0 && this != null)
         {
+            data.currScene = SceneManager.GetActiveScene().buildIndex;
             data.playerPos = this.transform.position;
             data.playerRot = this.transform.rotation;
             data.playerHP = this.Hp;
             data.playerBaseHP = this.HPOrig;
+            data.selectedGun = this.selectedGun;
             data.gunList = InventoryManager.instance.gunList;
             data.keyList = InventoryManager.instance.keyList;
             data.hasInvis = InventoryManager.instance.hasInvisibility;
+            data.money = GameManager.instance.money;
         }
     }
 }

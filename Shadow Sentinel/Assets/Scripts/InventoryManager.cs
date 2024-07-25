@@ -26,7 +26,15 @@ public class InventoryManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
     }
 
     void Start()
@@ -36,34 +44,11 @@ public class InventoryManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            ToggleInventory();
-        }
 
+        UpdateInventoryUI();
     }
 
-    public void ToggleInventory()
-    {
-            menuActivated = !menuActivated;
-            inventoryMenu.SetActive(menuActivated);
-
-            if (menuActivated)
-            {
-                if (gameManager != null)
-                {
-                    gameManager.statePause();
-                }
-            }
-            else
-            {
-                if (gameManager != null)
-                {
-                    gameManager.stateUnpause();
-                }
-
-            }
-    }
+   
     private void UpdateInventoryUI()
     {
         foreach (Transform child in inventoryContent)
