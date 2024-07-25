@@ -48,7 +48,7 @@ public class InventoryManager : MonoBehaviour
         {
             ToggleInventory();
         }
-
+        UpdateInventoryUI();
     }
 
     public void ToggleInventory()

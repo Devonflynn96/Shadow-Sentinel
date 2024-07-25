@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateStealthBar();
+        UpdateCoinScoreText();
 
         //if escape is pressed the game is paused
         if (Input.GetButtonDown("Cancel"))
@@ -231,13 +232,13 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int value)
     {
-        score += value;
+        money += value;
         UpdateCoinScoreText();
     }
 
-    private void UpdateCoinScoreText()
+    public void UpdateCoinScoreText()
     {
-        scoreCountTxt.text = "Coins: " + score.ToString();
+        scoreCountTxt.text = "Coins: " + money.ToString();
     }
 
     public void ToggleShopMenu()

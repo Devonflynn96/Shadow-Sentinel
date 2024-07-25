@@ -480,6 +480,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             InventoryManager.instance.keyList = data.keyList;
             InventoryManager.instance.hasInvisibility = data.hasInvis;
             this.selectedGun = data.selectedGun;
+            GameManager.instance.money = data.money;
+            GameManager.instance.UpdateCoinScoreText();
         }
         if(InventoryManager.instance.gunList.Count >0)
         {
@@ -500,6 +502,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             data.gunList = InventoryManager.instance.gunList;
             data.keyList = InventoryManager.instance.keyList;
             data.hasInvis = InventoryManager.instance.hasInvisibility;
+            data.money = GameManager.instance.money;
         }
     }
 }
