@@ -266,7 +266,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             gunList[selectedGun].ammoCur -= 1;
             StartCoroutine(flashMuzzle());
         }
-        else if (gunList[selectedGun].ammoCur == 0)
+        else if (gunList[selectedGun].ammoCur == 0 && !isReloading)
         {
             StartCoroutine(reload());
         }
