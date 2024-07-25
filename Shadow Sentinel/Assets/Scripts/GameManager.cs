@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuShop;
+    [SerializeField] GameObject menuInventory;
   
 
     [Header("------ Player UI --------")]
@@ -119,8 +120,19 @@ public class GameManager : MonoBehaviour
 
         }
 
-
-
+        if (Input.GetButtonDown("Inventory"))
+        {
+            if (menuActive == null)
+            {
+                statePause();
+                menuActive = menuInventory;
+                menuActive.SetActive(isPaused);
+            }
+            else if (menuActive == menuInventory)
+            {
+                stateUnpause();
+            }
+        }
 
     }
 
