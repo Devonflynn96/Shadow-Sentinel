@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     bool hasBeenDetected;
   
 
-    private int score = 0;
+    public int score = 0;
     private const string ScoreKey = "ScoreKey";
     public InventoryManager inventoryManager;
 
@@ -160,6 +160,7 @@ public class GameManager : MonoBehaviour
     {
         //win condition: once enemy count is zero player should be able to escape
         enemyCount += amount;
+        scoreCountTxt.text = score.ToString();
     }
 
     public void SecondaryGoalUpdate(int amt)
@@ -244,13 +245,13 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int value)
     {
-        money += value;
+        score += value;
         UpdateCoinScoreText();
     }
 
     public void UpdateCoinScoreText()
     {
-        scoreCountTxt.text = "Coins: " + money.ToString();
+        scoreCountTxt.text = "Coins: " + score.ToString();
     }
 
     public void ToggleShopMenu()
