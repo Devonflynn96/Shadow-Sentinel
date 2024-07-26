@@ -342,8 +342,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audRelodVol);
         isReloading = true;
         GameManager.instance.reloadingTxt.SetActive(true);
-        yield return new WaitForSeconds(InventoryManager.instance.gunList[selectedGun].reloadSpeed);
-        InventoryManager.instance.gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
+        yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
+        gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
         GameManager.instance.reloadingTxt.SetActive(false);
         updatePlayerUI();
         isReloading = false;
