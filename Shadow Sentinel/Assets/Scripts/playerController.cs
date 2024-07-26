@@ -292,8 +292,6 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     public void GetGunStats(gunStats gun)
     {
-        InventoryManager.instance.gunList.Add(gun);
-
         selectedGun = InventoryManager.instance.gunList.Count - 1;
 
         updatePlayerUI();
@@ -342,8 +340,8 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audRelodVol);
         isReloading = true;
         GameManager.instance.reloadingTxt.SetActive(true);
-        yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
-        gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
+        yield return new WaitForSeconds(InventoryManager.instance.gunList[selectedGun].reloadSpeed);
+        InventoryManager.instance.gunList[selectedGun].ammoCur = InventoryManager.instance.gunList[selectedGun].ammoMax;
         GameManager.instance.reloadingTxt.SetActive(false);
         updatePlayerUI();
         isReloading = false;
@@ -465,6 +463,11 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
     public bool GetCrouch()
     {
         return isCrouching;
+    }
+
+    public void SetSelectedGun(int amt)
+    {
+        selectedGun = amt;
     }
 
     // ************ SAVE MANAGEMENT ************
