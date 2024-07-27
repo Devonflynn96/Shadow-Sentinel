@@ -235,13 +235,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void OnApplicationQuit()
-    {
-        // Save the score when the application quits
-        PlayerPrefs.SetInt(ScoreKey, score);
-        PlayerPrefs.Save();
-    }
-
 
     public void AddScore(int value)
     {
@@ -272,11 +265,6 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void OpenShopMenuButton()
-    {
-        ToggleShopMenu();
-    }
- 
 
 
 
