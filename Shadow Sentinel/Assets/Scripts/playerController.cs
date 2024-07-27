@@ -292,9 +292,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
 
     public void GetGunStats(gunStats gun)
     {
+
         gunList.Add(gun);
 
         selectedGun = gunList.Count - 1;
+
+        selectedGun = InventoryManager.instance.gunList.Count - 1;
+
 
         updatePlayerUI();
 
@@ -342,8 +346,13 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audRelodVol);
         isReloading = true;
         GameManager.instance.reloadingTxt.SetActive(true);
+
         yield return new WaitForSeconds(gunList[selectedGun].reloadSpeed);
         gunList[selectedGun].ammoCur = gunList[selectedGun].ammoMax;
+
+        yield return new WaitForSeconds(InventoryManager.instance.gunList[selectedGun].reloadSpeed);
+        InventoryManager.instance.gunList[selectedGun].ammoCur = InventoryManager.instance.gunList[selectedGun].ammoMax;
+
         GameManager.instance.reloadingTxt.SetActive(false);
         updatePlayerUI();
         isReloading = false;
@@ -469,6 +478,11 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         return isCrouching;
     }
 
+    public void SetSelectedGun(int amt)
+    {
+        selectedGun = amt;
+    }
+
     // ************ SAVE MANAGEMENT ************
     public void LoadData(GameData data)
     {
@@ -481,6 +495,16 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             InventoryManager.instance.gunList = data.gunList;
             InventoryManager.instance.keyList = data.keyList;
             InventoryManager.instance.hasInvisibility = data.hasInvis;
+
+
+            this.selectedGun = data.selectedGun;
+            GameManager.instance.score = data.money;
+            GameManager.instance.UpdateCoinScoreText();
+        }
+        if (InventoryManager.instance.gunList.Count > 0)
+        {
+            changeGun();
+
         }
     }
 
@@ -495,6 +519,9 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
             data.gunList = InventoryManager.instance.gunList;
             data.keyList = InventoryManager.instance.keyList;
             data.hasInvis = InventoryManager.instance.hasInvisibility;
+
+            data.money = GameManager.instance.score;
+
         }
     }
 }
