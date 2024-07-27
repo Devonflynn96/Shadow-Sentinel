@@ -12,18 +12,15 @@ public class ButtonFunctions : MonoBehaviour
 
     public void restartLevel()
     {
-        LevelLoadingManager.Instance.SceneLoad(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GameManager.instance.stateUnpause();
-        InventoryManager.instance.gunList.Clear();
-        InventoryManager.instance.keyList.Clear();
-        GameManager.instance.playerScript.SetSelectedGun(0);
     }
     public void quitLevel()
     {
         //quit level will no longer quit out of the application altogether
         //instead it will bring the player back to the title screen 
         SaveDataManager.Instance.SaveGame("Autosave.Save");
-        LevelLoadingManager.Instance.SceneLoad(0);
+        SceneManager.LoadScene(0);
     }
 
     public void nextLevel()
@@ -34,14 +31,11 @@ public class ButtonFunctions : MonoBehaviour
         {
             LevelLoadingManager.Instance.SceneLoad(nextSceneIndex);
             GameManager.instance.stateUnpause();
-            InventoryManager.instance.gunList.Clear();
-            InventoryManager.instance.keyList.Clear();
-            GameManager.instance.playerScript.SetSelectedGun(0);
         }
         else
         {
             Debug.LogWarning("No next level found.");
-            LevelLoadingManager.Instance.SceneLoad(0);
+            SceneManager.LoadScene(0);
         }
     }
 }

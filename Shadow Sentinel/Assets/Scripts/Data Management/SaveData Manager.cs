@@ -48,7 +48,6 @@ public class SaveDataManager : MonoBehaviour
         this.gameData.enemyRots = new SerializableDict<string, Quaternion>();
         this.gameData.gunList = new List<gunStats>();
         this.gameData.keyList = new List<KeyStats>();
-        this.gameData.money = 0;
     }
     //Load game method, checks to see if the data selected exists and loads it if so.
     public void LoadGame(string saveFileName = "Default.Save")
