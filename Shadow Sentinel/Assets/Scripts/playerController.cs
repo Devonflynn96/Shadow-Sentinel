@@ -86,6 +86,7 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         HPOrig = Hp;
         updatePlayerUI();
         isSaved = false;
+        isInvisible = false;
         // Added calls to the MagCap and currentMagCount methods to update UI. ** Removed from start and moved to updatePlayerUI.
     }
 
@@ -120,12 +121,6 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
                 
             }
 
-
-            // Update invisibility recharge logic
-            if (invisRecharge < invisCD)
-            {
-                invisRecharge += Time.deltaTime;
-            }
       
             sprint();
             updatePlayerUI();
@@ -409,6 +404,10 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         {
             GameManager.instance.invisCooldownBar.fillAmount = Mathf.Lerp(GameManager.instance.invisCooldownBar.fillAmount, invisRecharge / invisCD, Time.deltaTime * smoothFillSpeed);
         }
+        else
+        {
+            GameManager.instance.invisCooldownBar.fillAmount = 0f;
+        }
 
 
 
@@ -437,11 +436,19 @@ public class playerController : MonoBehaviour, ISaveData, IDamage
         isInvisible = false;
         GameManager.instance.SetInvisText("CoolDown...");
         GameManager.instance.invisOverlay.SetActive(isInvisible);
-        yield return new WaitForSeconds(invisCD - invisDuration);
-        GameManager.instance.SetInvisText(""); // Clear the text
+
+
         invisRecharge = 0;
 
-       
+        while (invisRecharge < invisCD)
+        {
+            invisRecharge += Time.deltaTime;
+            yield return null;
+        }
+        invisRecharge = invisCD;
+        GameManager.instance.SetInvisText(""); // Clear the text
+
+
     }
 
     
