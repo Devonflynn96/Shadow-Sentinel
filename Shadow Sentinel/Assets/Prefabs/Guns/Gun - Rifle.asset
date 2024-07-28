@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunModel: {fileID: 5578994670709179186, guid: a528917aacdcd1a4daee5ee91cb40767, type: 3}
   shootDamage: 5
-  shootDist: 1000
+  shootDist: 50
   shootRate: 1
   ammoCur: 5
   ammoMax: 5
